@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oh-my-luna.dev/schemas/run-receipt/v0.json",
+  "title": "Evaluation run receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "task_id", "status", "model", "reasoning_effort", "repository_commit", "isolation", "started_at", "finished_at", "duration_ms", "score", "usage", "cost_usd", "trace_hash", "artifacts", "claims", "error_codes"],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "task_id": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["verified", "failed", "error", "cancelled"] },
+    "model": { "type": "string", "minLength": 1 },
+    "reasoning_effort": { "type": "string", "minLength": 1 },
+    "repository_commit": { "type": "string", "minLength": 1 },
+    "isolation": { "enum": ["filesystem_copy_only", "security_sandbox"] },
+    "started_at": { "type": "string", "format": "date-time" },
+    "finished_at": { "type": "string", "format": "date-time" },
+    "duration_ms": { "type": "integer", "minimum": 0 },
+    "score": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["success", "exit_code"],
+      "properties": {
+        "success": { "type": "boolean" },
+        "exit_code": { "type": ["integer", "null"] }
+      }
+    },
+    "usage": { "$ref": "#/$defs/usage" },
+    "cost_usd": { "type": "number", "minimum": 0 },
+    "trace_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "artifacts": { "type": "array", "items": { "$ref": "#/$defs/artifact" } },
+    "claims": { "type": "array", "items": { "type": "string" } },
+    "error_codes": { "type": "array", "items": { "type": "string", "pattern": "^OML_[A-Z0-9_]+$" } }
+  },
+  "$defs": {
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input_tokens", "cached_input_tokens", "output_tokens"],
+      "properties": {
+        "input_tokens": { "type": "integer", "minimum": 0 },
+        "cached_input_tokens": { "type": "integer", "minimum": 0 },
+        "output_tokens": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "sha256", "bytes", "relative_path"],
+      "properties": {
+        "kind": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "relative_path": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

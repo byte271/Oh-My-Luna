@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.oml-runs*/
+omx-inspect.*/
+oh-my-luna-*.zip
+.gitdata/
+coverage/
+*.log
+.DS_Store

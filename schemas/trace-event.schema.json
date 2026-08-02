@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oh-my-luna.dev/schemas/trace-event/v0.json",
+  "title": "Hash-linked evaluation trace event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "sequence", "timestamp", "type", "payload", "previous_hash", "hash"],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "sequence": { "type": "integer", "minimum": 0 },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "type": { "type": "string", "minLength": 1 },
+    "payload": { "type": "object" },
+    "previous_hash": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+    "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

@@ -1,0 +1,335 @@
+{
+  "retrieved_at": "2026-08-01",
+  "method": "Primary sources were preferred. Repository sources without an exposed commit hash are identified by branch and retrieval date. The Oh My Codex package was additionally inspected from the immutable npm 0.20.3 tarball (sha1 789d149ca5d01fa32114904a85e4c99af3c04afb).",
+  "sources": [
+    {
+      "id": "openai-luna-model",
+      "type": "official-documentation",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
+      "version": "live page retrieved 2026-08-01",
+      "supports": ["Luna positioning", "context and output limits", "tool support", "standard token pricing"],
+      "limitations": "Contains no Luna benchmark table and does not describe failure modes on repository tasks."
+    },
+    {
+      "id": "openai-sol-model",
+      "type": "official-documentation",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+      "version": "live page retrieved 2026-08-01",
+      "supports": ["Sol positioning", "context and output limits", "standard token pricing"],
+      "limitations": "Contains no directly comparable Luna-versus-Sol benchmark table."
+    },
+    {
+      "id": "openai-pricing",
+      "type": "official-documentation",
+      "url": "https://developers.openai.com/api/docs/pricing",
+      "version": "live page after 2026-07-30 Luna price change",
+      "supports": ["Luna and Sol input, cache, and output prices"],
+      "limitations": "Token price alone does not predict agent-run cost; tool charges and retry behavior matter."
+    },
+    {
+      "id": "openai-codex-models",
+      "type": "official-documentation",
+      "url": "https://learn.chatgpt.com/docs/models",
+      "version": "live page retrieved 2026-08-01",
+      "supports": ["Luna is recommended for clear repeatable work", "Sol is recommended for complex open-ended work", "reasoning effort guidance"],
+      "limitations": "Product guidance, not controlled evidence for Oh-My-Luna."
+    },
+    {
+      "id": "openai-model-guidance",
+      "type": "official-documentation",
+      "url": "https://developers.openai.com/api/docs/guides/latest-model",
+      "version": "GPT-5.6 guidance retrieved 2026-08-01",
+      "supports": ["lean prompts improved an internal coding-agent sample", "programmatic tool calling is suited to bounded deterministic reduction", "representative evals are required"],
+      "limitations": "The reported 10-15% prompt gain is directional, workload-specific, and not Luna-specific."
+    },
+    {
+      "id": "openai-agent-evals",
+      "type": "official-documentation",
+      "url": "https://developers.openai.com/api/docs/guides/agent-evals",
+      "version": "live page retrieved 2026-08-01",
+      "supports": ["trace-first debugging", "dataset-based repeatable comparisons"],
+      "limitations": "Describes platform facilities, not an experimental design for coding agents by itself."
+    },
+    {
+      "id": "openai-skill-evals",
+      "type": "official-blog",
+      "url": "https://developers.openai.com/blog/eval-skills",
+      "version": "2026-01-22",
+      "supports": ["define success before authoring a skill", "capture trace and artifacts", "score deterministic behavior"],
+      "limitations": "Practical guidance, not a peer-reviewed comparative study."
+    },
+    {
+      "id": "openai-build-skills",
+      "type": "official-documentation",
+      "url": "https://learn.chatgpt.com/docs/build-skills",
+      "version": "live page retrieved 2026-08-01",
+      "supports": ["skill layout", "progressive disclosure", "plugin distribution"],
+      "limitations": "Documents packaging semantics, not skill effectiveness."
+    },
+    {
+      "id": "openai-plugin-package",
+      "type": "official-documentation",
+      "url": "https://developers.openai.com/plugins/build/plugins",
+      "version": "live page retrieved 2026-08-01",
+      "supports": ["plugin manifest and directory layout", "optional skills, hooks, and MCP configuration"],
+      "limitations": "Does not imply that a plugin should own the runtime control plane."
+    },
+    {
+      "id": "openai-sandbox-agents",
+      "type": "official-documentation",
+      "url": "https://developers.openai.com/api/docs/guides/agents/sandboxes",
+      "version": "beta documentation retrieved 2026-08-01",
+      "supports": ["separate trusted harness from sandbox compute", "sandbox provider abstraction", "state and artifact ownership"],
+      "limitations": "Beta API; provider guarantees differ and can change."
+    },
+    {
+      "id": "openai-agent-safety",
+      "type": "official-documentation",
+      "url": "https://developers.openai.com/api/docs/guides/agent-builder-safety",
+      "version": "live page retrieved 2026-08-01",
+      "supports": ["untrusted text should be reduced to validated structured fields", "approvals and evals", "structured outputs reduce but do not remove injection risk"],
+      "limitations": "Agent Builder advice must be translated into local coding-agent controls."
+    },
+    {
+      "id": "openai-codex-security",
+      "type": "official-documentation",
+      "url": "https://learn.chatgpt.com/docs/agent-approvals-security",
+      "version": "live page retrieved 2026-08-01",
+      "supports": ["sandbox and approval are distinct controls", "network off by default", "workspace-scoped writes"],
+      "limitations": "Oh-My-Luna cannot assume every host surface enforces identical controls."
+    },
+    {
+      "id": "vals-swebench-2026-07-31",
+      "type": "public-benchmark",
+      "url": "https://www.vals.ai/benchmarks/swebench",
+      "version": "updated 2026-07-31",
+      "supports": ["bash-only Luna 93.0% and Sol 96.2% on SWE-bench Verified", "difficulty-stratified results", "single bash tool methodology"],
+      "limitations": "Third-party run; exact reasoning effort, token budget, release tag, and per-instance traces were not exposed on the retrieved page. Public benchmark contamination remains possible."
+    },
+    {
+      "id": "swebench-verified",
+      "type": "official-benchmark",
+      "url": "https://www.swebench.com/verified.html",
+      "version": "live page retrieved 2026-08-01",
+      "supports": ["500 human-filtered instances", "bash-only mini-SWE-agent comparison method", "release comparability caveats"],
+      "limitations": "Public Python tasks and a high aggregate ceiling make it insufficient as the only evaluation."
+    },
+    {
+      "id": "openai-swebench-verified",
+      "type": "official-research-report",
+      "url": "https://openai.com/index/introducing-swe-bench-verified/",
+      "version": "2024-08-13, updated 2025-02-24",
+      "supports": ["hidden FAIL_TO_PASS and PASS_TO_PASS tests", "benchmark construction and limitations", "scaffolding can materially change results"],
+      "limitations": "Predates GPT-5.6 and does not measure Luna."
+    },
+    {
+      "id": "skillsbench-paper",
+      "type": "paper",
+      "url": "https://arxiv.org/html/2602.12670v1",
+      "version": "v1, 2026-02-13",
+      "supports": ["7308 trajectories across 84 scored tasks", "curated skills +16.2pp average", "self-generated skills no average benefit", "16 tasks regressed", "focused skills outperform comprehensive documentation"],
+      "limitations": "Only +4.5pp in software engineering; tasks and harnesses are broader than repository bug fixing."
+    },
+    {
+      "id": "debug2fix",
+      "type": "paper",
+      "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2026/02/cngtkgvhtjjshgbmtcqnsjddkdzdhvyr.pdf",
+      "version": "2026 preprint",
+      "supports": ["runtime debugger information can improve bug fixing", "high-level debug subagent beats direct low-level tools", "tool-use gating matters", "Python and Java results and ablations"],
+      "limitations": "No GPT-5.6 Luna; debugger overhead was not fully costed; mandatory debugging can overcomplicate simple tasks."
+    },
+    {
+      "id": "swe-agent-paper",
+      "type": "peer-reviewed-paper",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2024/file/5a7c947568c1b1328ccc5230172e1e7c-Paper-Conference.pdf",
+      "version": "NeurIPS 2024",
+      "supports": ["agent-computer interface design changes model effectiveness", "LM-friendly navigation, editing, and feedback"],
+      "limitations": "Original absolute scores are obsolete; contribution is interface evidence, not a current baseline."
+    },
+    {
+      "id": "mini-swe-agent",
+      "type": "repository",
+      "url": "https://github.com/swe-agent/mini-swe-agent",
+      "version": "main retrieved 2026-08-01",
+      "supports": ["a minimal agent can be competitive", "large orchestration stacks are not required for high SWE-bench performance"],
+      "limitations": "Headline scores depend on model, release, and benchmark settings."
+    },
+    {
+      "id": "aider-repomap",
+      "type": "official-documentation",
+      "url": "https://aider.chat/docs/repomap.html",
+      "version": "live page retrieved 2026-08-01",
+      "supports": ["symbol graph and ranking for token-budgeted repository context"],
+      "limitations": "No Luna-specific ablation; repo maps may omit runtime and historical evidence."
+    },
+    {
+      "id": "openhands-sdk-paper",
+      "type": "paper",
+      "url": "https://arxiv.org/html/2511.03690v2",
+      "version": "v2, 2026-04-22",
+      "supports": ["event-sourced state", "deterministic replay", "typed tools", "workspace abstraction", "sandboxed execution"],
+      "limitations": "A broad platform with substantially more surface than Oh-My-Luna V0 needs."
+    },
+    {
+      "id": "openhands-authority-issue",
+      "type": "repository-issue",
+      "url": "https://github.com/OpenHands/OpenHands/issues/13150",
+      "version": "opened 2026-03-03, closed not planned",
+      "supports": ["sandbox containment does not itself enforce user intent or action authorization"],
+      "limitations": "Issue analysis, not an accepted OpenHands design claim."
+    },
+    {
+      "id": "oh-my-codex-repo",
+      "type": "repository",
+      "url": "https://github.com/Yeachan-Heo/oh-my-codex",
+      "version": "main retrieved 2026-08-01; npm release 0.20.3 inspected",
+      "supports": ["durable .omx state", "workflow skills", "hooks", "plugin packaging", "multi-agent and worktree execution"],
+      "limitations": "Primarily tuned for macOS/Linux Codex CLI; the public package contains a very large surface and does not publish a Luna-specific controlled quality ablation."
+    },
+    {
+      "id": "latm",
+      "type": "paper",
+      "url": "https://arxiv.org/abs/2305.17126",
+      "version": "2023-05-26",
+      "supports": ["strong model can create reusable tools for a cheaper tool user", "amortized tool cache concept"],
+      "limitations": "Uses GPT-4 as maker and GPT-3.5 as user on reasoning benchmarks; does not establish safe Luna-only just-in-time tool generation."
+    },
+    {
+      "id": "creator",
+      "type": "repository-and-paper",
+      "url": "https://github.com/qiancheng0/CREATOR",
+      "version": "main retrieved 2026-08-01; repository shows 2 commits",
+      "supports": ["tool creation and rectification experiments", "tool-transfer task"],
+      "limitations": "Narrow math/table benchmarks, dated APIs, keys stored in files, and weak repository maintenance."
+    },
+    {
+      "id": "toolmaker",
+      "type": "peer-reviewed-paper-and-repository",
+      "url": "https://aclanthology.org/2025.acl-long.1266/",
+      "version": "ACL 2025; repository main retrieved 2026-08-01",
+      "supports": ["15 specialized repository-to-tool tasks", "over 100 tests", "80% task implementation"],
+      "limitations": "Small domain-heavy benchmark; requires dependency installation, Docker, and credentials; 20% of tools still fail."
+    },
+    {
+      "id": "codeact",
+      "type": "peer-reviewed-paper-and-repository",
+      "url": "https://github.com/xingyaoww/code-act",
+      "version": "ICML 2024; main retrieved 2026-08-01",
+      "supports": ["executable code actions can outperform text or JSON action formats", "isolated per-session Docker execution"],
+      "limitations": "Arbitrary code expands the attack surface and its benchmark is not repository patching."
+    },
+    {
+      "id": "autotool",
+      "type": "paper",
+      "url": "https://arxiv.org/abs/2512.13278",
+      "version": "2025-12-15",
+      "supports": ["learned selection among evolving toolsets", "reported gains across ten benchmarks"],
+      "limitations": "Training intervention on open models; not an external runtime for a closed Luna snapshot."
+    },
+    {
+      "id": "adas",
+      "type": "peer-reviewed-paper-and-repository",
+      "url": "https://github.com/ShengranHu/ADAS",
+      "version": "ICLR 2025; main retrieved 2026-08-01",
+      "supports": ["search over code-defined agent designs", "cross-domain transfer experiments"],
+      "limitations": "Repository explicitly warns that it executes untrusted model-generated code; search is expensive and domain-tailored."
+    },
+    {
+      "id": "aflow",
+      "type": "peer-reviewed-paper-and-repository",
+      "url": "https://github.com/FoundationAgents/AFlow",
+      "version": "ICLR 2025 Oral; main retrieved 2026-08-01",
+      "supports": ["MCTS over code-represented workflows", "5.7% average reported improvement"],
+      "limitations": "Six compact benchmarks, predefined operators, and repository warning that migrated operators may contain bugs."
+    },
+    {
+      "id": "autoflow",
+      "type": "paper-and-repository",
+      "url": "https://arxiv.org/abs/2407.12821",
+      "version": "2024-07-01",
+      "supports": ["natural-language workflow generation and iterative optimization"],
+      "limitations": "Natural-language programs do not by themselves provide typed execution or security invariants."
+    },
+    {
+      "id": "a2flow",
+      "type": "paper-and-repository",
+      "url": "https://arxiv.org/abs/2511.20693",
+      "version": "2025-11-23",
+      "supports": ["self-adaptive abstraction operators", "operator memory and resource reductions"],
+      "limitations": "General and embodied benchmarks; no repository-patching or Luna evaluation."
+    },
+    {
+      "id": "dspy",
+      "type": "peer-reviewed-paper-and-repository",
+      "url": "https://github.com/stanfordnlp/dspy",
+      "version": "main retrieved 2026-08-01; ICLR 2024 paper",
+      "supports": ["typed signatures and modular LM programs", "metric-driven prompt and weight optimization"],
+      "limitations": "A Python optimization framework, not a sandbox, capability registry, or evidence authority."
+    },
+    {
+      "id": "agent-lightning",
+      "type": "official-repository-documentation-and-paper",
+      "url": "https://microsoft.github.io/agent-lightning/stable/",
+      "version": "stable documentation retrieved 2026-08-01; arXiv 2508.03680",
+      "supports": ["framework-independent tracing and agent optimization", "RL, prompt optimization, and SFT"],
+      "limitations": "Primarily an offline training/optimization system and far beyond V0 runtime needs."
+    },
+    {
+      "id": "langgraph",
+      "type": "official-repository-documentation",
+      "url": "https://github.com/langchain-ai/langgraph",
+      "version": "main retrieved 2026-08-01",
+      "supports": ["durable stateful graphs", "checkpointing", "human-in-the-loop"],
+      "limitations": "General orchestration does not define task truth, evidence semantics, or coding-agent security."
+    },
+    {
+      "id": "voyager",
+      "type": "peer-reviewed-paper-and-repository",
+      "url": "https://github.com/MineDojo/Voyager",
+      "version": "main retrieved 2026-08-01; paper 2023",
+      "supports": ["executable skill library", "environment feedback and self-verification", "skill transfer"],
+      "limitations": "Minecraft environment has stable APIs and feedback unlike arbitrary repositories; uses GPT-4 for skill creation."
+    },
+    {
+      "id": "agent-test-time-scaling",
+      "type": "paper",
+      "url": "https://arxiv.org/html/2506.12928v1",
+      "version": "v1, 2025-06-13",
+      "supports": ["parallel sampling can improve agents", "revision timing and verifier choice matter"],
+      "limitations": "More compute is not automatically cost-effective and results are not Luna repository tasks."
+    },
+    {
+      "id": "general-agent-scaling-ceiling",
+      "type": "paper",
+      "url": "https://arxiv.org/html/2602.18998v1",
+      "version": "v1, 2026-02",
+      "supports": ["sequential scaling can hit a context ceiling and then degrade"],
+      "limitations": "Broad agent tasks; the exact ceiling is model- and domain-specific."
+    },
+    {
+      "id": "nist-container-security",
+      "type": "government-standard",
+      "url": "https://www.nist.gov/publications/application-container-security-guide",
+      "version": "NIST SP 800-190, 2017",
+      "supports": ["container threats and countermeasures", "host and image risks"],
+      "limitations": "Predates LLM agents and does not cover prompt injection or intent authorization."
+    },
+    {
+      "id": "nsa-mcp-security",
+      "type": "government-guidance",
+      "url": "https://www.nsa.gov/Portals/75/documents/Cybersecurity/CSI_MCP_SECURITY.pdf",
+      "version": "May 2026 v1.0",
+      "supports": ["optional authorization and token lifecycle gaps", "replay and session risks", "task isolation gaps"],
+      "limitations": "Guidance covers MCP broadly; controls still require product-specific implementation."
+    },
+    {
+      "id": "github-prompt-injection",
+      "type": "vendor-security-research",
+      "url": "https://github.blog/security/vulnerability-research/safeguarding-vs-code-against-prompt-injections/",
+      "version": "2025-08-25, updated 2026-07-06",
+      "supports": ["repository and issue text can drive indirect prompt injection", "possible token, file, and code-execution impact"],
+      "limitations": "VS Code/Copilot-specific exploits; Oh-My-Luna needs its own red-team tests."
+    }
+  ]
+}
+

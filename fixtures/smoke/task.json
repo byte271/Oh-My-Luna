@@ -1,0 +1,34 @@
+{
+  "schema_version": "0.1",
+  "id": "harness-smoke-not-a-model-eval",
+  "issue": "Create result.txt containing exactly the normalized value named in input.txt.",
+  "repository": {
+    "path": "repository",
+    "commit": "fixture-2026-08-01"
+  },
+  "adapter": {
+    "id": "deterministic-test-double",
+    "command": ["node", "{fixture_dir}/deterministic-adapter.mjs"],
+    "model": "test-double/not-a-model",
+    "reasoning_effort": "none",
+    "rates_usd_per_million_tokens": {
+      "input": 0,
+      "cached_input": 0,
+      "output": 0
+    }
+  },
+  "verifier": {
+    "command": ["node", "{fixture_dir}/verifier.mjs"],
+    "success_exit_codes": [0]
+  },
+  "limits": {
+    "adapter_timeout_ms": 5000,
+    "verifier_timeout_ms": 5000,
+    "max_output_bytes": 65536
+  },
+  "requires_security_sandbox": false,
+  "metadata": {
+    "purpose": "interface smoke test only",
+    "is_model_evaluation": false
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "oh-my-luna",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Research-first evaluation harness for a GPT-5.6 Luna capability runtime",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "oh-my-luna-eval": "dist/src/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && node --test dist/tests/*.test.js",
+    "smoke": "npm run build && node dist/src/cli.js run fixtures/smoke/task.json --runs .oml-runs"
+  },
+  "dependencies": {
+    "ajv": "8.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "typescript": "5.9.3"
+  }
+}
