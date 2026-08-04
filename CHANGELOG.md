@@ -1,5 +1,89 @@
 # Changelog
 
+## v0.2.0 — in progress, not released
+
+Premise: **you cannot optimize what you cannot measure.** `evaluator_exit === 0`
+scores the measured quadratic denial-of-service and the type-checks-nothing
+script as clean work, so no amount of prompt work on those defect classes is
+observable. v0.2.0 starts by making them measurable.
+
+### Added — non-functional probes (`src/probes/`)
+
+- `growth.ts` — fits log(time) against log(n) over a doubling series and reports
+  the slope with its r². Three corrections over the ad-hoc probe it generalizes:
+  a noise floor (the old probe reported "10.90x per doubling" for the *linear*
+  arm, from 0.6 ms and 6.2 ms timings — JIT warm-up, not growth); warm-up plus
+  repeats with a median; and one fitted slope rather than consecutive ratios.
+- `verification-honesty.ts` — mutation testing pointed at the *verifier* instead
+  of the tests: inject a defect the command claims to detect, require it to fail.
+  The mutation **kind** is load-bearing — a syntax error is caught by anything
+  that parses, so failing on broken input is not evidence of type checking.
+  Verdicts are per-kind, and a command is credited only for kinds it was probed
+  with.
+
+Validated against the one real model output in the repository, with the ground
+truth established independently beforehand:
+
+```
+Luna-a growth     exponent 1.96, r²=0.997        quadratic_or_worse
+Luna-b growth     all samples below floor        indeterminate
+Luna-a typecheck  MISSED type_error, caught syntax  partially_verifies
+```
+
+All three agree with the prior finding. The Luna-b row is the noise floor
+working: the probe declines to report a growth rate it cannot measure rather
+than inventing one.
+
+Both probes are **diagnostic**. Neither changes `evaluator_exit === 0`, because
+adding an outcome measure is the owner's decision (plan §8) and doing it after
+results exist is the same failure as adding an arm after results exist.
+
+### Added — research
+
+- `research/failure-mode-taxonomy.md`. Three measured defect modes, and the
+  pattern they share with four failures in this repository's own harness: **a
+  check that is true about the letter offered as evidence about the purpose.**
+  Three of those four are harness code; the fourth was produced by a model, in a
+  different language, unprompted.
+
+### Added — a treatment arm (`arms/purpose-check/`)
+
+A model-facing candidate testing one hypothesis: that a few *checkable
+disclosures* reach the letter-satisfied/purpose-defeated class where generic
+"work carefully" guidance cannot, because the output already looks careful.
+Kept strictly separate from `arms/skill-control/`, which is a control and whose
+blandness is a design constraint.
+
+Untested — no model has been run against it. Carries its own falsification
+conditions, including that a drop in functional success would count against it.
+Its unresolved output-contract tension is recorded, not settled.
+
+### Fixed
+
+- `Dirent.parentPath` is Node 20.12+ while `engines` declares `>=20`. Two sites
+  fell back to `?? root`, which silently collapses every nested entry to
+  `root/<basename>` on 20.0–20.11. In `hashWorkspaceTree` that means wrong tree
+  hashes or ENOENT; in the canary scanner, detection survives but the reported
+  path does not. Both now go through `src/dirent.ts`.
+- `redactSecrets` anchored on `\b`, which does not match between two word
+  characters, so a key concatenated to a preceding token survived the pattern
+  backstop; and it covered only `sk-`/`rk-`, leaving session tokens untouched.
+  `org-` is deliberately still preserved — not a credential.
+
+### Not done, and why
+
+- **Wiring the growth probe into the held-out corpus.** It needs a per-task
+  adversarial workload, which the corpus does not define and which would have to
+  be authored — reintroducing author discretion exactly where the mechanical
+  selection rule was designed to remove it. Documented rather than half-built.
+- **A detector for undisclosed tradeoffs** (mode 3 of the taxonomy). It would
+  require a model judging prose, which is author-produced un-blinded scoring —
+  the weakness `research/gate-m-verdict.md` already records. Left as a marked gap.
+- **Any comparison to Opus-5 or Sol.** No output from either exists in this
+  repository. The comparison has no data on either side.
+
+240 tests pass.
+
 ## v0.1.0 — 2026-08-04
 
 First tagged version. **This is an evaluation kernel, not a capability result.**
