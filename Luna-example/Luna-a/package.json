@@ -1,0 +1,29 @@
+{
+  "name": "framevault",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dependency-free TypeScript framing library and CLI.",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "bin": {
+    "framevault": "./dist/cli.mjs"
+  },
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "node scripts/typecheck.mjs",
+    "test": "node scripts/build.mjs && node --experimental-strip-types --test tests/framevault.test.ts",
+    "encode": "node dist/cli.mjs encode",
+    "decode": "node dist/cli.mjs decode"
+  }
+}
+

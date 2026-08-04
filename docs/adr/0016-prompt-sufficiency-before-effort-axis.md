@@ -84,6 +84,17 @@ T1's meaning narrows. With source in every arm, T1 measures the value of pointin
 at the right region rather than of possessing the file. This is stated in the
 freeze rather than left for a reader to infer the broader prior claim.
 
+The effort study inherits Gate H's success criterion, and therefore its blind
+spot. `evaluator_exit === 0` expresses functional repair only, so an effort sweep
+cannot detect whether higher effort produces code that is more efficient, safer
+against adversarial input, or more honestly verified — only whether it passes more
+injected tests. Recorded 2026-08-03 after the `Luna-example/` sample showed that
+class of defect is real
+(`research/luna-example-framevault-ab.md`); the open question is
+`docs/gate-h-heldout-v2-plan.md` §8. This does not change the sequencing decision
+above — it bounds what the effort study can report, and that bound belongs in the
+freeze alongside the no-Sol-arm limit.
+
 ## Rejected alternatives
 
 Option 1 measures the output cap and misattributes the result to the model.

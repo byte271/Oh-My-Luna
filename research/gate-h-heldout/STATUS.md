@@ -19,6 +19,11 @@ result.
 > [`DEFECT-2026-08-03-unseen-source.md`](DEFECT-2026-08-03-unseen-source.md).
 > Repair plan: [`docs/gate-h-heldout-v2-plan.md`](../../docs/gate-h-heldout-v2-plan.md).
 > The freeze below stays as-is; v1 remains the record of what was believed.
+>
+> **A second, independent question is open** — whether `evaluator_exit === 0` can
+> express the defect class this project cares about at all. Raised by
+> [`research/luna-example-framevault-ab.md`](../luna-example-framevault-ab.md),
+> answered nowhere yet. Owner decision owed before the v2 freeze; see plan §8.
 
 ## Corpus
 
@@ -159,3 +164,40 @@ information that would actually be about the harness.
 `OML_LIVE_APPROVED=1` and a positive `OML_LIVE_BUDGET_USD` together. This blocker
 is not on the critical path and should not be resolved first: supplying a
 credential now would only make the defective run possible.
+
+## Open before the v2 freeze — what the success criterion can express
+
+Not a blocker on running, but a decision that cannot be deferred past the freeze.
+
+Success is exactly `evaluator_exit === 0` against injected tests. That measures
+functional repair. It cannot express any non-functional property: asymptotic cost,
+adversarial input handling, allocation behaviour, or whether a self-reported
+verification step actually verified anything.
+
+This became concrete rather than theoretical on 2026-08-03, when the first model
+output in this project turned out to contain two defects of exactly that shape,
+both passing every test their author wrote
+([`luna-example-framevault-ab.md`](../luna-example-framevault-ab.md)). The T0–T3
+ladder cannot reach them: it varies information supplied, and neither defect is
+caused by missing information.
+
+Being precise about the boundary:
+
+- the evaluator injects a **whole test file** (`evaluate.mjs:67-92`), so a repair
+  that breaks other behaviour covered by that file *is* caught;
+- what escapes is anything no test in that file expresses.
+
+Two implementation notes for the re-freeze, both offline:
+
+- SIGKILL after the 300s timeout (`evaluate.mjs:41`) leaves `code === null`, so
+  the `code === -1` guard at `:96` misses and `:97` returns **17** — a hang is
+  recorded identically to a wrong fix. Reserve a distinct code; record `signal`
+  and `duration_ms`. Reasoned from Node semantics, not executed.
+- Do not patch this under v1. `evaluate.mjs` is inside the freeze
+  (`identity.json:376-400`) and mutation aborts with exit 30.
+
+Three options, with costs, are in
+[`docs/gate-h-heldout-v2-plan.md`](../../docs/gate-h-heldout-v2-plan.md) §8. The
+decision is the owner's, and it must be made before results exist — choosing an
+outcome measure after seeing results is the same failure as adding an arm after
+seeing results.

@@ -245,3 +245,20 @@ A new freeze needs a new `freeze_id` and `protocol_version`. Never reuse
   (`run-stage-a.mjs:312-353`). A model that fixes the bug correctly but corrupts
   an unrelated function while reproducing the file scores identically to one that
   never found the bug. Do not attribute such a failure to repair ability.
+- **Success is `evaluator_exit === 0`, which measures functional repair only.** It
+  cannot express any non-functional property: asymptotic cost, adversarial input
+  handling, allocation behaviour, or whether a self-reported verification step
+  verified anything. The first model output examined in this project contained two
+  defects of exactly that shape — a quadratic denial-of-service and a `typecheck`
+  that type-checks nothing — both passing every test their author wrote
+  (`research/luna-example-framevault-ab.md`). If asked whether Gate H would detect
+  code that passes its own tests and fails adversarially, the answer is no.
+  Open decision: `docs/gate-h-heldout-v2-plan.md` §8.
+  - Boundary, stated precisely: the evaluator injects a **whole test file**
+    (`evaluate.mjs:67-92`), so same-file collateral damage *is* caught. What
+    escapes is anything no test in that file expresses.
+- **A hang reports as an ordinary test failure.** SIGKILL after the timeout
+  (`evaluate.mjs:41`) leaves `code === null`, so the `code === -1` guard at `:96`
+  misses and `:97` returns **17** — the same code as a clean test failure. When
+  reporting a 17, do not state that tests failed; state that tests failed *or* the
+  suite was killed, and check `duration_ms` against the 300s timeout.

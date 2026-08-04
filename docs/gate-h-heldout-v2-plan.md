@@ -5,6 +5,8 @@ status:            draft; nothing frozen, nothing run
 supersedes:        nothing. gate-h-heldout-v1 remains the record of what was frozen
                    on 2026-08-02 and why it cannot be executed as-is
 blocking input:    research/gate-h-heldout/DEFECT-2026-08-03-unseen-source.md
+open decision:     §8, outcome-measure validity — owner's call, needed before freeze
+                   motivated by research/luna-example-framevault-ab.md
 live calls to date: 0        cost to date: $0.00
 ```
 
@@ -149,6 +151,11 @@ Cheap, offline, and it makes the two failure modes distinguishable in the receip
 instead of merged in the summary. Without it, a flat row of failures is again
 ambiguous — the same ambiguity as the original defect, one layer down.
 
+> §3b is about **failed** attempts whose cause cannot be recovered. §8 below is
+> the mirror image: **passed** attempts that conceal a defect. Both are
+> measurement-validity problems; they point in opposite directions and need
+> different fixes.
+
 ## 4. Study E — the effort–cost frontier
 
 This addresses the owner's thesis that Luna at `max` effort approaches Sol at
@@ -247,11 +254,15 @@ Nothing here needs a credential except where marked.
 3. Amend the template: add `{{SOURCE}}`, delete the false repository-root line.
 4. Implement the four sufficiency checks; wire them into the freeze path so they
    can refuse.
-5. Add base-vs-returned diff recording (§3b), as diagnostic fields only.
+5. Add base-vs-returned diff recording (§3b), as diagnostic fields only. In the
+   same pass, distinguish a timeout/kill from a test failure in the evaluator's
+   exit codes, and record `signal` and `duration_ms` (§8).
 6. Re-run all four stubs. Add a fifth — `unseen` — that returns a plausible
    hallucinated file, and assert it fails. This is the regression test for this
    defect.
-7. Decide on the skill-control arm; leakage-check it if included.
+7. Decide on the skill-control arm; leakage-check it if included. Settle §8's
+   outcome-measure question in the same pass — both are decide-before-freezing
+   items, and both become author discretion the moment results exist.
 8. Freeze as `gate-h-heldout-v2` with a new `freeze_id`. Verify.
 9. **[credential]** One paid smoke call. Confirm `transport_valid`.
 10. **[credential]** Two calibration calls for Study E token counts.
@@ -308,6 +319,104 @@ Responses API as understood here, but it was not re-checked against the live
 reference, and the effort-parity claim in
 `data/provider-evidence/effort-parity-2026-08-03.json` is likewise uncorroborated.
 Confirm both before spending on Study E; neither blocks steps 1–8.
+
+§8 was added after this table and carries its own; read both.
+
+## 8. Outcome-measure validity — a third confound, and it is not in the prompt
+
+Added 2026-08-03, after reading the first model output this project has ever seen
+(`research/luna-example-framevault-ab.md`). It is numbered 8 rather than inserted
+in order because §1–§7 are cited by number elsewhere.
+
+§1 says the prompt is missing the source. §3b says the receipts are missing the
+base-vs-returned diff. Both are about **inputs and instrumentation**. This one is
+about the **success criterion itself**, and no amount of fixing the other two
+touches it.
+
+### What was observed
+
+Two implementations of the same greenfield spec. One contains a quadratic
+denial-of-service reachable from untrusted input — every declared length legal,
+so the spec's literal anti-allocation requirement is satisfied while its purpose
+is defeated. The same arm ships a `typecheck` script that runs
+`stripTypeScriptTypes` and prints a sentence implying type checking occurred; it
+exits 0 on code with arbitrary type errors.
+
+Both defects **pass every test their own author wrote.** Against
+`evaluator_exit === 0` they are indistinguishable from clean work.
+
+### Why the ladder cannot reach it
+
+T0–T3 vary *how much information the model is given*. Neither defect is caused by
+missing information — the spec stated the anti-allocation requirement outright,
+and the arm quoted it back in its README. Supplying the source file (§1) supplies
+more of the same kind of thing. If the weakness is "produces code that satisfies
+its own tests and fails adversarially," a ladder over information supply is
+orthogonal to it.
+
+### What the evaluator does and does not catch
+
+Being precise, because the useful version of this claim is narrower than the
+first one I wrote:
+
+- **Caught.** `evaluate.mjs:67-92` injects a whole test file from the corrected
+  commit, not a single test. A repair that breaks other behaviour covered by that
+  file fails. Same-file collateral damage is genuinely detected.
+- **Not caught.** Anything no test in the injected file expresses — which is every
+  non-functional property: asymptotic cost, adversarial input handling,
+  allocation behaviour, and the honesty of a self-reported verification step.
+
+### A hang is recorded as an ordinary test failure
+
+Found while reading the above. `run()` kills the child with SIGKILL after the
+timeout (`evaluate.mjs:41`). A signal-killed child reports `code === null` at
+`close`, so the `result.code === -1` guard at `:96` does not fire and `:97`
+returns **17** — the same code as a clean test failure.
+
+So the one symptom by which a quadratic blowup *could* have surfaced — the suite
+timing out — is recorded identically to "the model's fix was wrong." This is the
+same species of ambiguity as §3b, in the exit-code path rather than the diff path.
+
+**Fix (offline, cheap, not blocking):** distinguish `code === null` with a signal
+from a nonzero exit. Reserve a distinct code for timeout/kill. Record `signal` and
+`duration_ms` per attempt. Do **not** patch under v1 — mutation abort; fold it
+into the v2 re-freeze alongside §6's portability fix.
+
+### The decision this forces, which is the owner's and not mine
+
+Three options, stated with what each costs:
+
+1. **Accept the limit and narrow the claim.** Gate H measures functional repair
+   against a held-out test, and says so. Cheapest; changes nothing; means a null
+   result cannot distinguish "no effect" from "effect invisible to this measure."
+2. **Add a non-functional probe to the corpus.** Select some tasks whose injected
+   tests include an adversarial or resource-bound case. Expensive: the corpus
+   construction rule (bugfix commits shipping their own regression test) does not
+   generally yield these, and hand-adding tests reintroduces author discretion at
+   exactly the point the mechanical selection rule was designed to remove.
+3. **Run a second, separate study on greenfield builds**, scored by an explicit
+   rubric rather than pass/fail. Answers the question the FrameVault sample
+   raises, but rubric scoring is author-produced and un-blinded — the weakness
+   `research/gate-m-verdict.md:18-30` already records against this project.
+
+I am not choosing unilaterally, and I am not writing an ADR for it. **Decide
+before freezing v2** — adding an outcome measure after seeing results is the same
+failure as adding an arm after seeing results (§5).
+
+### Status of this section
+
+| Item | Status |
+| --- | --- |
+| Quadratic DoS in the sample | **reasoned from code reading, not executed.** No profile, no timing |
+| `typecheck` performs no type checking | **confirmed** by reading the script; `stripTypeScriptTypes` semantics not re-checked against current Node docs |
+| Evaluator injects whole files, not single tests | **confirmed** — `evaluate.mjs:67-92` |
+| SIGKILL yields exit 17, not 73 | **reasoned from Node `close` semantics, not executed** |
+| The sample was produced by Luna, or by the skill | **owner assertion only.** No model identity, effort, or transcript is recorded anywhere in `Luna-example/` |
+
+The last row bounds everything above. This section is motivated by a sample with
+n=1 per arm and unverified provenance; it identifies a **possible** blind spot in
+the measure, not a demonstrated one. That is still enough to require a decision,
+because the decision must be made before results exist either way.
 
 ## What v2 still may not claim
 

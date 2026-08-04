@@ -151,6 +151,41 @@ Forbidden regardless of the numbers:
 - diagnosis alone caused an effect — T3 cannot be decomposed;
 - product readiness, benchmark leadership, or statistical generalization.
 
+### What a pass does not mean
+
+Success is `evaluator_exit === 0` against an injected test file. That is
+**functional repair against that file's assertions**, and nothing more. It does
+not mean the returned code is efficient, safe against adversarial input, bounded
+in allocation, or free of defects the test does not reach.
+
+Two boundaries, stated precisely because the loose version is wrong in both
+directions:
+
+- the evaluator injects a **whole test file**, not one test, so a repair that
+  breaks other behaviour covered by that file **does** fail;
+- what escapes is anything no test in that file expresses — every non-functional
+  property.
+
+This stopped being hypothetical on 2026-08-03: the first model output examined in
+this project contained a quadratic denial-of-service and a verification script
+that verified nothing, both passing every test their author wrote
+(`../luna-example-framevault-ab.md`). Whether Gate H should measure that class at
+all is an open decision in `../../docs/gate-h-heldout-v2-plan.md` §8.
+
+### Reading exit 17
+
+On the two Python tasks `pytest` runs with `-x` (`evaluate.mjs:80`), so it stops
+at the first failing assertion and the receipt shows that failure, not all of
+them. The TypeScript runners are not passed an equivalent flag.
+
+More importantly, **17 does not only mean "tests failed."** The evaluator kills
+the child with SIGKILL after 300s (`evaluate.mjs:41`). A signal-killed child
+reports `code === null`, so the `code === -1` guard at `:96` does not fire and
+`:97` returns 17 — the same code as a clean test failure. When you see a 17,
+check the attempt's wall time before concluding the fix was wrong. Reasoned from
+Node's `close` semantics, not yet executed; a distinct timeout code is queued for
+the v2 re-freeze.
+
 ## Safety properties you can rely on
 
 - **No credential is ever committed, logged, or written to a receipt.** Errors

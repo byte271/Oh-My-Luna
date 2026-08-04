@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oh-my-luna.dev/schemas/capability-policy/v0.1.json",
+  "title": "Runtime capability manifest and execution policy",
+  "description": "Deterministic, model-independent contract decided by ADR 0017. A capability manifest describes one privileged action the broker may perform; an execution policy is the per-run admissibility envelope. Nothing here registers a semantic/learned capability (ADR 0002/0009 defer those) — only deterministic, evidence-justified actions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy", "capabilities"],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "policy": { "$ref": "#/$defs/executionPolicy" },
+    "capabilities": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/capabilityManifest" }
+    }
+  },
+  "$defs": {
+    "executionPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The per-run admissibility envelope. The broker refuses any action outside it with a deterministic OML_* code. Limits listed here are the ones the runtime can ENFORCE; unattested resources are named in limits.unattested and are never implied to be enforced.",
+      "required": ["workspace_root", "permitted_executables", "environment_allowlist", "limits", "symlink_policy"],
+      "properties": {
+        "workspace_root": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Absolute path. All writes and process cwd must resolve (lexically AND via realpath) strictly inside this root."
+        },
+        "read_paths": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Workspace-relative paths the run may read. Empty means the whole workspace copy."
+        },
+        "write_paths": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Workspace-relative path prefixes the run may write. A write outside these yields OML_PATH_NOT_WRITABLE even when it is inside workspace_root."
+        },
+        "symlink_policy": {
+          "enum": ["reject", "reject_crossing_root"],
+          "description": "reject: any symlink in a target path or its parents is refused (current environment.ts behavior). reject_crossing_root: symlinks are allowed only if their realpath stays inside workspace_root."
+        },
+        "permitted_executables": {
+          "type": "array",
+          "minItems": 0,
+          "items": { "$ref": "#/$defs/executableRule" },
+          "description": "Allowlist. An argv[0] that resolves to no rule here yields OML_EXECUTABLE_NOT_PERMITTED. This is the gap ADR 0017 closes: process.ts today spawns any argv[0]."
+        },
+        "environment_allowlist": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
+          "description": "Environment variable names passed through to child processes. Everything else is stripped. Secrets must never appear here."
+        },
+        "limits": { "$ref": "#/$defs/resourceBudget" }
+      }
+    },
+    "executableRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "resolved_path_sha256", "argv_policy"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "description": "Stable human-readable id, e.g. node, python3, tsc." },
+        "resolved_path_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 of the resolved executable path string (not the binary). Null when path pinning is waived; a waiver is recorded, not silently allowed."
+        },
+        "argv_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode"],
+          "properties": {
+            "mode": { "enum": ["exact", "prefix", "regex_per_arg", "any"] },
+            "allowed_argv": { "type": "array", "items": { "type": "string" }, "description": "For exact/prefix." },
+            "arg_patterns": { "type": "array", "items": { "type": "string" }, "description": "For regex_per_arg; one ECMA regex per positional arg." }
+          }
+        }
+      }
+    },
+    "resourceBudget": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Only enforced limits appear as enforced fields. Everything the runtime cannot attest is listed in `unattested` so a reader is never misled (mandatory principle 8).",
+      "required": ["wall_clock_ms", "max_output_bytes", "max_command_count", "max_retries", "max_generated_files", "max_write_bytes", "unattested"],
+      "properties": {
+        "wall_clock_ms": { "type": "integer", "minimum": 1 },
+        "max_output_bytes": { "type": "integer", "minimum": 1 },
+        "max_command_count": { "type": "integer", "minimum": 0 },
+        "max_retries": { "type": "integer", "minimum": 0 },
+        "max_generated_files": { "type": "integer", "minimum": 0 },
+        "max_write_bytes": { "type": "integer", "minimum": 0 },
+        "unattested": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "enum": ["cpu", "memory", "disk", "network", "syscalls", "process_tree"] },
+          "description": "Resources the runtime does NOT bound. Must list every resource not covered by an enforced field above. Presence here is a disclosure, not a control."
+        }
+      }
+    },
+    "capabilityManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "One privileged deterministic action. Registration requires evidence justification (promotion_status). No speculative semantic capability.",
+      "required": ["id", "version", "impl_kind", "determinism", "scopes", "network", "timeout_ms", "max_output_bytes", "side_effects", "reversibility", "evidence_kind", "platforms", "promotion_status"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "impl_kind": { "enum": ["builtin_deterministic", "external_process"] },
+        "determinism": { "enum": ["deterministic", "model_dependent"], "description": "Only deterministic capabilities may be registered under ADR 0017; model_dependent is reserved and rejected by the loader until a causal result justifies it." },
+        "scopes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reads", "writes", "commands", "env"],
+          "properties": {
+            "reads": { "type": "array", "items": { "type": "string" } },
+            "writes": { "type": "array", "items": { "type": "string" } },
+            "commands": { "type": "array", "items": { "type": "string" } },
+            "env": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "network": { "const": false, "description": "V0 capabilities are offline. Network is not attested (see resourceBudget.unattested), so a capability must not require it." },
+        "timeout_ms": { "type": "integer", "minimum": 1 },
+        "max_output_bytes": { "type": "integer", "minimum": 1 },
+        "side_effects": { "enum": ["none", "workspace_files", "process_execution"] },
+        "reversibility": { "enum": ["pure", "reversible_in_workspace_copy", "irreversible"] },
+        "evidence_kind": { "$ref": "#/$defs/evidenceKind" },
+        "failure_modes": { "type": "array", "items": { "type": "string", "pattern": "^OML_[A-Z0-9_]+$" } },
+        "platforms": { "type": "array", "items": { "enum": ["linux", "darwin", "win32"] }, "minItems": 1 },
+        "promotion_status": { "enum": ["candidate", "registered", "deprecated"], "description": "candidate: schema-valid but not admissible at runtime. registered: evidence-justified and admissible. No capability is born registered." }
+      }
+    },
+    "evidenceKind": {
+      "enum": ["configured_verifier_exit", "typed_observation", "content_hash", "process_result", "none"],
+      "description": "What KIND of evidence the action produces. Note configured_verifier_exit is explicitly weaker than a claim: an exit code is not a proof the claim holds (mandatory principle 6/7)."
+    }
+  }
+}

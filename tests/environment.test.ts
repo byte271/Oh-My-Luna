@@ -5,6 +5,7 @@ import { join } from "node:path";
 import test from "node:test";
 import { applyProposedFiles } from "../src/environment.js";
 import { OmlError } from "../src/errors.js";
+import { SKIP_IF_NO_SYMLINK } from "./symlink-probe.js";
 
 test("applies a scoped proposed file", async () => {
   const workspace = await mkdtemp(join(tmpdir(), "oml-environment-"));
@@ -20,7 +21,7 @@ test("rejects parent traversal", async () => {
   );
 });
 
-test("rejects symlink traversal", async () => {
+test("rejects symlink traversal", { skip: SKIP_IF_NO_SYMLINK }, async () => {
   const workspace = await mkdtemp(join(tmpdir(), "oml-environment-"));
   const outside = await mkdtemp(join(tmpdir(), "oml-outside-"));
   await mkdir(join(outside, "dir"));

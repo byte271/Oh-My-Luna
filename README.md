@@ -28,6 +28,8 @@ Current status:
 - Gate H held-out pilot: corpus frozen (`gate-h-heldout-2026-08-02`, 5 tasks, 4
   repositories), runner validated offline against four deterministic stubs.
   **Not executable as frozen** — see below. 0 live calls, $0.00 spent.
+- First model output examined: `Luna-example/` (untracked sample, outside the
+  harness, n=1 per arm, provenance unverified). Not a result; see below.
 
 ## Known blocking defect (2026-08-03)
 
@@ -54,6 +56,30 @@ check verifies **integrity** — that inputs are the intended bytes and that
 mutation is detected. None verified **sufficiency** — that the intended bytes are
 adequate to the task posed. A 43-artifact freeze, a 10-check kernel gate, a
 leakage audit and four stubs all passed over a prompt missing its source.
+
+## Open question — the success criterion may not express the weakness (2026-08-03)
+
+Raised by the `Luna-example/` sample, not by a run. Analysis:
+`research/luna-example-framevault-ab.md`; plan section:
+`docs/gate-h-heldout-v2-plan.md` §8.
+
+Two implementations of one greenfield spec. The arm stated to have used the skill
+shipped a quadratic denial-of-service reachable from untrusted input — with every
+declared length legal, so the spec's literal anti-allocation requirement is met
+and its purpose defeated — plus a `typecheck` script that performs no type
+checking and exits 0 by construction. Both defects pass every test their author
+wrote, so under `evaluator_exit === 0` they score as clean work.
+
+That is a third confound, after the missing source and the missing
+base-vs-returned diff. Unlike those, it lives in the **outcome measure**, so
+adding source to the prompt does not touch it. It needs an owner decision before
+v2 freezes; three options with their costs are in §8.
+
+Two limits on that, stated because the loose version overstates it: the evaluator
+injects whole test files rather than single tests, so same-file collateral damage
+*is* caught; and the sample is n=1 per arm with no recorded model identity,
+effort, or transcript, so it identifies a **possible** blind spot, not a
+demonstrated one.
 
 See `research/repository-truth-audit.md`, `research/architecture-reset.md`, and
 `docs/evaluation-plan-v3.md` before treating any component as core. Original
