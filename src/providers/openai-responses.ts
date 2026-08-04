@@ -103,11 +103,28 @@ export interface OpenAiAdapterOptions {
 
 const REDACTED = "[redacted]";
 
-/** Removes anything key-shaped from text that may reach a log or a receipt. */
+/**
+ * Removes anything key-shaped from text that may reach a log or a receipt.
+ *
+ * Two layers, because they fail differently. The exact-substring pass is the one
+ * that matters and is exhaustive for the key actually in use; the pattern pass is
+ * a backstop for a credential this process was never handed — a key pasted into
+ * an upstream error, or one belonging to a different account.
+ *
+ * The backstop previously anchored on `\b`, which does not match between two word
+ * characters, so a key concatenated to a preceding token (`prefixsk-…`) survived
+ * it. It also covered only `sk-` and `rk-`, leaving session tokens (`sess-`)
+ * untouched. Both are narrow — the exact pass catches the live key regardless —
+ * but a redactor's failure mode should be over-redaction, never under.
+ *
+ * Organization identifiers (`org-`) are deliberately NOT redacted: they are not
+ * credentials, and blanking them would destroy the account context that makes a
+ * billing dispute diagnosable.
+ */
 export function redactSecrets(text: string, apiKey?: string): string {
   let out = text;
   if (apiKey && apiKey.length > 0) out = out.split(apiKey).join(REDACTED);
-  return out.replace(/\b(sk|rk)-[A-Za-z0-9_-]{8,}/g, REDACTED);
+  return out.replace(/(?:sk|rk|sess)-[A-Za-z0-9_-]{8,}/g, REDACTED);
 }
 
 export class OpenAiResponsesAdapter implements ModelAdapter {

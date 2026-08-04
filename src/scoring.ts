@@ -3,6 +3,7 @@ import { join, relative, resolve } from "node:path";
 import { OmlError } from "./errors.js";
 import { expandArgv, runProcess } from "./process.js";
 import type { ProcessResult, TaskFixture } from "./types.js";
+import { direntParent } from "./dirent.js";
 
 export interface ScoreResult {
   success: boolean;
@@ -105,7 +106,7 @@ async function assertNoCanaryPath(root: string, canaries: string[]): Promise<voi
   if (canaries.length === 0) return;
   const entries = await readdir(root, { recursive: true, withFileTypes: true });
   for (const entry of entries) {
-    const parent = entry.parentPath ?? root;
+    const parent = direntParent(entry, root);
     assertNoCanary("workspace_filename", relative(root, join(parent, entry.name)), canaries);
   }
 }

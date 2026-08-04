@@ -18,6 +18,7 @@ import { readdir, readFile, readlink, stat } from "node:fs/promises";
 import { join, relative } from "node:path";
 import { canonicalJson, sha256 } from "../canonical.js";
 import { OmlError } from "../errors.js";
+import { direntParent } from "../dirent.js";
 import type {
   Claim,
   ClaimEvaluation,
@@ -34,7 +35,7 @@ export async function hashWorkspaceTree(root: string): Promise<string> {
   const entries = await readdir(root, { recursive: true, withFileTypes: true });
   const rows: Array<[string, string]> = [];
   for (const entry of entries) {
-    const parent = entry.parentPath ?? root;
+    const parent = direntParent(entry, root);
     const absolute = join(parent, entry.name);
     const rel = relative(root, absolute).replaceAll("\\", "/");
     if (entry.isSymbolicLink()) {
