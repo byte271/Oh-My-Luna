@@ -244,9 +244,9 @@ effort-parity claim in `data/provider-evidence/effort-parity-2026-08-03.json`.
 | Model identity and version | **absent.** No record that `gpt-5.6-luna` produced either |
 | Reasoning effort | **absent** |
 | Timestamps, transcripts, token counts, cost | **absent** |
-| "Tests pass" | **self-reported by both arms.** Not executed here |
-| Quadratic DoS | **reasoned from the code, not executed.** No profile, no timing |
-| Directory is version-controlled | **no.** `Luna-example/` is untracked |
+| "Tests pass" | **EXECUTED 2026-08-04. True of both arms:** 15/15 each, exit 0 |
+| Quadratic DoS | **EXECUTED 2026-08-04. Confirmed.** See below |
+| Directory is version-controlled | **yes, since commit 4bb4226.** It was untracked when this document was written |
 | Replication | **none.** n=1 per arm, one task, one prompt |
 
 The shell was unavailable for this entire session, so neither suite was run and
@@ -282,7 +282,62 @@ frame is a valid encode so the cost accrues while the front candidate is pending
 but the numbers it would print have not been observed. Run it before citing the
 DoS as demonstrated rather than reasoned.
 
-## What this does and does not support
+## Executed 2026-08-04 — the asymptotic claim holds
+
+Everything above about the quadratic blowup was established by reading
+`Luna-a/src/decoder.ts`. `Luna-example/dos-probe.mjs` was written to test it and
+could not be run in that session. It has now been run.
+
+Both suites first, since "tests pass" was self-reported by both arms:
+
+```
+Luna-a: 15 tests, 15 pass, 0 fail   exit 0
+Luna-b: 15 tests, 15 pass, 0 fail   exit 0
+```
+
+Then the doubling series. The ratio per doubling is the finding, not the
+absolute time: a linear decoder trends toward 2x, a quadratic one toward 4x.
+
+```
+Luna-a (skill arm) — multi-candidate resync
+  candidates   payloadKiB      ms     ratio-vs-prev
+       1000          13     28.8          —
+       2000          27     76.3      2.65x
+       4000          54    250.2      3.28x
+       8000         109    961.3      3.84x
+      16000         218   4381.1      4.56x
+
+Luna-b (control)   — three-state machine
+  candidates   payloadKiB      ms     ratio-vs-prev
+       1000          13      0.9          —
+       2000          27      0.6      0.65x
+       4000          54      6.2     10.90x
+       8000         109      1.7      0.27x
+      16000         218      2.9      1.75x
+```
+
+Luna-a converges on 4x per doubling — quadratic, as reasoned. 218 KiB of input
+occupies it for 4.4 seconds. Luna-b stays between 0.6 ms and 6.2 ms across the
+whole series; its ratios are noise around a flat line, and the 10.90x row is JIT
+warm-up on sub-millisecond measurements, not growth. Read the absolute column
+there, not the ratio.
+
+The attack in the analysis declares a 16 MiB payload, about 1.2M candidates —
+75x the largest point measured. Under the measured quadratic growth that is on
+the order of 75² ≈ 5,600x of 4.4 s, or several hours, from 16 MiB of input. The
+probe deliberately stops short of running it.
+
+Two things this does **not** establish. It does not show that a model produced
+either arm, or which arm used a skill; the provenance table above is unchanged
+and still governs. And n=1 per arm cannot support any claim that a skill causes
+this class of defect.
+
+What it does establish is the part §8 of the v2 plan turns on, and it is now a
+measurement rather than an inference: **a program can pass every test its author
+wrote, at 15/15, while carrying a denial of service reachable from untrusted
+input.** Under `evaluator_exit === 0` that is indistinguishable from clean work.
+The spec's literal anti-allocation requirement is satisfied throughout — every
+declared length in the attack is legal — and its purpose is defeated.
 
 Supported:
 

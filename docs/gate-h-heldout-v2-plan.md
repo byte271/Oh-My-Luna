@@ -467,11 +467,21 @@ failure as adding an arm after seeing results (§5).
 
 | Item | Status |
 | --- | --- |
-| Quadratic DoS in the sample | **reasoned from code reading, not executed.** No profile, no timing |
+| Quadratic DoS in the sample | **EXECUTED 2026-08-04. CONFIRMED.** Doubling series converges on 4x/doubling (2.65 → 3.28 → 3.84 → 4.56); Luna-b flat at 0.6–6.2 ms over the same range. `research/luna-example-framevault-ab.md` |
+| Both suites pass | **EXECUTED. Confirmed:** 15/15 each, exit 0. So the DoS ships in an arm that is green on every test its author wrote |
 | `typecheck` performs no type checking | **confirmed** by reading the script; `stripTypeScriptTypes` semantics not re-checked against current Node docs |
 | Evaluator injects whole files, not single tests | **confirmed** — `evaluate.mjs:67-92` |
-| SIGKILL yields exit 17, not 73 | **reasoned from Node `close` semantics, not executed** |
-| The sample was produced by Luna, or by the skill | **owner assertion only.** No model identity, effort, or transcript is recorded anywhere in `Luna-example/` |
+| SIGKILL yields exit 17, not 73 | **EXECUTED. CONFIRMED** — a signal-killed child reports `{ code: null, signal: "SIGKILL" }`, so the `code === -1` guard never fires |
+| The sample was produced by Luna, or by the skill | **owner assertion only.** Unchanged. Executing the code establishes nothing about its provenance, and n=1 per arm cannot attribute the defect class to a skill |
+
+The first two rows change what §8 is deciding about. It was a decision under
+uncertainty — a *possible* blind spot in the measure, inferred from reading. It
+is now a decision under a measured fact: a program that is 15/15 green on its own
+suite holds a denial of service reachable from untrusted input, with every
+declared length legal, and `evaluator_exit === 0` cannot see it.
+
+That does not choose between the three options below. It removes the option of
+treating the blind spot as hypothetical.
 
 The last row bounds everything above. This section is motivated by a sample with
 n=1 per arm and unverified provenance; it identifies a **possible** blind spot in
