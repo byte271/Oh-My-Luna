@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "warning": "CONTROLLER ONLY. Names the regression tests that detect the defect.",
+  "task_id": "scule-3815767f",
+  "repository": "https://github.com/unjs/scule",
+  "base_commit": "8a7a4b3d26f4cac3cbae3ab08a3338d30899873b",
+  "corrected_commit": "3815767fb33a87bca13370d9c1a86cc211ee3b11",
+  "runner": "vitest",
+  "language": "typescript",
+  "injected_test_files": [
+    "test/scule.test.ts",
+    "test/types.test-d.ts"
+  ],
+  "permitted_paths": [
+    "src/index.ts",
+    "src/types.ts"
+  ],
+  "base_exit": 1,
+  "corrected_exit": 0
+}

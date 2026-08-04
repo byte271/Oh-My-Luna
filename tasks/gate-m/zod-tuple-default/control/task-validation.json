@@ -1,0 +1,8 @@
+{
+  "schema_version": "0.1", "observed_at": "2026-08-02T06:18:56.243Z", "accepted": true,
+  "environment": { "platform": "linux", "architecture": "x64", "node_version": "v24.14.0", "dependency_setup": "pnpm 10.12.1 install --ignore-scripts --frozen-lockfile" },
+  "base": { "exit_code": 17, "duration_ms": 393, "stdout": "[\"present\"]\n", "stdout_sha256": "81ec72fc23069688e4e04353521acdef55533e4ebff38cc25b571fa5be15c20a", "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" },
+  "corrected": { "exit_code": 0, "duration_ms": 380, "stdout": "[\"present\",\"fallback\"]\n", "stdout_sha256": "ba0dce8037e4467e86c94e65d0c2559480b0a39cea75b2a35947569506eeb49c", "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" },
+  "reproduction_command": "npm run gate-m:validate",
+  "network_during_evaluator": false
+}

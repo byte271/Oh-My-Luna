@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-h-heldout-v1",
+  "task_id": "tomlkit-43668dde",
+  "treatment_id": "T2",
+  "combined_arm": false,
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "tomlkit/container.py",
+          "start_line": 350,
+          "end_line": 400
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "tomlkit/container.py",
+          "name": "Container",
+          "kind": "class"
+        },
+        {
+          "path": "tomlkit/container.py",
+          "name": "_handle_dotted_key",
+          "kind": "method"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "Container.append",
+        "consumer_symbol": "Container.as_string",
+        "type": "return"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Against the base commit, parsing \"[x]\\na.b = {}\" and then assigning doc[\"x\"][\"c\"] = 3 renders as '[x]\\na.b = {}c = 3\\n'. The newline that should follow the dotted entry is absent, so the appended key shares a line with it.",
+          "command": "python3 -c \"import tomlkit; d=tomlkit.parse('[x]\\\\na.b = {}'); d['x']['c']=3; print(repr(d.as_string()))\"",
+          "certainty": "observed"
+        }
+      ]
+    }
+  },
+  "content_sha256": "9f11649c3ec2a7efa2f14e71a6553d6d3856db5390bf54d5403b1d9e3cf40df2"
+}

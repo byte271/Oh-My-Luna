@@ -1,0 +1,541 @@
+{
+  "schema_version": "1.0",
+  "freeze_id": "gate-h-heldout-2026-08-02",
+  "protocol_version": "gate-h-heldout-v1",
+  "created_at": "2026-08-02T21:00:00Z",
+  "status": "frozen_pre_execution",
+  "live_calls_made": 0,
+  "capability_claim_permitted": false,
+  "held_out_meaning": "Held out from protocol design, intervention-level design, adapter implementation, output-parser implementation, evaluator-framework design, leakage-detector tuning, baseline prompt tuning, reasoning-effort selection, and all previous Luna or Sol runs. NOT blind to the task and intervention authors, who inspected the known correction to build the evaluator and author T1-T3. This is not a hidden benchmark.",
+  "code_identity": {
+    "commit": "009932fde6849fa01edacaf279e9bb5432563765",
+    "tree": "f81668a9057cff7693d9ab28606535b9166d13e1"
+  },
+  "environment": {
+    "platform": "linux",
+    "architecture": "x64",
+    "node_versions_validated": [
+      "v22.22.2",
+      "v24.18.1"
+    ],
+    "python_version": "3.11.15",
+    "network_required_during_provisioning_only": true
+  },
+  "corpus": {
+    "corpus_id": "gate-h-heldout-2026-08-02",
+    "task_count": 5,
+    "repositories": [
+      "https://github.com/unjs/scule",
+      "https://github.com/unjs/ufo",
+      "https://github.com/sdispater/tomlkit",
+      "https://github.com/mahmoud/boltons"
+    ],
+    "languages": [
+      "typescript",
+      "python"
+    ],
+    "selection_policy": {
+      "applied_before_any_model_run": true,
+      "no_model_result_existed_at_selection_time": true,
+      "max_per_repository": 2,
+      "target_size": 5,
+      "ordering": "insertions ascending, then candidate_id",
+      "language_rule": "python and at least one of typescript/javascript must both appear",
+      "result_dependent_replacement": "prohibited"
+    },
+    "tasks": [
+      {
+        "task_id": "scule-57cfd152",
+        "repository": "https://github.com/unjs/scule",
+        "language": "typescript",
+        "base_commit": "d2c281f10e12b8e33a2ed6ef3630eeb54de7de7c",
+        "corrected_commit": "57cfd1528a03720392604a2e582782fc481657dd",
+        "permitted_paths": [
+          "src/index.ts"
+        ],
+        "evaluator_test_files": [
+          "test/scule.test.ts"
+        ],
+        "base_exit": 1,
+        "corrected_exit": 0
+      },
+      {
+        "task_id": "ufo-5cd9e676",
+        "repository": "https://github.com/unjs/ufo",
+        "language": "typescript",
+        "base_commit": "a7b94e69ff6159de8ddfd4940c90db4708c0d67e",
+        "corrected_commit": "5cd9e676711af3f4e4b5398ddf6ca8d52c1c7e1f",
+        "permitted_paths": [
+          "src/utils.ts"
+        ],
+        "evaluator_test_files": [
+          "test/base.test.ts"
+        ],
+        "base_exit": 1,
+        "corrected_exit": 0
+      },
+      {
+        "task_id": "scule-3815767f",
+        "repository": "https://github.com/unjs/scule",
+        "language": "typescript",
+        "base_commit": "8a7a4b3d26f4cac3cbae3ab08a3338d30899873b",
+        "corrected_commit": "3815767fb33a87bca13370d9c1a86cc211ee3b11",
+        "permitted_paths": [
+          "src/index.ts",
+          "src/types.ts"
+        ],
+        "evaluator_test_files": [
+          "test/scule.test.ts",
+          "test/types.test-d.ts"
+        ],
+        "base_exit": 1,
+        "corrected_exit": 0
+      },
+      {
+        "task_id": "tomlkit-43668dde",
+        "repository": "https://github.com/sdispater/tomlkit",
+        "language": "python",
+        "base_commit": "d3c76f0bbe90af4b12a3b83bd8e59bc9061dfe85",
+        "corrected_commit": "43668ddebc3f082bf385d328aceed18d26976897",
+        "permitted_paths": [
+          "tomlkit/container.py"
+        ],
+        "evaluator_test_files": [
+          "tests/test_toml_document.py"
+        ],
+        "base_exit": 1,
+        "corrected_exit": 0
+      },
+      {
+        "task_id": "boltons-ead236e2",
+        "repository": "https://github.com/mahmoud/boltons",
+        "language": "python",
+        "base_commit": "57cb026b7f47cd2765a0d5acdc83849ed5f1f6a3",
+        "corrected_commit": "ead236e278ca0466bf468de746b5960fb12d7e5b",
+        "permitted_paths": [
+          "boltons/iterutils.py"
+        ],
+        "evaluator_test_files": [
+          "tests/test_iterutils.py"
+        ],
+        "base_exit": 1,
+        "corrected_exit": 0
+      }
+    ],
+    "not_selected": [
+      {
+        "candidate_id": "tomlkit-67d3e865",
+        "repository_name": "tomlkit",
+        "reason": "target corpus size reached"
+      },
+      {
+        "candidate_id": "boltons-1e61524a",
+        "repository_name": "boltons",
+        "reason": "target corpus size reached"
+      },
+      {
+        "candidate_id": "boltons-ebc7a8f7",
+        "repository_name": "boltons",
+        "reason": "target corpus size reached"
+      },
+      {
+        "candidate_id": "tomlkit-8cd44f58",
+        "repository_name": "tomlkit",
+        "reason": "target corpus size reached"
+      },
+      {
+        "candidate_id": "ufo-eb299454",
+        "repository_name": "ufo",
+        "reason": "target corpus size reached"
+      },
+      {
+        "candidate_id": "boltons-d0a284fc",
+        "repository_name": "boltons",
+        "reason": "target corpus size reached"
+      },
+      {
+        "candidate_id": "boltons-609cabe9",
+        "repository_name": "boltons",
+        "reason": "target corpus size reached"
+      },
+      {
+        "candidate_id": "tomlkit-495a42ec",
+        "repository_name": "tomlkit",
+        "reason": "target corpus size reached"
+      }
+    ],
+    "rejected": [
+      {
+        "candidate_id": "destr-f9c78d40",
+        "repository": "https://github.com/unjs/destr",
+        "language": "typescript",
+        "rejection_reason": "corrected version does not pass (exit 1); likely an environment or dependency problem rather than a task problem",
+        "base_exit": 1,
+        "corrected_exit": 1
+      },
+      {
+        "candidate_id": "destr-d9ba16d7",
+        "repository": "https://github.com/unjs/destr",
+        "language": "typescript",
+        "rejection_reason": "corrected version does not pass (exit 1); likely an environment or dependency problem rather than a task problem",
+        "base_exit": 1,
+        "corrected_exit": 1
+      },
+      {
+        "candidate_id": "node-semver-e583226b",
+        "repository": "https://github.com/npm/node-semver",
+        "language": "javascript",
+        "rejection_reason": "corrected version does not pass (exit 1); likely an environment or dependency problem rather than a task problem",
+        "base_exit": 1,
+        "corrected_exit": 1
+      }
+    ]
+  },
+  "arms": {
+    "T0": "native: issue and repository only",
+    "T1": "bounded context: paths, regions, base-state symbols, failing boundary",
+    "T2": "T1 plus raw reproduced observations from the base commit",
+    "T3": "T2 plus author-produced causal diagnosis and behavioral objective, deliberately combined"
+  },
+  "t3_is_combined": true,
+  "t3_note": "No effect may be attributed to diagnosis rather than behavioral objective.",
+  "prompts": {
+    "system_prompt": "You are fixing a defect in an existing software repository.\n\nMake the smallest change that corrects the reported behaviour. Do not modify\ntests. Do not modify unrelated files.\n\nReply with a single JSON object and nothing else:\n{\"files\":[{\"path\":\"<repository-relative path>\",\"contents\":\"<complete new file contents>\"}]}\n\nEvery file you list is written verbatim, so each \"contents\" must be the entire\nfinal file, not a fragment or a diff.",
+    "system_prompt_sha256": "01d0d8c924425b83f1409260f667cfcdb62cd8c1bc635ca2ea38a3034eb0d578",
+    "task_prompt_template": "<issue>\n{{ISSUE}}\n</issue>\n{{ASSISTANCE}}\nRepository root contains the project source. Apply your fix and reply with the\nJSON object described in the system prompt.",
+    "task_prompt_template_sha256": "a372825ee8711b1993e73b2453cae1d536eb44e590633f17d3611c42056e2c0c"
+  },
+  "model_settings": {
+    "model_alias": "gpt-5.6-luna",
+    "model_alias_is_mutable": true,
+    "immutable_snapshot_available": false,
+    "reasoning_effort": "low",
+    "store": false,
+    "tools": [],
+    "max_output_tokens": 8192,
+    "timeout_ms": 180000,
+    "sdk_max_retries": 0,
+    "attempt_retries": 0,
+    "per_request_cap_usd": 0.05,
+    "session_cap_usd": 1.59,
+    "sdk_version": "7.3.0",
+    "documentation_evidence_id": "provider-contract-2026-08-02",
+    "pricing_snapshot_id": "openai-2026-08-02"
+  },
+  "schedule": {
+    "seed_sha256": "02601c8d7e02caacb0138e7b620f4e21d65280a407663405382ff82efea65203",
+    "stage_a_attempts": 20,
+    "order": [
+      {
+        "sequence": 1,
+        "task_id": "ufo-5cd9e676",
+        "treatment_id": "T2"
+      },
+      {
+        "sequence": 2,
+        "task_id": "scule-57cfd152",
+        "treatment_id": "T0"
+      },
+      {
+        "sequence": 3,
+        "task_id": "tomlkit-43668dde",
+        "treatment_id": "T2"
+      },
+      {
+        "sequence": 4,
+        "task_id": "scule-3815767f",
+        "treatment_id": "T2"
+      },
+      {
+        "sequence": 5,
+        "task_id": "tomlkit-43668dde",
+        "treatment_id": "T3"
+      },
+      {
+        "sequence": 6,
+        "task_id": "boltons-ead236e2",
+        "treatment_id": "T0"
+      },
+      {
+        "sequence": 7,
+        "task_id": "tomlkit-43668dde",
+        "treatment_id": "T0"
+      },
+      {
+        "sequence": 8,
+        "task_id": "scule-57cfd152",
+        "treatment_id": "T2"
+      },
+      {
+        "sequence": 9,
+        "task_id": "boltons-ead236e2",
+        "treatment_id": "T3"
+      },
+      {
+        "sequence": 10,
+        "task_id": "boltons-ead236e2",
+        "treatment_id": "T2"
+      },
+      {
+        "sequence": 11,
+        "task_id": "scule-57cfd152",
+        "treatment_id": "T1"
+      },
+      {
+        "sequence": 12,
+        "task_id": "scule-3815767f",
+        "treatment_id": "T3"
+      },
+      {
+        "sequence": 13,
+        "task_id": "scule-3815767f",
+        "treatment_id": "T1"
+      },
+      {
+        "sequence": 14,
+        "task_id": "ufo-5cd9e676",
+        "treatment_id": "T3"
+      },
+      {
+        "sequence": 15,
+        "task_id": "ufo-5cd9e676",
+        "treatment_id": "T1"
+      },
+      {
+        "sequence": 16,
+        "task_id": "tomlkit-43668dde",
+        "treatment_id": "T1"
+      },
+      {
+        "sequence": 17,
+        "task_id": "scule-3815767f",
+        "treatment_id": "T0"
+      },
+      {
+        "sequence": 18,
+        "task_id": "scule-57cfd152",
+        "treatment_id": "T3"
+      },
+      {
+        "sequence": 19,
+        "task_id": "ufo-5cd9e676",
+        "treatment_id": "T0"
+      },
+      {
+        "sequence": 20,
+        "task_id": "boltons-ead236e2",
+        "treatment_id": "T1"
+      }
+    ]
+  },
+  "analysis_plan": {
+    "stage_a": "One attempt per task per arm. Exploratory and noisy; a single attempt per cell cannot separate a real effect from stochasticity.",
+    "continuation_rule": "Continue to Stage B only if at least one assisted arm (T1, T2 or T3) succeeds on at least two tasks where T0 fails. Registered before execution and not to be lowered afterwards.",
+    "stage_b": "Two additional repetitions for every task and every arm, not only successful arms. Report Stage A and Stage B together.",
+    "unit_of_generalization": "task",
+    "repetitions_are_not_independent_tasks": true,
+    "p_value": "not reported; the corpus is far too small for one to mean anything",
+    "reported_outcomes": [
+      "evaluator success per attempt",
+      "task-level consistent success",
+      "cost per successful task",
+      "wall time",
+      "false completion",
+      "regression introduction",
+      "unnecessary files changed",
+      "first-edit correctness"
+    ],
+    "result_dependent_task_replacement": "prohibited"
+  },
+  "leakage_controls": {
+    "implementation_sha256": "bae857d91ab451fc18ff861ecec3c57f74b413e2ec3f3f89bdc18b75419bb145",
+    "report_sha256": "b584b465c7d804ca2141ac38a717bbea5dad091651bf66682ff657f36a363d45",
+    "is_heuristic": true,
+    "not_a_purity_proof": true
+  },
+  "forbidden_claims": [
+    "general Luna improvement",
+    "benchmark leadership",
+    "product readiness",
+    "diagnosis alone caused an effect",
+    "any fraction of a Luna-Sol gap (there is no matched Sol arm)",
+    "statistical generalization",
+    "independently validated intervention semantics"
+  ],
+  "artifact_count": 43,
+  "artifacts": [
+    {
+      "path": "data/pricing/openai-2026-08-02.evidence.json",
+      "sha256": "d58b6f84a329744106cd3f730b7c0719e815c05d44353bc400e170ad5d113aac"
+    },
+    {
+      "path": "data/provider-evidence/manifest.json",
+      "sha256": "8e2683210dc48772336feed4bbc488d39b4c5d90029dc9a89e0e23c5fd7c30cf"
+    },
+    {
+      "path": "scripts/gate-h-heldout/build-corpus.mjs",
+      "sha256": "0493ea8a1f7ed59e8645daf0eec3e0b2c093404ac16de0196223bbdf2380f7b7"
+    },
+    {
+      "path": "scripts/gate-h-heldout/check-leakage.mjs",
+      "sha256": "bae857d91ab451fc18ff861ecec3c57f74b413e2ec3f3f89bdc18b75419bb145"
+    },
+    {
+      "path": "scripts/gate-h-heldout/evaluate.mjs",
+      "sha256": "833748c50c27851d1da938186026156d0180356039adfeef14bc35f12ce75c0d"
+    },
+    {
+      "path": "scripts/gate-h-heldout/mine-candidates.mjs",
+      "sha256": "f01763c65ebab846bab6b6b314d084a20f51136b80603e3f09be7f78a9e9dbed"
+    },
+    {
+      "path": "scripts/gate-h-heldout/run-stage-a.mjs",
+      "sha256": "751e3811d2cac04192233d18871ded4d6a16a4443df514490de4aaeaee44133b"
+    },
+    {
+      "path": "scripts/gate-h-heldout/select-corpus.mjs",
+      "sha256": "6ffa588e64ddae77d04788218db4d5ca1ea44058d58efd1b4ac3e768d8d2987e"
+    },
+    {
+      "path": "scripts/gate-h-heldout/validate-candidates.mjs",
+      "sha256": "a8e2837c3c9885c2c543e8440dbb9ef4f5570939215b0f7eaf648d9596ed9c89"
+    },
+    {
+      "path": "src/providers/budget.ts",
+      "sha256": "f44bfccca3edf9267bd55112c8ed2433183d98445f5d82ddaaa750f8edbf55ed"
+    },
+    {
+      "path": "src/providers/live-gate.ts",
+      "sha256": "e9753cfabefc93827d03a13929031aebd17ff59b09ff284fd5201d89e95bd994"
+    },
+    {
+      "path": "src/providers/openai-cost.ts",
+      "sha256": "c7878d2b88af9cc8b9bbd6ff4e0f2d1dbdbc82b20a924425c3d1bb32d483fe75"
+    },
+    {
+      "path": "src/providers/openai-transport.ts",
+      "sha256": "5da0ebfd38b80ed0c6da34cf4f451125d62723166087e73fbc6303d191db961b"
+    },
+    {
+      "path": "src/providers/output-validation.ts",
+      "sha256": "98b7487d169f583ee8a894a071bc41388e3b28c7caa6c2ae79c6efdb998abfbd"
+    },
+    {
+      "path": "tasks/gate-h-heldout/candidate-pool.json",
+      "sha256": "d229e00be5433185781d856ad9739f5d65939ce5e5a0a7c4e3eb7e815995df0e"
+    },
+    {
+      "path": "tasks/gate-h-heldout/leakage-report.json",
+      "sha256": "b584b465c7d804ca2141ac38a717bbea5dad091651bf66682ff657f36a363d45"
+    },
+    {
+      "path": "tasks/gate-h-heldout/selected-corpus.json",
+      "sha256": "7b224bc128f094d4d698dc16b745ee3d5b7b77ed12cb501f394a014608b989ed"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/boltons-ead236e2/arms/T1.json",
+      "sha256": "c2ffa4426a0b8188caafffc0ec5048f0a983eb2f6bd5355eea79f5e9a6f6d366"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/boltons-ead236e2/arms/T2.json",
+      "sha256": "e0fe8435a453ebcffda48cee318ab1a6cac243b37a5d018dbc8c20c1e471a56f"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/boltons-ead236e2/arms/T3.json",
+      "sha256": "caacc9fb996749f5fec7747d1d5dcfc6b46119effef6b8ad95b108d16d1318a5"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/boltons-ead236e2/control/evaluator.json",
+      "sha256": "86fae3ffdb9959082cf6e2e7278cc7fbf1367f4e6fb6115c735bbd723c33370d"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/boltons-ead236e2/visible/issue.md",
+      "sha256": "5e003c301db21cff72647d15b2416a3ca9f13d7bb6007d80a21a82688ffef082"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/scule-3815767f/arms/T1.json",
+      "sha256": "65f635840822ea66381ac458db66059983c9cddc70ddbfc0fc254ec324167fd6"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/scule-3815767f/arms/T2.json",
+      "sha256": "ac216ad218dc736de853bfd302cd3ffae86f1cdb27a2f4b887e3b4bb43f3724b"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/scule-3815767f/arms/T3.json",
+      "sha256": "cd9e9564ce4c6fd65adadf1780c4d35b4a8cf16b47b8190b1ac1012c44e88892"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/scule-3815767f/control/evaluator.json",
+      "sha256": "b992f1ffa886dd1d71e95558c2153dc927c3ac4d30f7051d2c1d53e8203b5d08"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/scule-3815767f/visible/issue.md",
+      "sha256": "7965ac7c112e7a07e917da2fac559daca9b1dcd2257871d08b83f403e230970a"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/scule-57cfd152/arms/T1.json",
+      "sha256": "4cfce32917381254074d0fdbef3f80a8f07019282f9f3b3343b17f3d0fd229ce"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/scule-57cfd152/arms/T2.json",
+      "sha256": "660808e47cd9753eae9cc1aab54ddfa3613b17ca0d7b7c5c6ea7e9210ecf8e0d"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/scule-57cfd152/arms/T3.json",
+      "sha256": "e158e41ebf2fcd7e262b5a6b6aa9361ec4ef36f2b35b90b3ac520ecb7ad508bc"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/scule-57cfd152/control/evaluator.json",
+      "sha256": "f63746f6179fcfb9892296bf7fe297ef0a59c9987948bd517a6d7bb60ad22ca7"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/scule-57cfd152/visible/issue.md",
+      "sha256": "7b74845d7967ae92c6b66855905cfec321981eb84c74f3dd553b1582f37b2c55"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/tomlkit-43668dde/arms/T1.json",
+      "sha256": "13c3721ee3202c8c72424ebb4f5ef50a8bd82c02e5311d90250e7cf3c7800b03"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/tomlkit-43668dde/arms/T2.json",
+      "sha256": "f6793a14477f3ed219f7fe4d94edd8810e8d2f37e385bcd12e6ff822ead8a49b"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/tomlkit-43668dde/arms/T3.json",
+      "sha256": "ced20e8bb72dac5c5b3ad672aee4a00a71b20e8f4fc18d2165673cb807d082fa"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/tomlkit-43668dde/control/evaluator.json",
+      "sha256": "895aafd046a4b80b502cafd0b64406a785bf387a136952a24f3b4c250235c22f"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/tomlkit-43668dde/visible/issue.md",
+      "sha256": "e5da0968479b5f4abc654917926a48b0aee6580e5250cbc04670cf464ed4021a"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/ufo-5cd9e676/arms/T1.json",
+      "sha256": "969946fbd8ce3d7a6de423b0c46d4a2209c916d117206ca30435ce2c4c42b7d9"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/ufo-5cd9e676/arms/T2.json",
+      "sha256": "60fe6f6932c83b433a55f45827f60564cc90d64a949e6fc9976ee45e767089ad"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/ufo-5cd9e676/arms/T3.json",
+      "sha256": "bab84e265c18c759fdc41ea492f3f0054ed6787b7658872eb88001a339be719d"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/ufo-5cd9e676/control/evaluator.json",
+      "sha256": "8b390cf2a94305b7386092d7d97dc3c19f6e243d2f1a78cf65c53a249fb8888d"
+    },
+    {
+      "path": "tasks/gate-h-heldout/tasks/ufo-5cd9e676/visible/issue.md",
+      "sha256": "2ce460b49cab37b77112ad24e1557391b2a122602414975e898886a14c260990"
+    },
+    {
+      "path": "tasks/gate-h-heldout/validation-results.json",
+      "sha256": "3f17e9f1194b1037436a29d22f52b6996e019e0456ff65ab49331b7363bb764e"
+    }
+  ],
+  "aggregate_sha256": "036d83902e678a7b4c65d6dddf7ba0fbb23fa74f55db5aec343cad83323ca48d"
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "0.1",
+  "protocol_version": "gate-m-real-tasks-v2",
+  "supersedes": "gate-m-real-tasks-2026-08-02-pre-review-v1",
+  "generated_by": "scripts/gate-m/build-v2-corpus.mjs",
+  "change_count": 10,
+  "changes": [
+    {
+      "task_id": "zod-tuple-default",
+      "level": "L5",
+      "field": "payload.plan",
+      "reason": "re-authored as a behavioral contract; V1 wording disclosed implementation mechanism"
+    },
+    {
+      "task_id": "zod-absent-catch",
+      "level": "L5",
+      "field": "payload.plan",
+      "reason": "re-authored as a behavioral contract; V1 wording disclosed implementation mechanism"
+    },
+    {
+      "task_id": "date-fns-zh-month",
+      "level": "L4",
+      "field": "payload.diagnosis",
+      "reason": "re-derived from stage-trace evidence; V1 explained only 2 of 4 observed results"
+    },
+    {
+      "task_id": "date-fns-zh-month",
+      "level": "L5",
+      "field": "payload.plan",
+      "reason": "re-authored as a behavioral contract; V1 wording disclosed implementation mechanism"
+    },
+    {
+      "task_id": "date-fns-zh-month",
+      "level": "L5",
+      "field": "payload.diagnosis",
+      "reason": "re-derived from stage-trace evidence; V1 explained only 2 of 4 observed results"
+    },
+    {
+      "task_id": "type-fest-conditional-keys",
+      "level": "L2",
+      "field": "payload.localization",
+      "reason": "failing boundary now names base-visible symbols instead of prose descriptions"
+    },
+    {
+      "task_id": "type-fest-conditional-keys",
+      "level": "L3",
+      "field": "payload.localization",
+      "reason": "failing boundary now names base-visible symbols instead of prose descriptions"
+    },
+    {
+      "task_id": "type-fest-conditional-keys",
+      "level": "L4",
+      "field": "payload.localization",
+      "reason": "failing boundary now names base-visible symbols instead of prose descriptions"
+    },
+    {
+      "task_id": "type-fest-conditional-keys",
+      "level": "L5",
+      "field": "payload.plan",
+      "reason": "re-authored as a behavioral contract; V1 wording disclosed implementation mechanism"
+    },
+    {
+      "task_id": "type-fest-conditional-keys",
+      "level": "L5",
+      "field": "payload.localization",
+      "reason": "failing boundary now names base-visible symbols instead of prose descriptions"
+    }
+  ]
+}

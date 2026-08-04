@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oh-my-luna.dev/schemas/task-selection-freeze/v0.1",
+  "title": "Frozen representative and high-gap task slices",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "freeze_id", "created_at", "selection_rule_version", "task_pool_sha256", "overlap_policy", "representative_task_ids", "high_gap_task_ids", "representative_rule", "high_gap_rule"],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "freeze_id": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "minLength": 1 },
+    "selection_rule_version": { "type": "string", "minLength": 1 },
+    "task_pool_sha256": { "$ref": "#/$defs/sha256" },
+    "overlap_policy": { "const": "disallowed" },
+    "representative_task_ids": { "$ref": "#/$defs/ids" },
+    "high_gap_task_ids": { "$ref": "#/$defs/ids" },
+    "representative_rule": {
+      "type": "object", "additionalProperties": false, "required": ["method", "randomization_seed", "stratification"],
+      "properties": {
+        "method": { "enum": ["systematic", "seeded_random"] },
+        "randomization_seed": { "type": ["integer", "null"] },
+        "stratification": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "high_gap_rule": {
+      "type": "object", "additionalProperties": false,
+      "required": ["native_model_snapshot", "native_runs_per_task", "failure_rate_threshold", "solvability_evidence", "native_baseline_results_sha256"],
+      "properties": {
+        "native_model_snapshot": { "type": "string", "minLength": 1 },
+        "native_runs_per_task": { "type": "integer", "minimum": 1 },
+        "failure_rate_threshold": { "type": "number", "minimum": 0, "maximum": 1 },
+        "solvability_evidence": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["fixed_commit", "qualified_human", "sol_reference"] } },
+        "native_baseline_results_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+  }
+}

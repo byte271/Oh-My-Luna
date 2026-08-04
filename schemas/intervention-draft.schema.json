@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oh-my-luna.dev/schemas/intervention-draft/v0.1",
+  "title": "Pre-review intervention draft that cannot be scheduled for a model run",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "task_id", "task_base_commit", "intervention_level", "design", "payload", "source", "information_boundary", "review_status", "provenance"],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "task_id": { "$ref": "#/$defs/id" },
+    "task_base_commit": { "type": "string", "minLength": 7 },
+    "intervention_level": { "$ref": "#/$defs/level" },
+    "design": { "enum": ["cumulative", "independent"] },
+    "payload": {
+      "type": "object", "additionalProperties": false, "minProperties": 1,
+      "properties": {
+        "context": { "type": "object", "additionalProperties": false, "required": ["regions"], "properties": { "regions": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/region" } } } },
+        "localization": { "type": "object", "additionalProperties": false, "required": ["symbols", "failing_boundary"], "properties": {
+          "symbols": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/symbol" } },
+          "failing_boundary": { "type": "object", "additionalProperties": false, "required": ["producer_symbol", "consumer_symbol", "type"], "properties": { "producer_symbol": { "type": "string", "minLength": 1 }, "consumer_symbol": { "type": "string", "minLength": 1 }, "type": { "enum": ["call", "return", "state_write", "async_callback", "io", "configuration"] } } }
+        } },
+        "observation": { "type": "object", "additionalProperties": false, "required": ["facts"], "properties": { "facts": { "type": "array", "minItems": 1, "items": { "type": "object", "additionalProperties": false, "required": ["statement", "evidence_refs", "certainty"], "properties": { "statement": { "type": "string", "minLength": 1 }, "evidence_refs": { "$ref": "#/$defs/nonEmptyStrings" }, "certainty": { "enum": ["observed", "inferred_from_trace", "uncertain"] } } } } } },
+        "diagnosis": { "type": "object", "additionalProperties": false, "required": ["root_cause", "supporting_evidence_refs", "certainty"], "properties": { "root_cause": { "type": "string", "minLength": 1 }, "supporting_evidence_refs": { "$ref": "#/$defs/nonEmptyStrings" }, "certainty": { "enum": ["confirmed", "high", "qualified"] } } },
+        "plan": { "type": "object", "additionalProperties": false, "required": ["behavioral_objective", "constraints", "non_goals"], "properties": { "behavioral_objective": { "type": "string", "minLength": 1 }, "constraints": { "$ref": "#/$defs/nonEmptyStrings" }, "non_goals": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } } } }
+      }
+    },
+    "source": { "type": "object", "additionalProperties": false, "required": ["kind", "evidence_refs", "fixed_commit_accessible_to_agent", "facts_visible_from_base"], "properties": { "kind": { "enum": ["model_authored_unreviewed", "human_validated", "execution_derived", "history_derived", "synthetic_mechanics_only"] }, "evidence_refs": { "$ref": "#/$defs/nonEmptyStrings" }, "fixed_commit_accessible_to_agent": { "const": false }, "facts_visible_from_base": { "type": "boolean" } } },
+    "information_boundary": { "type": "object", "additionalProperties": false, "required": ["allowed_categories", "forbidden_categories", "contains_diagnosis", "contains_plan", "contains_code_location", "contains_exact_identifier", "contains_patch_text"], "properties": { "allowed_categories": { "$ref": "#/$defs/nonEmptyStrings" }, "forbidden_categories": { "$ref": "#/$defs/nonEmptyStrings" }, "contains_diagnosis": { "type": "boolean" }, "contains_plan": { "type": "boolean" }, "contains_code_location": { "type": "boolean" }, "contains_exact_identifier": { "type": "boolean" }, "contains_patch_text": { "const": false } } },
+    "review_status": { "const": "pending_independent_review" },
+    "provenance": { "type": "object", "additionalProperties": false, "required": ["author_id", "author_class", "created_at", "rubric_version", "revision", "content_sha256"], "properties": { "author_id": { "type": "string", "minLength": 1 }, "author_class": { "enum": ["model_assisted_primary_author", "human_primary_author"] }, "created_at": { "type": "string", "minLength": 1 }, "rubric_version": { "const": "oracle-boundary/1.0.0" }, "revision": { "type": "integer", "minimum": 1 }, "content_sha256": { "$ref": "#/$defs/sha256" } } }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "level": { "enum": ["L1_context", "L2_localization", "L3_observation", "L4_diagnosis", "L5_plan"] },
+    "nonEmptyStrings": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "region": { "type": "object", "additionalProperties": false, "required": ["path", "start_line", "end_line"], "properties": { "path": { "type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$" }, "start_line": { "type": "integer", "minimum": 1 }, "end_line": { "type": "integer", "minimum": 1 } } },
+    "symbol": { "type": "object", "additionalProperties": false, "required": ["path", "name", "kind"], "properties": { "path": { "type": "string", "minLength": 1 }, "name": { "type": "string", "minLength": 1 }, "kind": { "enum": ["function", "method", "class", "module", "variable", "configuration"] } } }
+  }
+}

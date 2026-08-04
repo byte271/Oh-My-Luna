@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.1",
+  "policy_id": "gate-m-independent-review/1.0.0",
+  "rubric_version": "oracle-boundary/1.0.0",
+  "required_distinct_reviewers": 2,
+  "author_may_review": false,
+  "reviewers_may_see_prior_decisions": false,
+  "packet_order_blinded": true,
+  "target_level_hidden": true,
+  "accepted_reviewer_classes": ["human", "separately_operated_external_model"],
+  "model_review_not_equivalent_to_human_review": true,
+  "collapse_rule": {
+    "levels": ["L3_observation", "L4_diagnosis"],
+    "exact_agreement_threshold": 0.8,
+    "collapse_if_below_threshold": true,
+    "qualitative_triggers": [
+      "disagreement repeatedly centers on unavoidable causal wording",
+      "removing causal interpretation makes L3 unusable",
+      "L4 cannot be authored without nearly specifying the repair"
+    ],
+    "registered_before_reviews": true
+  }
+}

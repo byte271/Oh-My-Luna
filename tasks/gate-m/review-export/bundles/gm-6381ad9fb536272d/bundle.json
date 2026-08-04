@@ -1,0 +1,89 @@
+{
+  "schema_version": "0.1",
+  "opaque_packet_id": "gm-6381ad9fb536272d",
+  "rubric_version": "oracle-boundary/1.0.0",
+  "target_level_disclosed": false,
+  "previous_reviews_included": false,
+  "issue": "# Catch fallback fails for an absent object key\n\nAn object property built from a preprocessing schema followed by `.catch([])` throws when the property is absent instead of returning the catch fallback.\n\nParse an empty object with a property that preprocesses a missing value into an empty array, validates an array of strings, and applies `.catch([])`. The parsed result should contain an empty array for that property.\n",
+  "base_state_source_excerpt": "FILE packages/zod/src/v4/core/schemas.ts\nLINES 3470-3502\n  3470\tfunction handleOptionalResult(result: ParsePayload, input: unknown) {\n  3471\t  if (result.issues.length && input === undefined) {\n  3472\t    return { issues: [], value: undefined };\n  3473\t  }\n  3474\t  return result;\n  3475\t}\n  3476\t\n  3477\texport const $ZodOptional: core.$constructor<$ZodOptional> = /*@__PURE__*/ core.$constructor(\n  3478\t  \"$ZodOptional\",\n  3479\t  (inst, def) => {\n  3480\t    $ZodType.init(inst, def);\n  3481\t    inst._zod.optin = \"optional\";\n  3482\t    inst._zod.optout = \"optional\";\n  3483\t\n  3484\t    util.defineLazy(inst._zod, \"values\", () => {\n  3485\t      return def.innerType._zod.values ? new Set([...def.innerType._zod.values, undefined]) : undefined;\n  3486\t    });\n  3487\t    util.defineLazy(inst._zod, \"pattern\", () => {\n  3488\t      const pattern = def.innerType._zod.pattern;\n  3489\t      return pattern ? new RegExp(`^(${util.cleanRegex(pattern.source)})?$`) : undefined;\n  3490\t    });\n  3491\t\n  3492\t    inst._zod.parse = (payload, ctx) => {\n  3493\t      if (def.innerType._zod.optin === \"optional\") {\n  3494\t        const result = def.innerType._zod.run(payload, ctx);\n  3495\t        if (result instanceof Promise) return result.then((r) => handleOptionalResult(r, payload.value));\n  3496\t        return handleOptionalResult(result, payload.value);\n  3497\t      }\n  3498\t      if (payload.value === undefined) {\n  3499\t        return payload;\n  3500\t      }\n  3501\t      return def.innerType._zod.run(payload, ctx);\n  3502\t    };\n\nFILE packages/zod/src/v4/core/schemas.ts\nLINES 3887-3932\n  3887\texport const $ZodCatch: core.$constructor<$ZodCatch> = /*@__PURE__*/ core.$constructor(\"$ZodCatch\", (inst, def) => {\n  3888\t  $ZodType.init(inst, def);\n  3889\t  util.defineLazy(inst._zod, \"optin\", () => def.innerType._zod.optin);\n  3890\t  util.defineLazy(inst._zod, \"optout\", () => def.innerType._zod.optout);\n  3891\t  util.defineLazy(inst._zod, \"values\", () => def.innerType._zod.values);\n  3892\t\n  3893\t  inst._zod.parse = (payload, ctx) => {\n  3894\t    if (ctx.direction === \"backward\") {\n  3895\t      return def.innerType._zod.run(payload, ctx);\n  3896\t    }\n  3897\t\n  3898\t    // Forward direction (decode): apply catch logic\n  3899\t    const result = def.innerType._zod.run(payload, ctx);\n  3900\t    if (result instanceof Promise) {\n  3901\t      return result.then((result) => {\n  3902\t        payload.value = result.value;\n  3903\t        if (result.issues.length) {\n  3904\t          payload.value = def.catchValue({\n  3905\t            ...payload,\n  3906\t            error: {\n  3907\t              issues: result.issues.map((iss) => util.finalizeIssue(iss, ctx, core.config())),\n  3908\t            },\n  3909\t            input: payload.value,\n  3910\t          });\n  3911\t          payload.issues = [];\n  3912\t        }\n  3913\t\n  3914\t        return payload;\n  3915\t      });\n  3916\t    }\n  3917\t\n  3918\t    payload.value = result.value;\n  3919\t    if (result.issues.length) {\n  3920\t      payload.value = def.catchValue({\n  3921\t        ...payload,\n  3922\t        error: {\n  3923\t          issues: result.issues.map((iss) => util.finalizeIssue(iss, ctx, core.config())),\n  3924\t        },\n  3925\t        input: payload.value,\n  3926\t      });\n  3927\t\n  3928\t      payload.issues = [];\n  3929\t    }\n  3930\t\n  3931\t    return payload;\n  3932\t  };",
+  "packet_under_review": {
+    "schema_version": "0.1",
+    "design": "cumulative",
+    "payload": {
+      "context": {
+        "regions": [
+          {
+            "path": "packages/zod/src/v4/core/schemas.ts",
+            "start_line": 3470,
+            "end_line": 3502
+          },
+          {
+            "path": "packages/zod/src/v4/core/schemas.ts",
+            "start_line": 3887,
+            "end_line": 3932
+          }
+        ]
+      },
+      "localization": {
+        "symbols": [
+          {
+            "path": "packages/zod/src/v4/core/schemas.ts",
+            "name": "handleOptionalResult",
+            "kind": "function"
+          },
+          {
+            "path": "packages/zod/src/v4/core/schemas.ts",
+            "name": "$ZodOptional",
+            "kind": "variable"
+          },
+          {
+            "path": "packages/zod/src/v4/core/schemas.ts",
+            "name": "$ZodCatch",
+            "kind": "variable"
+          }
+        ],
+        "failing_boundary": {
+          "producer_symbol": "$ZodCatch",
+          "consumer_symbol": "$ZodOptional",
+          "type": "return"
+        }
+      },
+      "observation": {
+        "facts": [
+          {
+            "statement": "Parsing an empty object with the reported preprocessed array property followed by catch([]) exits with an invalid_type issue whose expected value is nonoptional and whose path is ['area'].",
+            "evidence_refs": [
+              "evidence:base-run"
+            ],
+            "certainty": "observed"
+          }
+        ]
+      },
+      "diagnosis": {
+        "root_cause": "Catch substitutes a successful fallback after its inner schema reports issues, but the absent-property path still derives input optionality and downstream handling from the inner schema, so the substituted result is treated as a missing nonoptional property.",
+        "supporting_evidence_refs": [
+          "base:packages/zod/src/v4/core/schemas.ts:3470-3502",
+          "base:packages/zod/src/v4/core/schemas.ts:3887-3932",
+          "evidence:base-run"
+        ],
+        "certainty": "confirmed"
+      },
+      "plan": {
+        "behavioral_objective": "Honor a catch fallback when the wrapped property is absent and carry enough result semantics for an optional wrapper to distinguish fallback substitution from an ordinary absent value.",
+        "constraints": [
+          "Preserve catch behavior for present invalid values.",
+          "Preserve ordinary optional-property omission semantics.",
+          "Keep synchronous and asynchronous catch paths equivalent."
+        ],
+        "non_goals": [
+          "Do not change the public catch callback API.",
+          "Do not make every inner schema optional."
+        ]
+      }
+    }
+  },
+  "reviewer_material": {
+    "repair_comparison_file": "repair-comparison.patch",
+    "answer_file": "answer-template.json"
+  }
+}

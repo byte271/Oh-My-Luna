@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-h-heldout-v1",
+  "task_id": "tomlkit-43668dde",
+  "treatment_id": "T1",
+  "combined_arm": false,
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "tomlkit/container.py",
+          "start_line": 350,
+          "end_line": 400
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "tomlkit/container.py",
+          "name": "Container",
+          "kind": "class"
+        },
+        {
+          "path": "tomlkit/container.py",
+          "name": "_handle_dotted_key",
+          "kind": "method"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "Container.append",
+        "consumer_symbol": "Container.as_string",
+        "type": "return"
+      }
+    }
+  },
+  "content_sha256": "93e4509124aa163a4cb49b7d621f76d4e51f269e5969103dce69bac8c448f0a0"
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "snapshot_id": "openai-api-pricing-2026-08-01",
+  "retrieved_at": "2026-08-01",
+  "currency": "USD",
+  "unit": "per_1m_text_tokens",
+  "sources": [
+    {
+      "id": "openai-luna-model",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.6-luna"
+    },
+    {
+      "id": "openai-sol-model",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.6-sol"
+    }
+  ],
+  "models": {
+    "gpt-5.6-luna": {
+      "input": 0.2,
+      "cached_input": 0.02,
+      "output": 1.2,
+      "long_context": {
+        "threshold_input_tokens": 272000,
+        "input_multiplier": 2,
+        "output_multiplier": 1.5
+      },
+      "cache_write_multiplier": 1.25
+    },
+    "gpt-5.6-sol": {
+      "input": 5,
+      "cached_input": 0.5,
+      "output": 30,
+      "long_context": {
+        "threshold_input_tokens": 272000,
+        "input_multiplier": 2,
+        "output_multiplier": 1.5
+      },
+      "cache_write_multiplier": 1.25
+    }
+  },
+  "derived_ratios": {
+    "sol_to_luna_input": 25,
+    "sol_to_luna_cached_input": 25,
+    "sol_to_luna_output": 25
+  },
+  "limitations": [
+    "Tool-call charges are not included.",
+    "Batch, flex, priority, data residency, and other service-tier adjustments are not included.",
+    "The current aggregate usage contract cannot reconstruct per-request long-context or cache-write charges; real adapters must preserve billing line items."
+  ]
+}

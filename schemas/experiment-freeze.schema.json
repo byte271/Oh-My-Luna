@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oh-my-luna.dev/schemas/experiment-freeze/v0.1",
+  "title": "Immutable identities for one experiment execution",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "freeze_id", "created_at", "task_selection_freeze_sha256", "experiment_plan_sha256", "task_fixtures", "interventions", "prompts", "model_snapshot", "reasoning_effort", "environment_definition_sha256"],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "freeze_id": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "minLength": 1 },
+    "task_selection_freeze_sha256": { "$ref": "#/$defs/sha256" },
+    "experiment_plan_sha256": { "$ref": "#/$defs/sha256" },
+    "task_fixtures": { "type": "array", "minItems": 1, "items": { "type": "object", "additionalProperties": false, "required": ["task_id", "fixture_sha256", "repository_commit"], "properties": { "task_id": { "type": "string", "minLength": 1 }, "fixture_sha256": { "$ref": "#/$defs/sha256" }, "repository_commit": { "type": "string", "minLength": 1 } } } },
+    "interventions": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["task_id", "treatment_id", "design", "packet_file_sha256", "review_file_sha256"], "properties": { "task_id": { "type": "string", "minLength": 1 }, "treatment_id": { "$ref": "#/$defs/level" }, "design": { "enum": ["cumulative", "independent"] }, "packet_file_sha256": { "$ref": "#/$defs/sha256" }, "review_file_sha256": { "$ref": "#/$defs/sha256" } } } },
+    "prompts": { "type": "object", "additionalProperties": false, "required": ["native_sha256", "lean_skill_sha256"], "properties": { "native_sha256": { "$ref": "#/$defs/sha256" }, "lean_skill_sha256": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" } } },
+    "model_snapshot": { "type": "string", "minLength": 1 },
+    "reasoning_effort": { "type": "string", "minLength": 1 },
+    "environment_definition_sha256": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "level": { "enum": ["L1_context", "L2_localization", "L3_observation", "L4_diagnosis", "L5_plan", "verification_gap"] }
+  }
+}

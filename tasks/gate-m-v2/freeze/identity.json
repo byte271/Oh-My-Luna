@@ -1,0 +1,699 @@
+{
+  "schema_version": "1.0",
+  "freeze_id": "gate-m-real-tasks-v2-2026-08-02-pre-review",
+  "protocol_version": "gate-m-real-tasks-v2",
+  "created_at": "2026-08-02T12:00:00Z",
+  "phase": "gate_m_method_validation",
+  "status": "pre_review",
+  "capability_claim_permitted": false,
+  "supersedes": {
+    "freeze_id": "gate-m-real-tasks-2026-08-02-pre-review-v1",
+    "relationship": "provenance_only",
+    "note": "V2 does not depend on the V1 freeze. V1 is preserved intact as a rejected protocol version; see tasks/gate-m/V1-STATUS.md."
+  },
+  "code_identity": {
+    "commit": "28bf87d1630ce160a9a36cc693e9f5fa7c093c74",
+    "tree": "f17d701adc2396cd32c6674eaf6d07faa3f72b53"
+  },
+  "environment": {
+    "platform": "linux",
+    "architecture": "x64",
+    "node_versions_validated": [
+      "v22.22.2",
+      "v24.18.1"
+    ],
+    "clean_clone_provisioning_required": true,
+    "provisioning_entry_point": "npm run gate-m:provision",
+    "validation_entry_point": "npm run gate-m:validate",
+    "network_required_during_provisioning_only": true
+  },
+  "tasks": [
+    {
+      "task_id": "zod-tuple-default",
+      "repo": "colinhacks/zod",
+      "base": "ec979ad783a9e9c992d3c9bd4e5f3b56110b1ef8",
+      "corrected": "b6066b3e4730fc8b966d13974b4abae8dce25df4",
+      "base_archive": "db2a94e7fde8db8d3ea244df4dd94b3b8172d801e062384b5efc9dfbd7ffc72c",
+      "corrected_archive": "9223198b45c0e7b62bb24830b9c370493ffcc24968806fd360c96a3f47b7f142",
+      "license": "MIT",
+      "repositories_represented": 3
+    },
+    {
+      "task_id": "zod-absent-catch",
+      "repo": "colinhacks/zod",
+      "base": "b8dffe9e62f17e6571e6249d05cc5102b54d94e4",
+      "corrected": "1cab69383fcdeae2a366d5e2a2fc4d8fc765d168",
+      "base_archive": "c5b0f46d101a54485e440382bb67852391771e98f941a50c6810b5dabc49c24c",
+      "corrected_archive": "3807313c68bad89e1d63a00a6fb5945a645a1b173262c9654b2828da21f71ddb",
+      "license": "MIT",
+      "repositories_represented": 3
+    },
+    {
+      "task_id": "date-fns-zh-month",
+      "repo": "date-fns/date-fns",
+      "base": "39d1e14200cead9e4be5df88695b5e82082875ed",
+      "corrected": "b9c5865edb7610c59e6b3694ed1e1691f4807688",
+      "base_archive": "2521606bb70dd781849cc7a5f120ba09a89a3f9b0ab98ddfa984427ddd3ff00a",
+      "corrected_archive": "1fb62cb08a98addb864d5e37c63e7469f7f5b05fd66d80e842dc35835a1e2dbd",
+      "license": "MIT",
+      "repositories_represented": 3
+    },
+    {
+      "task_id": "type-fest-conditional-keys",
+      "repo": "sindresorhus/type-fest",
+      "base": "b6d8dd60726a8d7df5a5eea3b3c9d830804d2570",
+      "corrected": "0fb2d62f7d222d3effb0ad89d5b340e36285bcc4",
+      "base_archive": "7fdeb70c2eab145029340e3c64288ad349bff000d2d3ad6ed1d2903bc8e5097c",
+      "corrected_archive": "747ea7d24e27ae6e97b46c3b4f3837e57b80facbce31a62ace479cd9ba00384d",
+      "license": "MIT OR CC0-1.0",
+      "repositories_represented": 3
+    }
+  ],
+  "model_execution": {
+    "live_model_calls": false,
+    "adapter_id": "deterministic-test-double",
+    "model_snapshot": "test-double/not-a-model@fixture-1",
+    "reasoning_effort": "none"
+  },
+  "review": {
+    "policy_sha256": "d4b582a28df736527f612205d1087b03791dd2072b610893eddedfe34399f78f",
+    "rubric_sha256": "3c2658c86bced2c0b6483a370b67df94aa21e907e14d52339a0dc145fabd14d8",
+    "required_distinct_reviewers": 2,
+    "completed_distinct_reviewers": 0,
+    "agreement_status": "pending",
+    "l3_l4_threshold": 0.8,
+    "l3_l4_decision": "pending",
+    "structural_level_cue_removed": true,
+    "randomization": {
+      "seed_sha256": "5641e3b982f9d10ec03f6fa208427e7a3560b7688eb993164e3699e30f4a0752",
+      "seed_is_controller_only": true,
+      "bundle_display_order": [
+        "gm2-84ba97e28b318ee0",
+        "gm2-1556a9ce9c04d4bd",
+        "gm2-35d1a7cdfce9c339",
+        "gm2-cbfbe1ef6d780f66",
+        "gm2-45d116a9ec539d80",
+        "gm2-c72f21c720f32ac5",
+        "gm2-707fd6a36a7c611b",
+        "gm2-4676c34db0147d7a",
+        "gm2-35dd6d69c1389c99",
+        "gm2-56fab98e7718b4be",
+        "gm2-ea222d3ce11c50c4",
+        "gm2-0dcef650a035e6dc",
+        "gm2-1281fc4d1be5e8b6",
+        "gm2-7a860b63d91b1431",
+        "gm2-e2b499bb27c821bc",
+        "gm2-21f402c4934174cb",
+        "gm2-629cc181003ebb6f",
+        "gm2-232bf14c131a44fc",
+        "gm2-8369ca0c809de894",
+        "gm2-a5dda6a319c872c0"
+      ]
+    }
+  },
+  "negative_controls": [
+    {
+      "id": "evaluator_argv_canary",
+      "description": "Evaluator must not receive treatment identity through argv.",
+      "test": "scorer declared interface rejects treatment canaries in argv, environment, stdin, and filenames"
+    },
+    {
+      "id": "evaluator_env_canary",
+      "description": "Evaluator must not receive treatment identity through the environment.",
+      "test": "scorer declared interface rejects treatment canaries in argv, environment, stdin, and filenames"
+    },
+    {
+      "id": "evaluator_workspace_canary",
+      "description": "Evaluator must not read treatment identity from workspace filenames.",
+      "test": "scorer rejects a canary embedded in a copied workspace filename"
+    },
+    {
+      "id": "adjacent_trace_isolation",
+      "description": "Evaluator must not reach the orchestrator trace beside its workspace.",
+      "test": "scorer uses a detached workspace and does not expose the adjacent orchestrator trace by its interface"
+    },
+    {
+      "id": "freeze_mutation_detection",
+      "description": "Mutating a bound packet must fail closed.",
+      "test": "rejects packet modified after freeze"
+    },
+    {
+      "id": "pre_review_not_executable",
+      "description": "A pre-review freeze must not be usable as an executable schedule.",
+      "test": "pre-review freeze cannot masquerade as executable"
+    },
+    {
+      "id": "control_path_leak",
+      "description": "User-visible receipts must reject controller-only artifact paths.",
+      "test": "user-visible receipt metadata rejects control-only artifact paths"
+    }
+  ],
+  "scorer": {
+    "source_path": "src/scoring.ts",
+    "source_sha256": "63cfba421d028f18326c144438e313b950faf462fb187ac07154868846a2b601",
+    "classification": "interface_blind_host_confidentiality_not_enforced"
+  },
+  "treatment_execution": {
+    "executable": false,
+    "schedule_sha256": null,
+    "blocked_by": [
+      "zero policy-eligible independent reviews completed (0 of 2 required)",
+      "no approved intervention packets",
+      "L3/L4 collapse decision pending"
+    ]
+  },
+  "artifact_count": 106,
+  "artifacts": [
+    {
+      "role": "harness",
+      "path": "data/pricing/openai-2026-08-02.evidence.json",
+      "sha256": "d58b6f84a329744106cd3f730b7c0719e815c05d44353bc400e170ad5d113aac"
+    },
+    {
+      "role": "harness",
+      "path": "fixtures/smoke/deterministic-adapter.mjs",
+      "sha256": "87226387ebb4f57ee813e9e45391b99df3159cec3693567a5727deb8a9dda111"
+    },
+    {
+      "role": "harness",
+      "path": "scripts/gate-m/build-v2-corpus.mjs",
+      "sha256": "2e63b011940dff365c0372466a02ccaf66b0bf2b4e01a924fe89d7cbf4e4b242"
+    },
+    {
+      "role": "harness",
+      "path": "scripts/gate-m/generate-v2-review-bundles.mjs",
+      "sha256": "870095f52b90eabbf305842520ca0af3b48ee3423a83058494c2125885da6bae"
+    },
+    {
+      "role": "harness",
+      "path": "scripts/gate-m/provision-sources.mjs",
+      "sha256": "60f22d3aba7ef64c608ffacc46d4c9372a5ae784f796188ac0e59ea88393d1ab"
+    },
+    {
+      "role": "harness",
+      "path": "scripts/gate-m/validate-real-tasks.mjs",
+      "sha256": "89afa7bb9b859d07d284e08dfa9ffb825bff31a7d0dc7aed434be0048588ccf3"
+    },
+    {
+      "role": "harness",
+      "path": "src/scoring.ts",
+      "sha256": "63cfba421d028f18326c144438e313b950faf462fb187ac07154868846a2b601"
+    },
+    {
+      "role": "v2_material",
+      "path": "tasks/gate-m-v2/CHANGES-FROM-V1.json",
+      "sha256": "7d20a07f4267532f6075a1cfc7f2734ec3728743996db422ca1bc88cb697481d"
+    },
+    {
+      "role": "diagnosis_evidence",
+      "path": "tasks/gate-m-v2/date-fns-zh-month/control/evidence/stage-trace.mjs",
+      "sha256": "0d16275a1ee594954d2330002e4ddbadb9d924d5d8e9dadf1793587ae7bba396"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/date-fns-zh-month/interventions/L1.json",
+      "sha256": "283c31ad9bed83cdc90b56c104820232c18d6941200f1fc3a7f3fde264d7c12e"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/date-fns-zh-month/interventions/L2.json",
+      "sha256": "8d90ddd153ffea8dca12576827f9cd216e6331c9184e2b04fd2fc734d6295d5c"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/date-fns-zh-month/interventions/L3.json",
+      "sha256": "41a5abd73235725dda5f88e0e1c0ace7a618768ebb77453fe79508499a8e96ac"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/date-fns-zh-month/interventions/L4.json",
+      "sha256": "6b43d59881c4725c2201eda414e4a6ff014428c5d5dbd46b1d13bd63bbf968ed"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/date-fns-zh-month/interventions/L5.json",
+      "sha256": "7e5e5003c0b90b79cdcaf2043ca3bf1e7829c022346259a7f3590a856245fa20"
+    },
+    {
+      "role": "v2_material",
+      "path": "tasks/gate-m-v2/PROTOCOL.md",
+      "sha256": "f252b590d85808fce0060dfe4cc955b25ae633ea0be949621ff652acf27acc8a"
+    },
+    {
+      "role": "review_control",
+      "path": "tasks/gate-m-v2/review-control/bundle-mapping.json",
+      "sha256": "e2b48adb2310a945636dcac240dcd0819cd34e0c6f856ce1bc7d0ee83ad61b1b"
+    },
+    {
+      "role": "review_control",
+      "path": "tasks/gate-m-v2/review-control/policy.json",
+      "sha256": "d4b582a28df736527f612205d1087b03791dd2072b610893eddedfe34399f78f"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-0dcef650a035e6dc/answer-template.json",
+      "sha256": "ad9fc159322669b873815376433af4938744cdc8c1f83e440b25752abe91ffaf"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-0dcef650a035e6dc/bundle.json",
+      "sha256": "cc5a56c8a52d75362e84723adcfd4d6e4f0bf8fb9408b067be5d6783adf74022"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-0dcef650a035e6dc/repair-comparison.patch",
+      "sha256": "0ac27a210827b3cf7741dad0a8b1754b481cda51f49038d83023037b257d5901"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-1281fc4d1be5e8b6/answer-template.json",
+      "sha256": "505f15cbebf2e754ab805f34c31ec9cf6c21cbf5027cac0562b56d8dd09f9373"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-1281fc4d1be5e8b6/bundle.json",
+      "sha256": "e76908a34d794a443163246c9506214ebc9c4e7d2de3e1010b72c3fa74f14635"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-1281fc4d1be5e8b6/repair-comparison.patch",
+      "sha256": "0ac27a210827b3cf7741dad0a8b1754b481cda51f49038d83023037b257d5901"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-1556a9ce9c04d4bd/answer-template.json",
+      "sha256": "eff65132ae392d550ea716df7a93ada87c0a790eb274d5bef93c27504cabff02"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-1556a9ce9c04d4bd/bundle.json",
+      "sha256": "9be574d0351e263fe587859c42016886a58f5e60b6e988e2a75e4a4fece2c5b2"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-1556a9ce9c04d4bd/repair-comparison.patch",
+      "sha256": "375eca2d5fc7591b9795a47a0b1c94fe633c8407d07325144ed93b11f3379d4f"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-21f402c4934174cb/answer-template.json",
+      "sha256": "e35e71104988acd4234a48dfaa3680da0a1dd0aa145ca2ccb4a28c76a6ac02db"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-21f402c4934174cb/bundle.json",
+      "sha256": "d2d0d60f2bae9927292a82c2969b71e929b85a67068279905f9410633d1dd148"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-21f402c4934174cb/repair-comparison.patch",
+      "sha256": "7a9d411994faf1a38e2e65cc375606c10b2740417b77d460d370198926626f8b"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-232bf14c131a44fc/answer-template.json",
+      "sha256": "5c3d3226e8a78a3adf676eb49a7c978f6c5b6cb9db74db91c82b5673cabfd27d"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-232bf14c131a44fc/bundle.json",
+      "sha256": "5522750710a5fa7ea8c8618ede91cc59e3e73af9deb75431d212feb4c9c67758"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-232bf14c131a44fc/repair-comparison.patch",
+      "sha256": "0ac27a210827b3cf7741dad0a8b1754b481cda51f49038d83023037b257d5901"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-35d1a7cdfce9c339/answer-template.json",
+      "sha256": "d16238b1c9f2948625c869f3cb6a40517e410bd34e24615d91e9b5d533cf375b"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-35d1a7cdfce9c339/bundle.json",
+      "sha256": "e0703cdde8f1543c10d82ea5040972a126ed2eb32fea17086e0c0c307d3d8c17"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-35d1a7cdfce9c339/repair-comparison.patch",
+      "sha256": "0ac27a210827b3cf7741dad0a8b1754b481cda51f49038d83023037b257d5901"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-35dd6d69c1389c99/answer-template.json",
+      "sha256": "88886c17ebe63f7fc74c3cec558dc23e60361ea4ba9f7f39076aa6122388b6f8"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-35dd6d69c1389c99/bundle.json",
+      "sha256": "39b22b65a4e7e2f235e8ed30b6a2d834078ad98c21f4bb3821f9c767edc1dfba"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-35dd6d69c1389c99/repair-comparison.patch",
+      "sha256": "7a9d411994faf1a38e2e65cc375606c10b2740417b77d460d370198926626f8b"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-45d116a9ec539d80/answer-template.json",
+      "sha256": "55cd295135ce1a850183a0af35b0c3db355eb7d46c4a0429a1bfbc5bf63704b9"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-45d116a9ec539d80/bundle.json",
+      "sha256": "10e074de0e8896fcab7dbc685853ebd3293f58c29ae268f7670bd09320ac1a6c"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-45d116a9ec539d80/repair-comparison.patch",
+      "sha256": "7a9d411994faf1a38e2e65cc375606c10b2740417b77d460d370198926626f8b"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-4676c34db0147d7a/answer-template.json",
+      "sha256": "ccfd64c99323853ba6810a2ab1e6031ea621eff69fee871e1a1047191e92d930"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-4676c34db0147d7a/bundle.json",
+      "sha256": "cfe6cb214225bf412a9b7912d2aa3b5ed62e0c262b5b1c372fc14cbec58b0e88"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-4676c34db0147d7a/repair-comparison.patch",
+      "sha256": "486708ccc895b9b87a90c8fb582abd546441f4404f6e741b38de6fef899ba55c"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-56fab98e7718b4be/answer-template.json",
+      "sha256": "80031ddbcec803c6d29f2310f35198aa594d479aff59b7a3d1cce6c6cbcafc1e"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-56fab98e7718b4be/bundle.json",
+      "sha256": "65e7afcf07a914aebd3eb6a8f6b09452f770f357c50b43635f146ff7492f2872"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-56fab98e7718b4be/repair-comparison.patch",
+      "sha256": "486708ccc895b9b87a90c8fb582abd546441f4404f6e741b38de6fef899ba55c"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-629cc181003ebb6f/answer-template.json",
+      "sha256": "8d58db4007d10b7706176c63bf48bd6ef40e2e7b438f303b4ed4d00651f53bb7"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-629cc181003ebb6f/bundle.json",
+      "sha256": "98e1a2a47b844985a9e9595ac2e9ff31d52b0b0cf015a869ee0a4c800cd375ee"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-629cc181003ebb6f/repair-comparison.patch",
+      "sha256": "486708ccc895b9b87a90c8fb582abd546441f4404f6e741b38de6fef899ba55c"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-707fd6a36a7c611b/answer-template.json",
+      "sha256": "5e7a2eb346d2fe804fded06c8216ed91c6fb1944bcf42292cc5af591b5215cf7"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-707fd6a36a7c611b/bundle.json",
+      "sha256": "75a93fbd40d6c9c35eb7af84f2f1983dcb93931ef8f0cb8d3cff3e37bdde9ccd"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-707fd6a36a7c611b/repair-comparison.patch",
+      "sha256": "7a9d411994faf1a38e2e65cc375606c10b2740417b77d460d370198926626f8b"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-7a860b63d91b1431/answer-template.json",
+      "sha256": "03fbcb840c171a5e4293e95cc3e36467e7d1d22cb17f47e6e5989929f47c0f0d"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-7a860b63d91b1431/bundle.json",
+      "sha256": "e42920ea8790f693814de0ca577946d171333bb617ea595a16d183d549f910eb"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-7a860b63d91b1431/repair-comparison.patch",
+      "sha256": "0ac27a210827b3cf7741dad0a8b1754b481cda51f49038d83023037b257d5901"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-8369ca0c809de894/answer-template.json",
+      "sha256": "d97c02f175570780a8f4ef913dfe41fcc5e57b1a8a168eddeede0b84a22410a7"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-8369ca0c809de894/bundle.json",
+      "sha256": "682f5252f8415cdd289fd394aee2b5644fb272303223fb1cc4641b38041de9ae"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-8369ca0c809de894/repair-comparison.patch",
+      "sha256": "486708ccc895b9b87a90c8fb582abd546441f4404f6e741b38de6fef899ba55c"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-84ba97e28b318ee0/answer-template.json",
+      "sha256": "e5bcade706f1ce5980283697e694a8bcf9306fd9326a05e227bc53d789b555b7"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-84ba97e28b318ee0/bundle.json",
+      "sha256": "22da4a2c0521baac3f6cc830abdee5d504e90511db128bc0794f76563bf1fc25"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-84ba97e28b318ee0/repair-comparison.patch",
+      "sha256": "375eca2d5fc7591b9795a47a0b1c94fe633c8407d07325144ed93b11f3379d4f"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-a5dda6a319c872c0/answer-template.json",
+      "sha256": "acf5e5b7939283ff04154d7822ef12b973d275099c73329b548618cfdfdda476"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-a5dda6a319c872c0/bundle.json",
+      "sha256": "7b1044decf4dfc455857bfe002f171dd20a2349478e3d75b104f6027b154989b"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-a5dda6a319c872c0/repair-comparison.patch",
+      "sha256": "375eca2d5fc7591b9795a47a0b1c94fe633c8407d07325144ed93b11f3379d4f"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-c72f21c720f32ac5/answer-template.json",
+      "sha256": "ac16f738f50415432b930223390f698dbe00d8b080ba5490eb30873803d53e14"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-c72f21c720f32ac5/bundle.json",
+      "sha256": "db4a7f7b43b797e058f41be07e0a284fc4917b747a02fbd029fb742538f97d55"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-c72f21c720f32ac5/repair-comparison.patch",
+      "sha256": "486708ccc895b9b87a90c8fb582abd546441f4404f6e741b38de6fef899ba55c"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-cbfbe1ef6d780f66/answer-template.json",
+      "sha256": "1b3522a5818e274e0ff5921f4b7531d9ef025409bd5d3403cb77983aee060c41"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-cbfbe1ef6d780f66/bundle.json",
+      "sha256": "5f786d5e8a368b28368973b8d4b13ee0849af92555be68336fcf60b073dd17c9"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-cbfbe1ef6d780f66/repair-comparison.patch",
+      "sha256": "375eca2d5fc7591b9795a47a0b1c94fe633c8407d07325144ed93b11f3379d4f"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-e2b499bb27c821bc/answer-template.json",
+      "sha256": "b3f512ad490a7f7e01ef3f382cf0699f94a018c362fb8bb4e6b92d65fd2cc967"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-e2b499bb27c821bc/bundle.json",
+      "sha256": "dfda94a053eb1c80f893bfc46274ce60f62ffdba7be3f36c572aa1b6ba71ee84"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-e2b499bb27c821bc/repair-comparison.patch",
+      "sha256": "375eca2d5fc7591b9795a47a0b1c94fe633c8407d07325144ed93b11f3379d4f"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-ea222d3ce11c50c4/answer-template.json",
+      "sha256": "e5cb5dbbef8b2307ff64135921c083cffc57cd81ec951b2695e3d96f11bbb922"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-ea222d3ce11c50c4/bundle.json",
+      "sha256": "bbea15671629e5a552d4838f814c2c42a0c0595a97d339f641e080cd2d60535b"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/bundles/gm2-ea222d3ce11c50c4/repair-comparison.patch",
+      "sha256": "7a9d411994faf1a38e2e65cc375606c10b2740417b77d460d370198926626f8b"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/README.md",
+      "sha256": "b4ce9a966d44710e727a21e3f560f090424d36521cce3796db22734a18975915"
+    },
+    {
+      "role": "review_export",
+      "path": "tasks/gate-m-v2/review-export/RUBRIC.md",
+      "sha256": "3c2658c86bced2c0b6483a370b67df94aa21e907e14d52339a0dc145fabd14d8"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/type-fest-conditional-keys/interventions/L1.json",
+      "sha256": "b468cf46b117758a1b571f260e6e1af8195395e9e5aa04456c79e8af99ee7264"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/type-fest-conditional-keys/interventions/L2.json",
+      "sha256": "030f2f033e34ba78951eae8afd0e0916a140aac0dddb5d6a861e115e460c231d"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/type-fest-conditional-keys/interventions/L3.json",
+      "sha256": "cebb98aaf22622aa93293c7a2df319cbf85d00652bc9c2696ce94104fd1a86e9"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/type-fest-conditional-keys/interventions/L4.json",
+      "sha256": "cddaa1df2bfb5e65b56b1063b882c554d4143caffdd8e91810ed4a9130235675"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/type-fest-conditional-keys/interventions/L5.json",
+      "sha256": "8f491f6dc41ebcb64c7dcbf0c0948ffde19f950532ab5916d148b3fe032235a8"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/zod-absent-catch/interventions/L1.json",
+      "sha256": "b37fbb80531630a30a161c5fd6a9682e1083140b2a9042296922f55ee83518b9"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/zod-absent-catch/interventions/L2.json",
+      "sha256": "9910c5c53a3c53e487b2b3463d04a651a45cfe4dc1a166d5d1b5c37d913c8fab"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/zod-absent-catch/interventions/L3.json",
+      "sha256": "5b429845c0db4aca6b3a6c4b03f0ceb2bd3b8ecd11aba4410c7af45cf03d8ea4"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/zod-absent-catch/interventions/L4.json",
+      "sha256": "2b34153e58f9c8467830b7c9f80d99073512a31213b7815e101516ff9e185167"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/zod-absent-catch/interventions/L5.json",
+      "sha256": "84319efbd3c477296b4583b3e9ec27da768126cf35fad70068f964836c5c5b86"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/zod-tuple-default/interventions/L1.json",
+      "sha256": "ee61dee0ebe109eb7241b333379e53d23e332bc1a4314a3dc67a1b7e1eadc442"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/zod-tuple-default/interventions/L2.json",
+      "sha256": "00b5534bc1628780d18aa9b0ffda92714a371234a609d2bd8f780c4a1eb2640a"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/zod-tuple-default/interventions/L3.json",
+      "sha256": "9ecbba31b379d34478b573cac84c09a76fac1493dc003a54b2f829a930dfb565"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/zod-tuple-default/interventions/L4.json",
+      "sha256": "ab30dfad76905eb63aa4edd4f12f89e56440d8a77d770fd1b0d8003b60625f82"
+    },
+    {
+      "role": "packet",
+      "path": "tasks/gate-m-v2/zod-tuple-default/interventions/L5.json",
+      "sha256": "628ba7d198addfe92df55e5180e35df37809dbc5ede7cc65d0d47c320d189f88"
+    },
+    {
+      "role": "evaluator",
+      "path": "tasks/gate-m/date-fns-zh-month/control/evaluator/verify.mjs",
+      "sha256": "8511e0d97221d4151015d39c7dd223ff24caf86956d85250830821d3a528b38f"
+    },
+    {
+      "role": "manifest",
+      "path": "tasks/gate-m/date-fns-zh-month/manifest.json",
+      "sha256": "b6cea9f3d64a3d28842a10afbe742008951cfc293fef6a53c9fce644791afcf8"
+    },
+    {
+      "role": "visible_issue",
+      "path": "tasks/gate-m/date-fns-zh-month/visible/issue.md",
+      "sha256": "129c95c081d9b28012d66271fc8e6ab868daffbba61b536d1599d3e0bfa4c166"
+    },
+    {
+      "role": "evaluator",
+      "path": "tasks/gate-m/type-fest-conditional-keys/control/evaluator/verify.mjs",
+      "sha256": "14f1c3a2740d2e542a115df6277e5da8ed515c967cc518748dde60937714e1d1"
+    },
+    {
+      "role": "manifest",
+      "path": "tasks/gate-m/type-fest-conditional-keys/manifest.json",
+      "sha256": "ca3aff1d3ea62788e15e04c152acc1a133c5ef004dd71bd36defdab7b3df98d2"
+    },
+    {
+      "role": "visible_issue",
+      "path": "tasks/gate-m/type-fest-conditional-keys/visible/issue.md",
+      "sha256": "87961e952a157b1e42490c844947e67c0976a0d2188898f974a64dd7bedc53d8"
+    },
+    {
+      "role": "evaluator",
+      "path": "tasks/gate-m/zod-absent-catch/control/evaluator/verify.mjs",
+      "sha256": "f27d0c012fd00c750bbf097d051c8c900cfee4231cbcdcaa6af4c05f82213d79"
+    },
+    {
+      "role": "manifest",
+      "path": "tasks/gate-m/zod-absent-catch/manifest.json",
+      "sha256": "2624d2b192a1a69f36833b5712c8fa9515ee1cc9560ffb4d078245763ef407e7"
+    },
+    {
+      "role": "visible_issue",
+      "path": "tasks/gate-m/zod-absent-catch/visible/issue.md",
+      "sha256": "1c34471f1badd195eddb952ed0ee67b26d367ba9524c02c4c5fc1e473765dd45"
+    },
+    {
+      "role": "evaluator",
+      "path": "tasks/gate-m/zod-tuple-default/control/evaluator/verify.mjs",
+      "sha256": "11b21860e83fe0dcbfd09d193d31ef38dffe7a387eedea98c7b46a8336cc6909"
+    },
+    {
+      "role": "manifest",
+      "path": "tasks/gate-m/zod-tuple-default/manifest.json",
+      "sha256": "fa47fe2600b55604995e0ef97185f8eaecfd7319e178e84e76922976925eca96"
+    },
+    {
+      "role": "visible_issue",
+      "path": "tasks/gate-m/zod-tuple-default/visible/issue.md",
+      "sha256": "72fa83b191a6f8caf55f3730a51bee4a8bf0c9e87498772a79a5e3157e7e89d1"
+    }
+  ],
+  "aggregate_sha256": "ed481406b4bac2221f795d93b81d396925c0f066ab13b22a07f0007a10f1640f"
+}

@@ -1,0 +1,7 @@
+{
+  "schema_version": "0.1", "repository_url": "https://github.com/sindresorhus/type-fest", "issue_url": "https://github.com/sindresorhus/type-fest/issues/831", "correcting_pull_request_url": "https://github.com/sindresorhus/type-fest/pull/852",
+  "license": { "spdx": "MIT OR CC0-1.0", "paths": [{ "path": "license-mit", "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3" }, { "path": "license-cc0", "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499" }] },
+  "base_archive_sha256": "7fdeb70c2eab145029340e3c64288ad349bff000d2d3ad6ed1d2903bc8e5097c", "corrected_archive_sha256": "747ea7d24e27ae6e97b46c3b4f3837e57b80facbce31a62ace479cd9ba00384d", "known_repair_sha256": "7a9d411994faf1a38e2e65cc375606c10b2740417b77d460d370198926626f8b",
+  "contamination_risk": "high", "contamination_notes": "The public issue and merged fix predate the study; this task validates method mechanics and is not a held-out capability claim.",
+  "redactions": ["fixed commit identity", "fix commit message", "known repair", "control evaluator", "unassigned packets", "review notes"]
+}

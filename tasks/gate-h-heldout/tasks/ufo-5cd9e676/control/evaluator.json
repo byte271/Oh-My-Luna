@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "warning": "CONTROLLER ONLY. Names the regression tests that detect the defect.",
+  "task_id": "ufo-5cd9e676",
+  "repository": "https://github.com/unjs/ufo",
+  "base_commit": "a7b94e69ff6159de8ddfd4940c90db4708c0d67e",
+  "corrected_commit": "5cd9e676711af3f4e4b5398ddf6ca8d52c1c7e1f",
+  "runner": "vitest",
+  "language": "typescript",
+  "injected_test_files": [
+    "test/base.test.ts"
+  ],
+  "permitted_paths": [
+    "src/utils.ts"
+  ],
+  "base_exit": 1,
+  "corrected_exit": 0
+}

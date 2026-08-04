@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-h-heldout-v1",
+  "task_id": "scule-3815767f",
+  "treatment_id": "T2",
+  "combined_arm": false,
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "src/index.ts",
+          "start_line": 80,
+          "end_line": 110
+        },
+        {
+          "path": "src/types.ts",
+          "start_line": 10,
+          "end_line": 30
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "src/index.ts",
+          "name": "pascalCase",
+          "kind": "function"
+        },
+        {
+          "path": "src/index.ts",
+          "name": "camelCase",
+          "kind": "function"
+        },
+        {
+          "path": "src/index.ts",
+          "name": "upperFirst",
+          "kind": "function"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "splitByCase",
+        "consumer_symbol": "pascalCase",
+        "type": "call"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Running the package test suite against the base commit reports: expected \"FOOBAR\" to match \"FooBar\"; expected \"fOOBAR\" to match \"fooBar\"; expected \"FooBARb\" to match \"FooBaRb\". Characters after the first in each segment retain their original case.",
+          "command": "npx vitest run test",
+          "certainty": "observed"
+        }
+      ]
+    }
+  },
+  "content_sha256": "05950c699a2d3a921694adde5b6641de6e0455016ad6a2ad4617efeab9785e42"
+}

@@ -1,0 +1,68 @@
+{
+  "schema_version": "0.1",
+  "pool_id": "gate-m-real-task-method-validation-2026-08-02",
+  "constructed_at": "2026-08-02T06:00:00Z",
+  "selection_rule_version": "gate-m-method/1.0.0",
+  "candidates": [
+    {
+      "id": "zod-tuple-default",
+      "repository": { "organization": "colinhacks", "name": "zod", "base_commit": "ec979ad783a9e9c992d3c9bd4e5f3b56110b1ef8", "fixed_commit": "b6066b3e4730fc8b966d13974b4abae8dce25df4" },
+      "task_source": { "kind": "issue", "url": "https://github.com/colinhacks/zod/issues/5229" },
+      "task_statement": "Apply trailing tuple defaults when input positions are absent.", "task_family": "regression", "language": "typescript", "estimated_human_difficulty": "medium",
+      "visible_tests": [], "hidden_verifier": { "available": true, "sha256": "11b21860e83fe0dcbfd09d193d31ef38dffe7a387eedea98c7b46a8336cc6909" },
+      "environment": { "reproducible": true, "definition_sha256": "75baf38b9f23a2ca98447e678229fa5f1e7d2a70787171a4ba2c7304182a8751" },
+      "licensing": { "spdx": "MIT", "redistribution_permitted": true },
+      "contamination": { "risk": "high", "notes": "Public historical issue; mechanics-only corpus." },
+      "mechanics": { "base_fails_hidden_verifier": true, "fixed_passes_hidden_verifier": true, "infrastructure_valid": true, "original_failure_evidence_ref": "control/task-validation.json#base", "fixed_success_evidence_ref": "control/task-validation.json#corrected" },
+      "selection": { "status": "included", "exclusion_reason": null, "selected_at": "2026-08-02T06:18:56.243Z" }
+    },
+    {
+      "id": "zod-absent-catch",
+      "repository": { "organization": "colinhacks", "name": "zod", "base_commit": "b8dffe9e62f17e6571e6249d05cc5102b54d94e4", "fixed_commit": "1cab69383fcdeae2a366d5e2a2fc4d8fc765d168" },
+      "task_source": { "kind": "issue", "url": "https://github.com/colinhacks/zod/issues/5937" },
+      "task_statement": "Honor a catch fallback for an absent object property.", "task_family": "regression", "language": "typescript", "estimated_human_difficulty": "medium",
+      "visible_tests": [], "hidden_verifier": { "available": true, "sha256": "f27d0c012fd00c750bbf097d051c8c900cfee4231cbcdcaa6af4c05f82213d79" },
+      "environment": { "reproducible": true, "definition_sha256": "1a6a067cf294c9107ad6f1edba30b0405c8986da71f25559ace7a453f0decb3c" },
+      "licensing": { "spdx": "MIT", "redistribution_permitted": true },
+      "contamination": { "risk": "high", "notes": "Public historical issue; mechanics-only corpus." },
+      "mechanics": { "base_fails_hidden_verifier": true, "fixed_passes_hidden_verifier": true, "infrastructure_valid": true, "original_failure_evidence_ref": "control/task-validation.json#base", "fixed_success_evidence_ref": "control/task-validation.json#corrected" },
+      "selection": { "status": "included", "exclusion_reason": null, "selected_at": "2026-08-02T06:18:56.243Z" }
+    },
+    {
+      "id": "date-fns-zh-month",
+      "repository": { "organization": "date-fns", "name": "date-fns", "base_commit": "39d1e14200cead9e4be5df88695b5e82082875ed", "fixed_commit": "b9c5865edb7610c59e6b3694ed1e1691f4807688" },
+      "task_source": { "kind": "issue", "url": "https://github.com/date-fns/date-fns/issues/3256" },
+      "task_statement": "Parse Chinese October through December without invalid or January results.", "task_family": "bug_fix", "language": "typescript", "estimated_human_difficulty": "small",
+      "visible_tests": [], "hidden_verifier": { "available": true, "sha256": "8511e0d97221d4151015d39c7dd223ff24caf86956d85250830821d3a528b38f" },
+      "environment": { "reproducible": true, "definition_sha256": "1ac4b45beb4c3550311130c225033e7ca6aa1416db3097c11303915a80908425" },
+      "licensing": { "spdx": "MIT", "redistribution_permitted": true },
+      "contamination": { "risk": "high", "notes": "Public historical issue; mechanics-only corpus." },
+      "mechanics": { "base_fails_hidden_verifier": true, "fixed_passes_hidden_verifier": true, "infrastructure_valid": true, "original_failure_evidence_ref": "control/task-validation.json#base", "fixed_success_evidence_ref": "control/task-validation.json#corrected" },
+      "selection": { "status": "included", "exclusion_reason": null, "selected_at": "2026-08-02T06:18:56.243Z" }
+    },
+    {
+      "id": "type-fest-conditional-keys",
+      "repository": { "organization": "sindresorhus", "name": "type-fest", "base_commit": "b6d8dd60726a8d7df5a5eea3b3c9d830804d2570", "fixed_commit": "0fb2d62f7d222d3effb0ad89d5b340e36285bcc4" },
+      "task_source": { "kind": "issue", "url": "https://github.com/sindresorhus/type-fest/issues/831" },
+      "task_statement": "Restore ConditionalKeys compatibility with optional properties under TypeScript 5.4.", "task_family": "compatibility", "language": "typescript", "estimated_human_difficulty": "small",
+      "visible_tests": [], "hidden_verifier": { "available": true, "sha256": "14f1c3a2740d2e542a115df6277e5da8ed515c967cc518748dde60937714e1d1" },
+      "environment": { "reproducible": true, "definition_sha256": "ffb4539e0105978c75fdfc544244b9b294a3fc9c28de826c70469dd8a1354afa" },
+      "licensing": { "spdx": "MIT OR CC0-1.0", "redistribution_permitted": true },
+      "contamination": { "risk": "high", "notes": "Public historical issue; mechanics-only corpus." },
+      "mechanics": { "base_fails_hidden_verifier": true, "fixed_passes_hidden_verifier": true, "infrastructure_valid": true, "original_failure_evidence_ref": "control/task-validation.json#base", "fixed_success_evidence_ref": "control/task-validation.json#corrected" },
+      "selection": { "status": "included", "exclusion_reason": null, "selected_at": "2026-08-02T06:18:56.243Z" }
+    },
+    {
+      "id": "follow-redirects-cross-host-auth", "repository": { "organization": "follow-redirects", "name": "follow-redirects", "base_commit": "724087d", "fixed_commit": "not-validated-fixed" }, "task_source": { "kind": "commit", "url": "https://github.com/follow-redirects/follow-redirects" }, "task_statement": "Strip authorization on a cross-host redirect.", "task_family": "security", "language": "javascript", "estimated_human_difficulty": "small", "visible_tests": [], "hidden_verifier": { "available": false, "sha256": null }, "environment": { "reproducible": false, "definition_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" }, "licensing": { "spdx": "MIT", "redistribution_permitted": true }, "contamination": { "risk": "high", "notes": "Public security fix." }, "mechanics": { "base_fails_hidden_verifier": false, "fixed_passes_hidden_verifier": false, "infrastructure_valid": false, "original_failure_evidence_ref": "candidate-not-accepted", "fixed_success_evidence_ref": "candidate-not-accepted" }, "selection": { "status": "excluded", "exclusion_reason": "Implementation is JavaScript rather than the frozen Python/TypeScript Gate M language scope.", "selected_at": null } },
+    {
+      "id": "minimist-prototype-pollution", "repository": { "organization": "minimistjs", "name": "minimist", "base_commit": "dc624f3", "fixed_commit": "f34df346" }, "task_source": { "kind": "commit", "url": "https://github.com/minimistjs/minimist" }, "task_statement": "Reject prototype-polluting keys.", "task_family": "security", "language": "javascript", "estimated_human_difficulty": "small", "visible_tests": [], "hidden_verifier": { "available": false, "sha256": null }, "environment": { "reproducible": false, "definition_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" }, "licensing": { "spdx": "MIT", "redistribution_permitted": true }, "contamination": { "risk": "high", "notes": "Public security fix." }, "mechanics": { "base_fails_hidden_verifier": false, "fixed_passes_hidden_verifier": false, "infrastructure_valid": false, "original_failure_evidence_ref": "candidate-not-accepted", "fixed_success_evidence_ref": "candidate-not-accepted" }, "selection": { "status": "excluded", "exclusion_reason": "JavaScript-only and near-duplicate with other prototype-pollution candidates.", "selected_at": null } },
+    {
+      "id": "json5-prototype-pollution", "repository": { "organization": "json5", "name": "json5", "base_commit": "502da71", "fixed_commit": "14f8ea1" }, "task_source": { "kind": "commit", "url": "https://github.com/json5/json5" }, "task_statement": "Prevent prototype pollution while parsing object keys.", "task_family": "security", "language": "javascript", "estimated_human_difficulty": "small", "visible_tests": [], "hidden_verifier": { "available": false, "sha256": null }, "environment": { "reproducible": false, "definition_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" }, "licensing": { "spdx": "MIT", "redistribution_permitted": true }, "contamination": { "risk": "high", "notes": "Public security fix." }, "mechanics": { "base_fails_hidden_verifier": false, "fixed_passes_hidden_verifier": false, "infrastructure_valid": false, "original_failure_evidence_ref": "candidate-not-accepted", "fixed_success_evidence_ref": "candidate-not-accepted" }, "selection": { "status": "excluded", "exclusion_reason": "JavaScript-only and near-duplicate with another prototype-pollution candidate.", "selected_at": null } },
+    {
+      "id": "cookie-invalid-name", "repository": { "organization": "jshttp", "name": "cookie", "base_commit": "38323a0", "fixed_commit": "ab057e0" }, "task_source": { "kind": "commit", "url": "https://github.com/jshttp/cookie" }, "task_statement": "Reject an invalid cookie name.", "task_family": "security", "language": "javascript", "estimated_human_difficulty": "small", "visible_tests": [], "hidden_verifier": { "available": false, "sha256": null }, "environment": { "reproducible": false, "definition_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" }, "licensing": { "spdx": "MIT", "redistribution_permitted": true }, "contamination": { "risk": "high", "notes": "Public security fix." }, "mechanics": { "base_fails_hidden_verifier": false, "fixed_passes_hidden_verifier": false, "infrastructure_valid": false, "original_failure_evidence_ref": "candidate-not-accepted", "fixed_success_evidence_ref": "candidate-not-accepted" }, "selection": { "status": "excluded", "exclusion_reason": "JavaScript-only; would overweight security validation tasks.", "selected_at": null } },
+    {
+      "id": "path-to-regexp-redos", "repository": { "organization": "pillarjs", "name": "path-to-regexp", "base_commit": "not-validated-base", "fixed_commit": "not-validated-fixed" }, "task_source": { "kind": "issue", "url": "https://github.com/pillarjs/path-to-regexp" }, "task_statement": "Bound pathological route-matching work.", "task_family": "security", "language": "typescript", "estimated_human_difficulty": "medium", "visible_tests": [], "hidden_verifier": { "available": false, "sha256": null }, "environment": { "reproducible": false, "definition_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" }, "licensing": { "spdx": "MIT", "redistribution_permitted": true }, "contamination": { "risk": "high", "notes": "Public security issue." }, "mechanics": { "base_fails_hidden_verifier": false, "fixed_passes_hidden_verifier": false, "infrastructure_valid": false, "original_failure_evidence_ref": "candidate-not-accepted", "fixed_success_evidence_ref": "candidate-not-accepted" }, "selection": { "status": "excluded", "exclusion_reason": "The discriminating evaluator is timing-based and conflicts with Gate M determinism requirements.", "selected_at": null } },
+    {
+      "id": "node-ip-special-range", "repository": { "organization": "indutny", "name": "node-ip", "base_commit": "not-validated-base", "fixed_commit": "not-validated-fixed" }, "task_source": { "kind": "issue", "url": "https://github.com/indutny/node-ip" }, "task_statement": "Classify special IP ranges correctly.", "task_family": "security", "language": "javascript", "estimated_human_difficulty": "medium", "visible_tests": [], "hidden_verifier": { "available": false, "sha256": null }, "environment": { "reproducible": false, "definition_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" }, "licensing": { "spdx": "MIT", "redistribution_permitted": true }, "contamination": { "risk": "high", "notes": "Public security issue." }, "mechanics": { "base_fails_hidden_verifier": false, "fixed_passes_hidden_verifier": false, "infrastructure_valid": false, "original_failure_evidence_ref": "candidate-not-accepted", "fixed_success_evidence_ref": "candidate-not-accepted" }, "selection": { "status": "excluded", "exclusion_reason": "No correcting state was established that reliably closes the intended behavior.", "selected_at": null } }
+  ]
+}

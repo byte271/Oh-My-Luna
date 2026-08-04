@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-h-heldout-v1",
+  "task_id": "scule-57cfd152",
+  "treatment_id": "T1",
+  "combined_arm": false,
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "src/index.ts",
+          "start_line": 1,
+          "end_line": 60
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "src/index.ts",
+          "name": "isUppercase",
+          "kind": "function"
+        },
+        {
+          "path": "src/index.ts",
+          "name": "splitByCase",
+          "kind": "function"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "isUppercase",
+        "consumer_symbol": "splitByCase",
+        "type": "return"
+      }
+    }
+  },
+  "content_sha256": "9f9bcb32d5cc4bb2e48eb8f13e096909f970b715dc4ec162903ed854de43f4ea"
+}

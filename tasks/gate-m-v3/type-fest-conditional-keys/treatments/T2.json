@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-m-treatments-v3",
+  "task_id": "type-fest-conditional-keys",
+  "task_base_commit": "b6d8dd60726a8d7df5a5eea3b3c9d830804d2570",
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "provenance": {
+    "author_id": "oml-lead-maintainer-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "independently_reviewed": false,
+    "created_at": "2026-08-02T18:00:00Z"
+  },
+  "treatment_id": "T2",
+  "treatment_name": "execution_evidence",
+  "combined_arm": false,
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "source/conditional-keys.d.ts",
+          "start_line": 33,
+          "end_line": 47
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "source/conditional-keys.d.ts",
+          "name": "ConditionalKeys",
+          "kind": "type"
+        },
+        {
+          "path": "source/conditional-keys.d.ts",
+          "name": "NonNullable",
+          "kind": "type"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "ConditionalKeys",
+        "consumer_symbol": "NonNullable",
+        "type": "return"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "TypeScript 5.4.2 reports TS2344 ('Type false does not satisfy the constraint true') for an equality assertion comparing ConditionalKeys<Example, string | undefined> with the expected union 'a' | 'c'.",
+          "evidence_refs": [
+            "evidence:base-run"
+          ],
+          "certainty": "observed"
+        }
+      ]
+    }
+  },
+  "derived_from": {
+    "protocol_version": "gate-m-real-tasks-v2",
+    "levels": [
+      "L2",
+      "L3"
+    ],
+    "packet_sha256": {
+      "L2": "030f2f033e34ba78951eae8afd0e0916a140aac0dddb5d6a861e115e460c231d",
+      "L3": "cebb98aaf22622aa93293c7a2df319cbf85d00652bc9c2696ce94104fd1a86e9"
+    }
+  },
+  "content_sha256": "b7e8a79b995c4d38248d3c910764ebe25b32bb6fdc0bb10b8fef6090ba1183b5"
+}

@@ -1,0 +1,6 @@
+{
+  "schema_version": "0.1",
+  "visible_behavior": "An absent object property with a catch fallback should produce that fallback instead of a nonoptional error.",
+  "visible_test_command": null,
+  "notes": "The exact evaluator and its expected values are control-only during an agent run."
+}

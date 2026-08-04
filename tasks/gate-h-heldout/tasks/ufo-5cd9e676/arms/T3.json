@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-h-heldout-v1",
+  "task_id": "ufo-5cd9e676",
+  "treatment_id": "T3",
+  "combined_arm": true,
+  "combined_arm_note": "Diagnosis and behavioral objective are deliberately combined. No effect may be attributed to one rather than the other.",
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "src/utils.ts",
+          "start_line": 310,
+          "end_line": 340
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "src/utils.ts",
+          "name": "withoutBase",
+          "kind": "function"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "withoutBase",
+        "consumer_symbol": "caller",
+        "type": "return"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Running the package test suite against the base commit reports: expected \"//evil.com\" to be \"/evil.com\"; expected \"///evil.com\" to be \"/evil.com\"; expected \"//\" to be \"/\". The number of leading slashes in the remainder is preserved in the result.",
+          "command": "npx vitest run test",
+          "certainty": "observed"
+        }
+      ]
+    },
+    "diagnosis": {
+      "root_cause": "After the base prefix is removed, the remainder is returned as-is when it already begins with a slash, and is otherwise given one leading slash. The check only asks whether a leading slash is present, not how many, so a remainder that begins with several slashes is returned unchanged and the result is no longer a single-rooted local path.",
+      "certainty": "confirmed"
+    },
+    "behavioral_objective": {
+      "objective": "Removing a base prefix must always yield a path rooted at exactly one slash, whatever the remainder begins with.",
+      "constraints": [
+        "A remainder that already begins with a single slash must be unchanged.",
+        "A remainder with no leading slash must gain exactly one.",
+        "Inputs that do not carry the base prefix must still be returned unchanged.",
+        "Query and fragment handling must not change.",
+        "Behaviour relied on by the existing test suite must continue to hold."
+      ],
+      "non_goals": [
+        "Do not change how the base itself is normalized.",
+        "Do not alter unrelated URL helpers."
+      ]
+    }
+  },
+  "content_sha256": "1f255b7dbfa0e7f91e781ce5cdf912102ba071d182f625b13b586e132cebb4f3"
+}

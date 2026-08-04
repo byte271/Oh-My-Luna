@@ -1,0 +1,58 @@
+{
+  "schema_version": "0.1",
+  "opaque_packet_id": "gm-d60f2e9633e32fdf",
+  "rubric_version": "oracle-boundary/1.0.0",
+  "target_level_disclosed": false,
+  "previous_reviews_included": false,
+  "issue": "# Chinese locale month parsing mishandles October through December\n\nParsing Chinese dates with the `zh-CN` locale does not correctly recognize October and can classify November or December as January.\n\nThe parser should accept both numeric and Chinese month text and preserve the intended month for October, November, and December.\n",
+  "base_state_source_excerpt": "FILE pkgs/core/src/locale/zh-CN/_lib/match/index.ts\nLINES 27-60\n    27\tconst matchMonthPatterns = {\n    28\t  narrow: /^(一|二|三|四|五|六|七|八|九|十[二一])/i,\n    29\t  abbreviated: /^(一|二|三|四|五|六|七|八|九|十[二一]|\\d|1[12])月/i,\n    30\t  wide: /^(一|二|三|四|五|六|七|八|九|十[二一])月/i,\n    31\t};\n    32\tconst parseMonthPatterns = {\n    33\t  narrow: [\n    34\t    /^一/i,\n    35\t    /^二/i,\n    36\t    /^三/i,\n    37\t    /^四/i,\n    38\t    /^五/i,\n    39\t    /^六/i,\n    40\t    /^七/i,\n    41\t    /^八/i,\n    42\t    /^九/i,\n    43\t    /^十(?!(一|二))/i,\n    44\t    /^十一/i,\n    45\t    /^十二/i,\n    46\t  ] as const,\n    47\t  any: [\n    48\t    /^一|1/i,\n    49\t    /^二|2/i,\n    50\t    /^三|3/i,\n    51\t    /^四|4/i,\n    52\t    /^五|5/i,\n    53\t    /^六|6/i,\n    54\t    /^七|7/i,\n    55\t    /^八|8/i,\n    56\t    /^九|9/i,\n    57\t    /^十(?!(一|二))|10/i,\n    58\t    /^十一|11/i,\n    59\t    /^十二|12/i,\n    60\t  ] as const,",
+  "packet_under_review": {
+    "schema_version": "0.1",
+    "design": "cumulative",
+    "payload": {
+      "context": {
+        "regions": [
+          {
+            "path": "pkgs/core/src/locale/zh-CN/_lib/match/index.ts",
+            "start_line": 27,
+            "end_line": 60
+          }
+        ]
+      },
+      "localization": {
+        "symbols": [
+          {
+            "path": "pkgs/core/src/locale/zh-CN/_lib/match/index.ts",
+            "name": "matchMonthPatterns",
+            "kind": "variable"
+          },
+          {
+            "path": "pkgs/core/src/locale/zh-CN/_lib/match/index.ts",
+            "name": "parseMonthPatterns",
+            "kind": "variable"
+          }
+        ],
+        "failing_boundary": {
+          "producer_symbol": "matchMonthPatterns",
+          "consumer_symbol": "parseMonthPatterns",
+          "type": "return"
+        }
+      },
+      "observation": {
+        "facts": [
+          {
+            "statement": "With zh-CN, the base parser returns invalid dates for numeric and wide-form October; the same evaluator reports month 1 for numeric November and December.",
+            "evidence_refs": [
+              "evidence:base-run"
+            ],
+            "certainty": "observed"
+          }
+        ]
+      }
+    }
+  },
+  "reviewer_material": {
+    "repair_comparison_file": "repair-comparison.patch",
+    "answer_file": "answer-template.json"
+  }
+}

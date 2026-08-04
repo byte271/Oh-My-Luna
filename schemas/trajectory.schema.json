@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oh-my-luna.dev/schemas/trajectory/v0.1",
+  "title": "Luna failure trajectory label",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "task_id", "run_id", "model_snapshot", "reasoning_effort", "outcome", "failure_classes", "first_irreversible_failure", "labels"],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "task_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "model_snapshot": { "type": "string", "minLength": 1 },
+    "reasoning_effort": { "type": "string", "minLength": 1 },
+    "outcome": { "enum": ["success", "failure", "invalid_environment"] },
+    "failure_classes": {
+      "type": "array", "uniqueItems": true,
+      "items": { "enum": ["task_misunderstanding", "wrong_file_retrieval", "wrong_symbol_localization", "missing_runtime_observation", "incorrect_root_cause_reasoning", "incorrect_patch_design", "incorrect_implementation", "tool_use_failure", "test_interpretation_failure", "premature_completion", "regression_introduction", "environment_or_dependency_failure"] }
+    },
+    "first_irreversible_failure": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object", "additionalProperties": false, "required": ["trace_sequence", "class", "rationale", "label_source"],
+          "properties": {
+            "trace_sequence": { "type": "integer", "minimum": 0 },
+            "class": { "type": "string", "minLength": 1 },
+            "rationale": { "type": "string", "minLength": 1 },
+            "label_source": { "enum": ["automatic", "human", "independent_execution"] }
+          }
+        }
+      ]
+    },
+    "labels": {
+      "type": "object", "additionalProperties": false,
+      "required": ["relevant_files", "relevant_symbols", "root_cause_regions", "decisive_observations"],
+      "properties": {
+        "relevant_files": { "$ref": "#/$defs/labeledStrings" },
+        "relevant_symbols": { "$ref": "#/$defs/labeledStrings" },
+        "root_cause_regions": { "$ref": "#/$defs/labeledStrings" },
+        "decisive_observations": { "$ref": "#/$defs/labeledStrings" }
+      }
+    }
+  },
+  "$defs": {
+    "labeledStrings": {
+      "type": "object", "additionalProperties": false, "required": ["values", "source"],
+      "properties": {
+        "values": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "source": { "enum": ["automatic", "human", "independent_execution"] }
+      }
+    }
+  }
+}

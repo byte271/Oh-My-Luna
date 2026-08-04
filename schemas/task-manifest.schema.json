@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oh-my-luna.dev/schemas/task-manifest/v0.1",
+  "title": "Executable task provenance and isolation manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "repository", "split", "task_statement", "task_family", "provenance", "hashes", "boundaries"],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$" },
+    "repository": {
+      "type": "object", "additionalProperties": false,
+      "required": ["organization", "name", "base_commit", "fixed_commit"],
+      "properties": {
+        "organization": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "base_commit": { "type": "string", "minLength": 7 },
+        "fixed_commit": { "type": "string", "minLength": 7 }
+      }
+    },
+    "split": { "enum": ["development", "held_out", "test"] },
+    "task_statement": { "type": "string", "minLength": 1 },
+    "task_family": { "type": "string", "minLength": 1 },
+    "provenance": {
+      "type": "object", "additionalProperties": false, "required": ["source_url", "license_spdx", "derived_at"],
+      "properties": {
+        "source_url": { "type": "string", "minLength": 1 },
+        "license_spdx": { "type": "string", "minLength": 1 },
+        "derived_at": { "type": "string", "minLength": 1 }
+      }
+    },
+    "hashes": {
+      "type": "object", "additionalProperties": false, "required": ["base_archive_sha256", "hidden_verifier_sha256"],
+      "properties": {
+        "base_archive_sha256": { "$ref": "#/$defs/sha256" },
+        "hidden_verifier_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "boundaries": {
+      "type": "object", "additionalProperties": false, "required": ["agent_visible_paths", "hidden_paths"],
+      "properties": {
+        "agent_visible_paths": { "$ref": "#/$defs/paths" },
+        "hidden_paths": { "$ref": "#/$defs/paths" }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "paths": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+  }
+}

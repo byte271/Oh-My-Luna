@@ -1,0 +1,55 @@
+{
+  "schema_version": "0.1",
+  "task_id": "type-fest-conditional-keys",
+  "task_base_commit": "b6d8dd60726a8d7df5a5eea3b3c9d830804d2570",
+  "intervention_level": "L1_context",
+  "design": "cumulative",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "source/conditional-keys.d.ts",
+          "start_line": 33,
+          "end_line": 47
+        }
+      ]
+    }
+  },
+  "source": {
+    "kind": "model_authored_unreviewed",
+    "evidence_refs": [
+      "base:source/conditional-keys.d.ts:33-47"
+    ],
+    "fixed_commit_accessible_to_agent": false,
+    "facts_visible_from_base": true
+  },
+  "information_boundary": {
+    "allowed_categories": [
+      "context"
+    ],
+    "forbidden_categories": [
+      "patch_text",
+      "fixed_commit",
+      "hidden_evaluator",
+      "implementation_instruction",
+      "L2_localization",
+      "L3_observation",
+      "L4_diagnosis",
+      "L5_plan"
+    ],
+    "contains_diagnosis": false,
+    "contains_plan": false,
+    "contains_code_location": true,
+    "contains_exact_identifier": false,
+    "contains_patch_text": false
+  },
+  "review_status": "pending_independent_review",
+  "provenance": {
+    "author_id": "codex-sol-primary-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "created_at": "2026-08-02T06:30:00Z",
+    "rubric_version": "oracle-boundary/1.0.0",
+    "revision": 1,
+    "content_sha256": "882f98f2447b332b1d95a9a3d55f4d18597edb1e198fb8f5e809047a3228eae1"
+  }
+}

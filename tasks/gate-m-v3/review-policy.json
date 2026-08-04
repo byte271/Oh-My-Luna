@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "gate-m-research-policy/3.0.0",
+  "protocol_version": "gate-m-treatments-v3",
+  "effective_from": "2026-08-02",
+  "supersedes": [
+    { "policy_id": "gate-m-independent-review/1.0.0", "location": "tasks/gate-m/review-control/policy.json", "status": "preserved_unmodified" },
+    { "policy_id": "gate-m-independent-review/2.0.0", "location": "tasks/gate-m-v2/review-control/policy.json", "status": "preserved_unmodified" }
+  ],
+  "independent_semantic_review": {
+    "status": "optional_external_audit_evidence",
+    "is_merge_gate": false,
+    "is_execution_prerequisite": false,
+    "statement": "Independent semantic review is optional external audit evidence. It is not a merge gate or execution prerequisite.",
+    "history": {
+      "v1_required_distinct_reviewers": 2,
+      "v2_required_distinct_reviewers": 2,
+      "eligible_reviews_completed": 0,
+      "eligibility_failures_archived_at": "research/gate-m-reviews/",
+      "removal_reason": "project_owner_decision_on_cost_and_operational_burden",
+      "removal_is_scope_and_cost_decision": true,
+      "removal_is_not_evidence_that_semantic_review_is_unnecessary": true,
+      "note": "The requirement was deliberately removed by project-owner decision because its cost and operational burden are not justified at this stage. No eligible review was ever completed, so nothing was learned that made the requirement redundant. Prior review attempts and eligibility failures remain archived and no longer block development."
+    }
+  },
+  "semantic_claim_vocabulary": {
+    "permitted": [
+      "author-reviewed",
+      "mechanically validated",
+      "exploratory intervention",
+      "semantic separation unverified"
+    ],
+    "forbidden": [
+      "independently validated",
+      "independently approved",
+      "reviewer agreement",
+      "proven semantic purity",
+      "reviewer-approved"
+    ],
+    "packet_status_value": "author_reviewed_semantic_separation_unverified"
+  },
+  "leakage_controls": {
+    "replaces_review": false,
+    "note": "These are heuristics over wording and token overlap. They cannot establish semantic purity and must never be reported as if they do.",
+    "checks": [
+      "exact_patch_text",
+      "corrected_version_only_identifier",
+      "edit_instruction",
+      "replacement_expression",
+      "evaluator_only_detail",
+      "corrected_commit_reference",
+      "missing_multiple_implementations_statement",
+      "similarity_above_exclusion_threshold"
+    ],
+    "similarity_exclusion_threshold": 0.5,
+    "on_failure": "exclude_task_from_t3",
+    "rewriting_to_force_acceptance_prohibited": true,
+    "implementation": "scripts/gate-m/check-v3-leakage.mjs"
+  },
+  "gate_m": {
+    "scope": "mechanical_research_integrity_only",
+    "reviewer_count_is_a_pass_condition": false,
+    "reviewer_approval_is_a_pass_condition": false,
+    "pass_verdict": "method_kernel_valid_with_unreviewed_semantic_interventions",
+    "verdict_permits": ["pr_merge", "exploratory_gate_h_execution"],
+    "verdict_does_not_permit": [
+      "strong causal claim about fine-grained information levels",
+      "attribution of a T3 effect to diagnosis rather than behavioral objective",
+      "any Luna capability, Sol comparison, or product claim"
+    ]
+  },
+  "treatment_design": {
+    "arms": ["T0", "T1", "T2", "T3"],
+    "t3_is_combined": true,
+    "t3_combines": ["causal_diagnosis", "behavioral_objective"],
+    "l3_l4_agreement_analysis": "discontinued",
+    "five_level_ladder": "superseded_preserved_as_history"
+  }
+}

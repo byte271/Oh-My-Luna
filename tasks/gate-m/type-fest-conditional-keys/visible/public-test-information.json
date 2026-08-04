@@ -1,0 +1,6 @@
+{
+  "schema_version": "0.1",
+  "visible_behavior": "ConditionalKeys must retain an optional string key when the condition includes undefined under TypeScript 5.4.",
+  "visible_test_command": null,
+  "notes": "The exact compile-time assertion and pinned compiler path are evaluator-only."
+}

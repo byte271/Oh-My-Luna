@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.oml-runs*/
+omx-inspect.*/
+oh-my-luna-*.zip
+.gitdata/
+coverage/
+*.log
+.DS_Store
+.gate-m-cache/
+oml-gate-m-candidates-*/
+.oml-score-temp/
+.test-temp/
+.pnpm-store/
+.gate-h-heldout-cache/

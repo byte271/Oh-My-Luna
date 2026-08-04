@@ -1,0 +1,17 @@
+{
+  "base_commit": "b6d8dd60726a8d7df5a5eea3b3c9d830804d2570",
+  "components": {
+    "context": { "regions": [{ "path": "source/conditional-keys.d.ts", "start_line": 33, "end_line": 47 }] },
+    "localization": { "symbols": [{ "path": "source/conditional-keys.d.ts", "name": "ConditionalKeys", "kind": "module" }], "failing_boundary": { "producer_symbol": "mapped property selection", "consumer_symbol": "indexed key union", "type": "return" } },
+    "observation": { "facts": [{ "statement": "TypeScript 5.4.2 reports TS2344 ('Type false does not satisfy the constraint true') for an equality assertion comparing ConditionalKeys<Example, string | undefined> with the expected union 'a' | 'c'.", "evidence_refs": ["evidence:base-run"], "certainty": "observed" }] },
+    "diagnosis": { "root_cause": "The mapped type preserves optional property modifiers while constructing the intermediate key map; under TypeScript 5.4 this changes the indexed-union result for optional candidate keys before the final non-null filtering step.", "supporting_evidence_refs": ["base:source/conditional-keys.d.ts:33-47", "evidence:base-run"], "certainty": "confirmed" },
+    "plan": { "behavioral_objective": "Make key selection independent of optional property modifiers before extracting the selected key union.", "constraints": ["Retain required keys that satisfy the condition.", "Retain optional keys when their value type satisfies a condition that includes undefined.", "Do not include keys whose value types fail the condition."], "non_goals": ["Do not change ConditionalPick behavior beyond its dependence on ConditionalKeys.", "Do not require a newer TypeScript compiler."] }
+  },
+  "evidence_refs": {
+    "L1_context": ["base:source/conditional-keys.d.ts:33-47"],
+    "L2_localization": ["base:source/conditional-keys.d.ts:33-47"],
+    "L3_observation": ["control/task-validation.json#base"],
+    "L4_diagnosis": ["base:source/conditional-keys.d.ts:33-47", "control/task-validation.json#base"],
+    "L5_plan": ["visible/issue.md", "control/task-validation.json#base"]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oh-my-luna.dev/schemas/pricing-snapshot/v1.json",
+  "title": "Versioned API pricing snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "snapshot_id", "retrieved_at", "currency", "unit", "sources", "models", "derived_ratios", "limitations"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "snapshot_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$" },
+    "retrieved_at": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+    "currency": { "const": "USD" },
+    "unit": { "const": "per_1m_text_tokens" },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "url"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "pattern": "^https://" }
+        }
+      }
+    },
+    "models": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["input", "cached_input", "output"],
+        "properties": {
+          "input": { "type": "number", "minimum": 0 },
+          "cached_input": { "type": "number", "minimum": 0 },
+          "output": { "type": "number", "minimum": 0 },
+          "long_context": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["threshold_input_tokens", "input_multiplier", "output_multiplier"],
+            "properties": {
+              "threshold_input_tokens": { "type": "integer", "minimum": 1 },
+              "input_multiplier": { "type": "number", "minimum": 1 },
+              "output_multiplier": { "type": "number", "minimum": 1 }
+            }
+          },
+          "cache_write_multiplier": { "type": "number", "minimum": 1 }
+        }
+      }
+    },
+    "derived_ratios": { "type": "object", "additionalProperties": { "type": "number", "exclusiveMinimum": 0 } },
+    "limitations": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+  }
+}

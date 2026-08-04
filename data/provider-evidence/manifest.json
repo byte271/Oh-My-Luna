@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "provider-contract-2026-08-02",
+  "purpose": "Establish the provider contract used by the live transport, separating what was verified in this environment from what was supplied externally.",
+  "extraction_version": "manual-bounded-excerpt/1.0.0",
+  "provenance_warning": "Committed excerpts prove only the bytes committed. They do not prove that any upstream page or package is unchanged, and they expire in usefulness as upstream moves.",
+  "independently_verified_here": {
+    "note": "Retrieved and checked inside the session that wrote the transport. The installed SDK is the authoritative contract for request and response shape.",
+    "sources": [
+      {
+        "source_identity": "npm package openai@7.3.0 (installed, exact-pinned)",
+        "retrieval_method": "npm install --save-exact openai@7.3.0; types read from node_modules",
+        "retrieved_at": "2026-08-02T19:05:00Z",
+        "package_integrity": "sha512-FLnIAkDEP3grs+BSDpqxEWVR37yG97/hs95lajF8SnHuA5nqtssh0uJVXbPhODNEoZqar+nEd+fIeGJgwoLUmg==",
+        "resolved": "https://registry.npmjs.org/openai/-/openai-7.3.0.tgz",
+        "excerpts": [
+          { "path": "data/provider-evidence/excerpts/sdk-responses-model-union.md", "sha256": "894d8687e6774300a2b72fdc32903508874586ee809d4d0bf32e2ec4795e58de", "establishes": "gpt-5.6-luna is a valid ResponsesModel. The union contains gpt-5.6-luna, gpt-5.6-sol and gpt-5.6-terra and NO dated snapshot variant for any of them, unlike older families such as gpt-5.4-mini-2026-03-17." },
+          { "path": "data/provider-evidence/excerpts/sdk-reasoning-effort.md", "sha256": "ef3145b61eb9caec433b1c03733cdc3d76696525b2a5bf1510859d9e711a6848", "establishes": "ReasoningEffort = 'none' | 'minimal' | 'low' | 'medium' | 'high' | 'xhigh' | 'max' | null." },
+          { "path": "data/provider-evidence/excerpts/sdk-response-usage.md", "sha256": "1c700ec33daff5d8c435302ca6f80a4dfe40429b03488054fea1f4343b5d957a", "establishes": "ResponseUsage carries input_tokens, output_tokens, total_tokens, input_tokens_details.{cache_write_tokens,cached_tokens} and output_tokens_details.reasoning_tokens." },
+          { "path": "data/provider-evidence/excerpts/sdk-error-classes.md", "sha256": "3f47323a10367386c03cb6b0cb44f34dd8957a6812b7d82ef8e546121ae004f0", "establishes": "Error taxonomy and APIError.requestID." },
+          { "path": "data/provider-evidence/excerpts/sdk-request-ids-retries-timeouts.md", "sha256": "60d0fe28379229109bffb41bd97819be9050d3d79bd47f7f7a4986a648a4bd34", "establishes": "_request_id from the x-request-id header; .withResponse() returns { data, request_id }; maxRetries default is 2 and can be set to 0; timeout default is 10 minutes." }
+        ]
+      },
+      {
+        "source_identity": "https://raw.githubusercontent.com/openai/openai-node/master/README.md",
+        "retrieval_method": "curl over the session proxy",
+        "retrieved_at": "2026-08-02T19:07:00Z",
+        "note": "Official first-party SDK repository. Reachable in this environment when the documentation sites were not."
+      }
+    ]
+  },
+  "supplied_externally_not_verified_here": {
+    "note": "The documentation sites are denied by this environment's network policy (developers.openai.com and platform.openai.com both fail CONNECT). These values were supplied by the project owner from an external retrieval and could NOT be independently confirmed in this session. They are recorded as owner-supplied, not as retrieved evidence.",
+    "denied_hosts": ["developers.openai.com", "platform.openai.com"],
+    "values": {
+      "model_alias": "gpt-5.6-luna",
+      "api": "Responses API",
+      "http_endpoint": "POST /v1/responses",
+      "pricing_usd_per_1m_tokens_short_context": { "input": 0.2, "cached_input": 0.02, "cache_write": 0.25, "output": 1.2 },
+      "long_context_threshold_input_tokens": 272000,
+      "context_window_tokens_approx": 1050000,
+      "max_output_tokens": 128000,
+      "immutable_snapshot_identifier": null
+    },
+    "corroboration": {
+      "pricing": "Matches the independently committed pricing evidence captured earlier under data/pricing/ (input 0.2, cached 0.02, output 1.2, cache write 1.25x uncached = 0.25) whose hashes verify. This is corroboration, not independent re-retrieval.",
+      "long_context_threshold": "Matches the committed model-page excerpt gpt-5.6-luna-model-2026-08-02.md, which states prompts above 272K input tokens are priced at 2x input and 1.5x output.",
+      "no_snapshot": "Corroborated independently: the installed SDK's ResponsesModel union contains no dated snapshot for gpt-5.6-luna.",
+      "context_window_and_max_output": "NOT corroborated by anything in this repository. Owner-supplied only."
+    }
+  },
+  "snapshot_limitation": "gpt-5.6-luna is used as a mutable model alias. No immutable snapshot identifier is available, so exact model-weight reproducibility is not guaranteed. Every request records the requested model, the returned model, the request timestamp, the SDK version and this evidence id so that drift is at least detectable after the fact.",
+  "limitations": [
+    "Excerpts prove only committed bytes; they cannot prove upstream is unchanged.",
+    "The pricing and endpoint values are owner-supplied and were not re-retrieved in this environment.",
+    "Context window and maximum output token values have no corroboration in this repository.",
+    "The SDK contract is verified for version 7.3.0 only; upgrading the SDK requires re-verification."
+  ]
+}

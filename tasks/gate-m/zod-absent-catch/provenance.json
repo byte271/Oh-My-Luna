@@ -1,0 +1,7 @@
+{
+  "schema_version": "0.1", "repository_url": "https://github.com/colinhacks/zod", "issue_url": "https://github.com/colinhacks/zod/issues/5937", "correcting_pull_request_url": "https://github.com/colinhacks/zod/pull/5939",
+  "license": { "spdx": "MIT", "path": "LICENSE", "sha256": "3f1189b28e3866e0d979968d466b78f813f76827cfdca1fbb124cc0a5c8841f8" },
+  "base_archive_sha256": "c5b0f46d101a54485e440382bb67852391771e98f941a50c6810b5dabc49c24c", "corrected_archive_sha256": "3807313c68bad89e1d63a00a6fb5945a645a1b173262c9654b2828da21f71ddb", "known_repair_sha256": "375eca2d5fc7591b9795a47a0b1c94fe633c8407d07325144ed93b11f3379d4f",
+  "contamination_risk": "high", "contamination_notes": "The public issue and merged fix predate the study; this task validates method mechanics and is not a held-out capability claim.",
+  "redactions": ["fixed commit identity", "fix commit message", "known repair", "control evaluator", "unassigned packets", "review notes"]
+}

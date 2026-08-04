@@ -1,0 +1,8 @@
+{
+  "schema_version": "0.1", "id": "date-fns-zh-month",
+  "repository": { "organization": "date-fns", "name": "date-fns", "base_commit": "39d1e14200cead9e4be5df88695b5e82082875ed", "fixed_commit": "b9c5865edb7610c59e6b3694ed1e1691f4807688" },
+  "split": "test", "task_statement": "Parse October through December correctly for the zh-CN locale in numeric and Chinese forms.", "task_family": "bug_fix",
+  "provenance": { "source_url": "https://github.com/date-fns/date-fns/issues/3256", "license_spdx": "MIT", "derived_at": "2026-08-02T06:18:56.243Z" },
+  "hashes": { "base_archive_sha256": "2521606bb70dd781849cc7a5f120ba09a89a3f9b0ab98ddfa984427ddd3ff00a", "hidden_verifier_sha256": "8511e0d97221d4151015d39c7dd223ff24caf86956d85250830821d3a528b38f" },
+  "boundaries": { "agent_visible_paths": ["upstream-base-workspace", "visible/issue.md", "visible/public-test-information.json", "selected-intervention.json"], "hidden_paths": ["control", "interventions/unassigned", "reviews", "freeze"] }
+}

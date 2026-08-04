@@ -1,0 +1,7 @@
+{
+  "schema_version": "0.1", "observed_at": "2026-08-02T06:18:56.243Z", "accepted": true,
+  "environment": { "platform": "linux", "architecture": "x64", "node_version": "v24.14.0", "typescript_version": "5.4.2", "typescript_npm_integrity": "sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==", "typescript_npm_shasum": "0ae9cebcfae970718474fe0da2c090cad6577372" },
+  "base": { "exit_code": 2, "duration_ms": 577, "stdout": "conditional-keys.ts(5,22): error TS2344: Type 'false' does not satisfy the constraint 'true'.\n", "stdout_sha256": "d5b39494bea93c877528f8d4316db56bfe4ec1639780fcf7e9328e89648c6fd8", "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" },
+  "corrected": { "exit_code": 0, "duration_ms": 625, "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" },
+  "reproduction_command": "OML_GATE_M_TYPESCRIPT=/absolute/path/to/typescript-5.4.2/lib/tsc.js npm run gate-m:validate", "network_during_evaluator": false
+}

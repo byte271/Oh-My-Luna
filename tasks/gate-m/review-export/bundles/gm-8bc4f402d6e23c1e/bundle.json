@@ -1,0 +1,61 @@
+{
+  "schema_version": "0.1",
+  "opaque_packet_id": "gm-8bc4f402d6e23c1e",
+  "rubric_version": "oracle-boundary/1.0.0",
+  "target_level_disclosed": false,
+  "previous_reviews_included": false,
+  "issue": "# ConditionalKeys loses optional keys under TypeScript 5.4\n\nWith TypeScript 5.4, `ConditionalKeys<T, string | undefined>` does not include an optional string property that should satisfy the condition.\n\nFor a type containing a required string, an optional string-or-number, an optional string, and a record, the result should be the required-string key plus the optional-string key.\n",
+  "base_state_source_excerpt": "FILE source/conditional-keys.d.ts\nLINES 33-47\n    33\texport type ConditionalKeys<Base, Condition> = NonNullable<\n    34\t// Wrap in `NonNullable` to strip away the `undefined` type from the produced union.\n    35\t{\n    36\t\t// Map through all the keys of the given base type.\n    37\t\t[Key in keyof Base]:\n    38\t\t// Pick only keys with types extending the given `Condition` type.\n    39\t\tBase[Key] extends Condition\n    40\t\t// Retain this key since the condition passes.\n    41\t\t\t? Key\n    42\t\t// Discard this key since the condition fails.\n    43\t\t\t: never;\n    44\t\n    45\t\t// Convert the produced object into a union type of the keys which passed the conditional test.\n    46\t}[keyof Base]\n    47\t>;",
+  "packet_under_review": {
+    "schema_version": "0.1",
+    "design": "cumulative",
+    "payload": {
+      "context": {
+        "regions": [
+          {
+            "path": "source/conditional-keys.d.ts",
+            "start_line": 33,
+            "end_line": 47
+          }
+        ]
+      },
+      "localization": {
+        "symbols": [
+          {
+            "path": "source/conditional-keys.d.ts",
+            "name": "ConditionalKeys",
+            "kind": "module"
+          }
+        ],
+        "failing_boundary": {
+          "producer_symbol": "mapped property selection",
+          "consumer_symbol": "indexed key union",
+          "type": "return"
+        }
+      },
+      "observation": {
+        "facts": [
+          {
+            "statement": "TypeScript 5.4.2 reports TS2344 ('Type false does not satisfy the constraint true') for an equality assertion comparing ConditionalKeys<Example, string | undefined> with the expected union 'a' | 'c'.",
+            "evidence_refs": [
+              "evidence:base-run"
+            ],
+            "certainty": "observed"
+          }
+        ]
+      },
+      "diagnosis": {
+        "root_cause": "The mapped type preserves optional property modifiers while constructing the intermediate key map; under TypeScript 5.4 this changes the indexed-union result for optional candidate keys before the final non-null filtering step.",
+        "supporting_evidence_refs": [
+          "base:source/conditional-keys.d.ts:33-47",
+          "evidence:base-run"
+        ],
+        "certainty": "confirmed"
+      }
+    }
+  },
+  "reviewer_material": {
+    "repair_comparison_file": "repair-comparison.patch",
+    "answer_file": "answer-template.json"
+  }
+}

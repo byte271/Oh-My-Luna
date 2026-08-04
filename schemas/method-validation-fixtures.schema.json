@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oh-my-luna.dev/schemas/method-validation-fixtures/v0.1",
+  "title": "Gate M mechanical fixture catalog",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "purpose", "capability_claim_permitted", "fixtures"],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "purpose": { "const": "method_mechanics_only" },
+    "capability_claim_permitted": { "const": false },
+    "fixtures": {
+      "type": "array", "minItems": 4, "maxItems": 6,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "control", "expected", "executable_test"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$" },
+          "control": { "type": "string", "minLength": 1 },
+          "expected": { "type": "string", "minLength": 1 },
+          "executable_test": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

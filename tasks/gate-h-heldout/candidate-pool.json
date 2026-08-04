@@ -1,0 +1,608 @@
+{
+  "schema_version": "1.0",
+  "purpose": "gate_h_held_out_candidate_pool",
+  "method": "Bugfix commits that ship their own regression test. base = fix^, corrected = fix, evaluator = the shipped test. Base-fail and corrected-pass therefore hold by construction. The test is evaluator-only and never enters a model workspace.",
+  "never_used_in_oh_my_luna_development": true,
+  "candidate_count": 33,
+  "candidates": [
+    {
+      "candidate_id": "destr-f9c78d40",
+      "repository": "https://github.com/unjs/destr",
+      "repository_name": "destr",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "f9c78d402556aba3e50f94d46176f36a0570acbd",
+      "base_commit": "4f92188b58ed9c90f12ba6b3d747e44e0406836d",
+      "subject": "fix: avoid fast path with possible escape chars (closes #89)",
+      "source_files": [
+        "src/index.ts"
+      ],
+      "test_files": [
+        "test/index.test.ts"
+      ],
+      "insertions": 35,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "destr-d9ba16d7",
+      "repository": "https://github.com/unjs/destr",
+      "repository_name": "destr",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "d9ba16d7ad5c3afb6d8c8e84f6d24dba616013fe",
+      "base_commit": "37210516ccef951dcc870f17a5abee52122a3122",
+      "subject": "fix: parsing decimals and scientific notation (#94)",
+      "source_files": [
+        "src/index.ts"
+      ],
+      "test_files": [
+        "test/index.test.ts"
+      ],
+      "insertions": 19,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "destr-639a5df5",
+      "repository": "https://github.com/unjs/destr",
+      "repository_name": "destr",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "639a5df5321d9dccc05ccc1489f75ff8c4c57981",
+      "base_commit": "e2e2a382220ecd118631d3f609b7a3d6e9f891f1",
+      "subject": "fix: support surrounding whitespaces (resolves #21)",
+      "source_files": [
+        "src/index.ts"
+      ],
+      "test_files": [
+        "test/index.test.ts"
+      ],
+      "insertions": 8,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "destr-87918d56",
+      "repository": "https://github.com/unjs/destr",
+      "repository_name": "destr",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "87918d56fb35acf09ef6f33b908ad88dab288879",
+      "base_commit": "8faa0a87f10d9be876db6a9e42ea7f1da8ab27ab",
+      "subject": "fix: only purge `constructor.prototype` keys (#26)",
+      "source_files": [
+        "src/index.ts"
+      ],
+      "test_files": [
+        "test/index.test.ts"
+      ],
+      "insertions": 10,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "ufo-5cd9e676",
+      "repository": "https://github.com/unjs/ufo",
+      "repository_name": "ufo",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "5cd9e676711af3f4e4b5398ddf6ca8d52c1c7e1f",
+      "base_commit": "a7b94e69ff6159de8ddfd4940c90db4708c0d67e",
+      "subject": "fix(withoutBase): collapse leading slashes (#335)",
+      "source_files": [
+        "src/utils.ts"
+      ],
+      "test_files": [
+        "test/base.test.ts"
+      ],
+      "insertions": 9,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "ufo-eb299454",
+      "repository": "https://github.com/unjs/ufo",
+      "repository_name": "ufo",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "eb29945470c8629309764f026a36e7f477a9a1ff",
+      "base_commit": "5fb179d51384301ffb66b48e213863a27cadd1ff",
+      "subject": "fix(withBase, withoutBase): prevent false prefix matches (#313)",
+      "source_files": [
+        "src/utils.ts"
+      ],
+      "test_files": [
+        "test/base.test.ts"
+      ],
+      "insertions": 34,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "ufo-7959de5b",
+      "repository": "https://github.com/unjs/ufo",
+      "repository_name": "ufo",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "7959de5b49f52e7eb2919a33a9bfe30911e05712",
+      "base_commit": "4d024df0134e2484b1e22ba17a08fea31e90de92",
+      "subject": "fix(parseFilename): use optional chaining to access `opts.strict` (#284)",
+      "source_files": [
+        "src/parse.ts"
+      ],
+      "test_files": [
+        "test/parse.test.ts"
+      ],
+      "insertions": 14,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "ufo-4d024df0",
+      "repository": "https://github.com/unjs/ufo",
+      "repository_name": "ufo",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "4d024df0134e2484b1e22ba17a08fea31e90de92",
+      "base_commit": "e383832e6aa1253a0b423cbb588bc0716f274f83",
+      "subject": "fix(parseQuery): use object with null prototype (#286)",
+      "source_files": [
+        "src/query.ts"
+      ],
+      "test_files": [
+        "test/query.test.ts"
+      ],
+      "insertions": 8,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "ufo-62199a0c",
+      "repository": "https://github.com/unjs/ufo",
+      "repository_name": "ufo",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "62199a0cc84727b7b4666aaca8ff04cca2f68f3a",
+      "base_commit": "1954caebf751d22f04fff059fc09412de3c6b86d",
+      "subject": "fix(withProtocol): consider relative protocol (#242)",
+      "source_files": [
+        "src/utils.ts"
+      ],
+      "test_files": [
+        "test/utilities.test.ts"
+      ],
+      "insertions": 19,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "ufo-229e83e6",
+      "repository": "https://github.com/unjs/ufo",
+      "repository_name": "ufo",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "229e83e6b6c9c6edec4baa3a699bd6207ab031e1",
+      "base_commit": "387d01aa02d58384bb59efbd47bc8f2d6320c247",
+      "subject": "fix(parseURL): only normalize windows drive letters with `file://` protocol (#246)",
+      "source_files": [
+        "src/parse.ts"
+      ],
+      "test_files": [
+        "test/parse.test.ts"
+      ],
+      "insertions": 20,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "scule-57cfd152",
+      "repository": "https://github.com/unjs/scule",
+      "repository_name": "scule",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "57cfd1528a03720392604a2e582782fc481657dd",
+      "base_commit": "d2c281f10e12b8e33a2ed6ef3630eeb54de7de7c",
+      "subject": "fix(isUppercase): assume characters lowercase by default (#71)",
+      "source_files": [
+        "src/index.ts"
+      ],
+      "test_files": [
+        "test/scule.test.ts"
+      ],
+      "insertions": 2,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "scule-e32421a1",
+      "repository": "https://github.com/unjs/scule",
+      "repository_name": "scule",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "e32421a14e96fba492df17b12c1e0de4a08f7217",
+      "base_commit": "4c9da31573e14d7a677ff6a394c6ef4ad7747d37",
+      "subject": "fix(pascalCase, camelCase): move normalize behind a flag (#63)",
+      "source_files": [
+        "src/index.ts",
+        "src/types.ts"
+      ],
+      "test_files": [
+        "test/scule.test.ts",
+        "test/types.test-d.ts"
+      ],
+      "insertions": 68,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "scule-3815767f",
+      "repository": "https://github.com/unjs/scule",
+      "repository_name": "scule",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "3815767fb33a87bca13370d9c1a86cc211ee3b11",
+      "base_commit": "8a7a4b3d26f4cac3cbae3ab08a3338d30899873b",
+      "subject": "fix(pascalCase, camelCase): lower rest of each segment (#62)",
+      "source_files": [
+        "src/index.ts",
+        "src/types.ts"
+      ],
+      "test_files": [
+        "test/scule.test.ts",
+        "test/types.test-d.ts"
+      ],
+      "insertions": 21,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "scule-99278005",
+      "repository": "https://github.com/unjs/scule",
+      "repository_name": "scule",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "9927800545808dada863aaee3b300d6db22a44b7",
+      "base_commit": "2393fb02b619c8fb2f289a0f6fc25d46614488e1",
+      "subject": "fix: ignore case changes for numbers",
+      "source_files": [
+        "src/index.ts"
+      ],
+      "test_files": [
+        "test/scule.test.ts"
+      ],
+      "insertions": 8,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "scule-bb942369",
+      "repository": "https://github.com/unjs/scule",
+      "repository_name": "scule",
+      "language": "typescript",
+      "runner": "vitest",
+      "fix_commit": "bb942369b2548b995aefc306a0e0f3fbba923426",
+      "base_commit": "f7c6d26fbd613fd28e839f0b775e4ccce98908ae",
+      "subject": "fix!: handle lower edges (resolves #4)",
+      "source_files": [
+        "src/index.ts"
+      ],
+      "test_files": [
+        "test/scule.test.ts"
+      ],
+      "insertions": 33,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "node-semver-9c8692ae",
+      "repository": "https://github.com/npm/node-semver",
+      "repository_name": "node-semver",
+      "language": "javascript",
+      "runner": "tap",
+      "fix_commit": "9c8692ae05416e9dbe88d95ffe2b80e6964550fe",
+      "base_commit": "8640bd68f1653e504b53e9be4030eccdfe4c307a",
+      "subject": "fix: include prereleases in tilde range lower bound with includePrerelease (#878)",
+      "source_files": [
+        "classes/range.js"
+      ],
+      "test_files": [
+        "test/fixtures/range-include.js",
+        "test/fixtures/range-parse.js"
+      ],
+      "insertions": 25,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "node-semver-e583226b",
+      "repository": "https://github.com/npm/node-semver",
+      "repository_name": "node-semver",
+      "language": "javascript",
+      "runner": "tap",
+      "fix_commit": "e583226b165edd6530502cf731eda334527af6fe",
+      "base_commit": "6b77aa84a648a4b54ea32a21e6db60ebd54d5040",
+      "subject": "fix: reject numeric segments after x-ranges",
+      "source_files": [
+        "classes/range.js"
+      ],
+      "test_files": [
+        "test/fixtures/range-parse.js"
+      ],
+      "insertions": 15,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "node-semver-046da7f5",
+      "repository": "https://github.com/npm/node-semver",
+      "repository_name": "node-semver",
+      "language": "javascript",
+      "runner": "tap",
+      "fix_commit": "046da7f527cc72a482b5dea8cb59392be65bf186",
+      "base_commit": "efafcf8d029faa3d1ab74b5ec98d620112af859d",
+      "subject": "fix: align caret includePrerelease lower bounds (#872)",
+      "source_files": [
+        "classes/range.js"
+      ],
+      "test_files": [
+        "test/fixtures/range-exclude.js"
+      ],
+      "insertions": 4,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "node-semver-bea60286",
+      "repository": "https://github.com/npm/node-semver",
+      "repository_name": "node-semver",
+      "language": "javascript",
+      "runner": "tap",
+      "fix_commit": "bea6028694a75e840f48b288ac019e9644cfe6e8",
+      "base_commit": "76416081a8413383cf6e24c82cafa438bd076d41",
+      "subject": "fix: increment dotted prerelease identifiers (#870)",
+      "source_files": [
+        "classes/semver.js"
+      ],
+      "test_files": [
+        "test/fixtures/increments.js"
+      ],
+      "insertions": 25,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "node-semver-17aa702d",
+      "repository": "https://github.com/npm/node-semver",
+      "repository_name": "node-semver",
+      "language": "javascript",
+      "runner": "tap",
+      "fix_commit": "17aa702d91166472b197a2ea768f085083bee2e4",
+      "base_commit": "5f3ca133e040210b6ea80c350a1d61d9da02e722",
+      "subject": "fix: strip build metadata before comparator trimming (#869)",
+      "source_files": [
+        "classes/range.js"
+      ],
+      "test_files": [
+        "test/fixtures/range-parse.js"
+      ],
+      "insertions": 21,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "node-semver-5f3ca133",
+      "repository": "https://github.com/npm/node-semver",
+      "repository_name": "node-semver",
+      "language": "javascript",
+      "runner": "tap",
+      "fix_commit": "5f3ca133e040210b6ea80c350a1d61d9da02e722",
+      "base_commit": "efa4be6096c1f9b77d9d27d6132f6220c43b4e31",
+      "subject": "fix: handle prerelease bounds in subset (#867)",
+      "source_files": [
+        "ranges/subset.js"
+      ],
+      "test_files": [
+        "test/ranges/subset.js"
+      ],
+      "insertions": 3,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "tomlkit-495a42ec",
+      "repository": "https://github.com/sdispater/tomlkit",
+      "repository_name": "tomlkit",
+      "language": "python",
+      "runner": "pytest",
+      "fix_commit": "495a42ecc9119eaaeb895def0fd025a71cd1cf60",
+      "base_commit": "21a4942ed31e773061c9fc047d55b1bb3c637ee3",
+      "subject": "Fix top-level scalar captured by a table rendered from a dotted key (#550)",
+      "source_files": [
+        "tomlkit/container.py"
+      ],
+      "test_files": [
+        "tests/test_toml_document.py"
+      ],
+      "insertions": 52,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "tomlkit-8cd44f58",
+      "repository": "https://github.com/sdispater/tomlkit",
+      "repository_name": "tomlkit",
+      "language": "python",
+      "runner": "pytest",
+      "fix_commit": "8cd44f58b499da3c80a29bc877a512665a15e0bb",
+      "base_commit": "67d3e86502706df2a9ed67114ab67e25bcdcbbb7",
+      "subject": "fix: preserve leading newline of multiline string built with string() (#551)",
+      "source_files": [
+        "tomlkit/items.py"
+      ],
+      "test_files": [
+        "tests/test_api.py"
+      ],
+      "insertions": 33,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "tomlkit-67d3e865",
+      "repository": "https://github.com/sdispater/tomlkit",
+      "repository_name": "tomlkit",
+      "language": "python",
+      "runner": "pytest",
+      "fix_commit": "67d3e86502706df2a9ed67114ab67e25bcdcbbb7",
+      "base_commit": "e23a25438c6cc9b8cc28b6dcf76dc52f9c7a33e3",
+      "subject": "Fix array of tables replacing a dotted key swallowing the next sibling (#542) (#549)",
+      "source_files": [
+        "tomlkit/container.py"
+      ],
+      "test_files": [
+        "tests/test_toml_document.py"
+      ],
+      "insertions": 30,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "tomlkit-e23a2543",
+      "repository": "https://github.com/sdispater/tomlkit",
+      "repository_name": "tomlkit",
+      "language": "python",
+      "runner": "pytest",
+      "fix_commit": "e23a25438c6cc9b8cc28b6dcf76dc52f9c7a33e3",
+      "base_commit": "34e51e2d6d09af86970f266a4217cea839fdc347",
+      "subject": "fix: avoid duplicate table header when adding a key to an out-of-order table (#545)",
+      "source_files": [
+        "tomlkit/container.py"
+      ],
+      "test_files": [
+        "tests/test_toml_document.py"
+      ],
+      "insertions": 27,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "tomlkit-43668dde",
+      "repository": "https://github.com/sdispater/tomlkit",
+      "repository_name": "tomlkit",
+      "language": "python",
+      "runner": "pytest",
+      "fix_commit": "43668ddebc3f082bf385d328aceed18d26976897",
+      "base_commit": "d3c76f0bbe90af4b12a3b83bd8e59bc9061dfe85",
+      "subject": "fix: keep newline after dotted inline table (#533)",
+      "source_files": [
+        "tomlkit/container.py"
+      ],
+      "test_files": [
+        "tests/test_toml_document.py"
+      ],
+      "insertions": 22,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "tomlkit-d3c76f0b",
+      "repository": "https://github.com/sdispater/tomlkit",
+      "repository_name": "tomlkit",
+      "language": "python",
+      "runner": "pytest",
+      "fix_commit": "d3c76f0bbe90af4b12a3b83bd8e59bc9061dfe85",
+      "base_commit": "f40ae46323992b1cda523424bdfb30de899eb4f6",
+      "subject": "fix: reject out-of-order concrete+super table redefinitions at parse time (#530)",
+      "source_files": [
+        "tomlkit/container.py"
+      ],
+      "test_files": [
+        "tests/test_toml_document.py"
+      ],
+      "insertions": 54,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "boltons-ead236e2",
+      "repository": "https://github.com/mahmoud/boltons",
+      "repository_name": "boltons",
+      "language": "python",
+      "runner": "pytest",
+      "fix_commit": "ead236e278ca0466bf468de746b5960fb12d7e5b",
+      "base_commit": "57cb026b7f47cd2765a0d5acdc83849ed5f1f6a3",
+      "subject": "fix: backoff_iter with factor=1.0 and no count raised ZeroDivisionError",
+      "source_files": [
+        "boltons/iterutils.py"
+      ],
+      "test_files": [
+        "tests/test_iterutils.py"
+      ],
+      "insertions": 23,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "boltons-1e61524a",
+      "repository": "https://github.com/mahmoud/boltons",
+      "repository_name": "boltons",
+      "language": "python",
+      "runner": "pytest",
+      "fix_commit": "1e61524a798ea73632029a013a7686036d5c126f",
+      "base_commit": "55dfe5077bcb5fa76611b5f2a557ea6c442ad87c",
+      "subject": "fix(strutils): stop singularize() mangling words ending in 'ss'",
+      "source_files": [
+        "boltons/strutils.py"
+      ],
+      "test_files": [
+        "tests/test_strutils.py"
+      ],
+      "insertions": 32,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "boltons-55dfe507",
+      "repository": "https://github.com/mahmoud/boltons",
+      "repository_name": "boltons",
+      "language": "python",
+      "runner": "pytest",
+      "fix_commit": "55dfe5077bcb5fa76611b5f2a557ea6c442ad87c",
+      "base_commit": "ebc7a8f776debfa33f0b380b57a444bca75a251b",
+      "subject": "fix(fileutils): accept os.PathLike in AtomicSaver",
+      "source_files": [
+        "boltons/fileutils.py"
+      ],
+      "test_files": [
+        "tests/test_fileutils.py"
+      ],
+      "insertions": 18,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "boltons-ebc7a8f7",
+      "repository": "https://github.com/mahmoud/boltons",
+      "repository_name": "boltons",
+      "language": "python",
+      "runner": "pytest",
+      "fix_commit": "ebc7a8f776debfa33f0b380b57a444bca75a251b",
+      "base_commit": "bba729bf4539afc993a6410bdf8074b28707004a",
+      "subject": "Fix copy.copy/copy.deepcopy collapsing OrderedMultiDict values",
+      "source_files": [
+        "boltons/dictutils.py"
+      ],
+      "test_files": [
+        "tests/test_dictutils.py"
+      ],
+      "insertions": 32,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "boltons-d0a284fc",
+      "repository": "https://github.com/mahmoud/boltons",
+      "repository_name": "boltons",
+      "language": "python",
+      "runner": "pytest",
+      "fix_commit": "d0a284fc7ef1aebceb54798600d73be4eeb76ed8",
+      "base_commit": "609cabe932a1ea1423b24568644945abb1b8bb84",
+      "subject": "fix IndexedSet out-of-range negative indexing wrapping around (x[-n-k], pop(-n-k))",
+      "source_files": [
+        "boltons/setutils.py"
+      ],
+      "test_files": [
+        "tests/test_setutils.py"
+      ],
+      "insertions": 37,
+      "status": "proposed"
+    },
+    {
+      "candidate_id": "boltons-609cabe9",
+      "repository": "https://github.com/mahmoud/boltons",
+      "repository_name": "boltons",
+      "language": "python",
+      "runner": "pytest",
+      "fix_commit": "609cabe932a1ea1423b24568644945abb1b8bb84",
+      "base_commit": "979fa9b613fa8c0a455ae16ea6f2ec91c11ecafe",
+      "subject": "fix IndexedSet slicing after removals: keep iter_slice bounds in apparent index space (#423)",
+      "source_files": [
+        "boltons/setutils.py"
+      ],
+      "test_files": [
+        "tests/test_setutils.py"
+      ],
+      "insertions": 44,
+      "status": "proposed"
+    }
+  ]
+}

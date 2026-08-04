@@ -1,0 +1,44 @@
+{
+  "name": "oh-my-luna",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Research-first evaluation harness for a GPT-5.6 Luna capability runtime",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "oh-my-luna-eval": "dist/src/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && node --test dist/tests/*.test.js",
+    "smoke": "npm run build && node dist/src/cli.js run fixtures/smoke/task.json --runs .oml-runs",
+    "gate-m:validate": "node scripts/gate-m/validate-real-tasks.mjs",
+    "gate-m:author": "node scripts/gate-m/generate-intervention-drafts.mjs",
+    "gate-m:review-bundles": "node scripts/gate-m/generate-review-bundles.mjs",
+    "gate-m:freeze": "node scripts/gate-m/freeze-study.mjs",
+    "gate-m:provision": "node scripts/gate-m/provision-sources.mjs",
+    "gate-m:setup": "npm run gate-m:provision && npm run gate-m:validate",
+    "gate-m:treatments": "node scripts/gate-m/build-v3-treatments.mjs",
+    "gate-m:leakage": "node scripts/gate-m/check-v3-leakage.mjs",
+    "gate-m:kernel": "npm run build && node scripts/gate-m/validate-kernel.mjs",
+    "gate-m:freeze-v3": "node scripts/gate-m/freeze-v3.mjs",
+    "gate-h:live-smoke": "npm run build && node scripts/gate-h/live-smoke.mjs",
+    "gate-h:forecast": "npm run build && node scripts/gate-h/forecast-cost.mjs",
+    "heldout:provision": "node scripts/gate-h-heldout/provision.mjs",
+    "heldout:verify": "node scripts/gate-h-heldout/freeze.mjs --verify",
+    "heldout:check-prompt": "node scripts/gate-h-heldout/check-prompt-completeness.mjs",
+    "heldout:dry-run": "npm run build && node scripts/gate-h-heldout/run-stage-a.mjs --dry-run oracle",
+    "heldout:stage-a": "npm run build && node scripts/gate-h-heldout/run-stage-a.mjs"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "openai": "7.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "typescript": "5.9.3"
+  }
+}

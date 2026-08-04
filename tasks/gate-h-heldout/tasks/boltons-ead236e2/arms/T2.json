@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-h-heldout-v1",
+  "task_id": "boltons-ead236e2",
+  "treatment_id": "T2",
+  "combined_arm": false,
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "boltons/iterutils.py",
+          "start_line": 630,
+          "end_line": 680
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "boltons/iterutils.py",
+          "name": "backoff_iter",
+          "kind": "function"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "backoff_iter",
+        "consumer_symbol": "caller",
+        "type": "raise"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Calling backoff_iter(1.0, 1.0, factor=1.0) against the base commit raises ZeroDivisionError: float division by zero. The error originates inside the library rather than being reported as an invalid argument.",
+          "command": "python3 -c \"from boltons.iterutils import backoff_iter; list(backoff_iter(1.0, 1.0, factor=1.0))\"",
+          "certainty": "observed"
+        }
+      ]
+    }
+  },
+  "content_sha256": "7dc2feb531404694d4f0d0b2fa066589810584228e0ee14510d5f53860a2fd79"
+}

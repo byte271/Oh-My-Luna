@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-m-treatments-v3",
+  "task_id": "zod-absent-catch",
+  "task_base_commit": "b8dffe9e62f17e6571e6249d05cc5102b54d94e4",
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "provenance": {
+    "author_id": "oml-lead-maintainer-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "independently_reviewed": false,
+    "created_at": "2026-08-02T18:00:00Z"
+  },
+  "treatment_id": "T3",
+  "treatment_name": "diagnostic_assistance",
+  "combined_arm": true,
+  "combined_arm_note": "Diagnosis and behavioral objective are deliberately combined. No effect may be attributed to one rather than the other.",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "start_line": 3470,
+          "end_line": 3502
+        },
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "start_line": 3887,
+          "end_line": 3932
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "name": "handleOptionalResult",
+          "kind": "function"
+        },
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "name": "$ZodOptional",
+          "kind": "variable"
+        },
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "name": "$ZodCatch",
+          "kind": "variable"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "$ZodCatch",
+        "consumer_symbol": "$ZodOptional",
+        "type": "return"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Parsing an empty object with the reported preprocessed array property followed by catch([]) exits with an invalid_type issue whose expected value is nonoptional and whose path is ['area'].",
+          "evidence_refs": [
+            "evidence:base-run"
+          ],
+          "certainty": "observed"
+        }
+      ]
+    },
+    "diagnosis": {
+      "root_cause": "Catch substitutes a successful fallback after its inner schema reports issues, but the absent-property path still derives input optionality and downstream handling from the inner schema, so the substituted result is treated as a missing nonoptional property.",
+      "supporting_evidence_refs": [
+        "base:packages/zod/src/v4/core/schemas.ts:3470-3502",
+        "base:packages/zod/src/v4/core/schemas.ts:3887-3932",
+        "evidence:base-run"
+      ],
+      "certainty": "confirmed"
+    },
+    "behavioral_objective": {
+      "objective": "When a property whose schema ends in a catch fallback is absent from the input, parsing must succeed and that property must take the fallback value.",
+      "constraints": [
+        "A value that is present but invalid must continue to receive the fallback.",
+        "A property that is genuinely optional and absent must continue to be omitted rather than given a value it does not declare.",
+        "Synchronous and asynchronous parsing must produce the same result.",
+        "Behavior relied on by the existing test suite must continue to hold."
+      ],
+      "non_goals": [
+        "Do not change the public catch callback API."
+      ],
+      "multiple_implementations_possible": true,
+      "multiple_implementations_justification": "The objective names the required parse outcome for an absent property under a catch fallback and no mechanism. It can be satisfied by changing how the wrapper reports its input optionality, or by having the absent-property path consult the fallback result directly; these are materially different implementations."
+    }
+  },
+  "derived_from": {
+    "protocol_version": "gate-m-real-tasks-v2",
+    "levels": [
+      "L2",
+      "L3",
+      "L4",
+      "L5"
+    ],
+    "packet_sha256": {
+      "L2": "9910c5c53a3c53e487b2b3463d04a651a45cfe4dc1a166d5d1b5c37d913c8fab",
+      "L3": "5b429845c0db4aca6b3a6c4b03f0ceb2bd3b8ecd11aba4410c7af45cf03d8ea4",
+      "L4": "2b34153e58f9c8467830b7c9f80d99073512a31213b7815e101516ff9e185167",
+      "L5": "84319efbd3c477296b4583b3e9ec27da768126cf35fad70068f964836c5c5b86"
+    }
+  },
+  "content_sha256": "860ddc22c587b1530aa3d00ce93f8e949ff4ca2d9ade4ffdfb866a8413c31aa9"
+}

@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-m-treatments-v3",
+  "task_id": "zod-tuple-default",
+  "task_base_commit": "ec979ad783a9e9c992d3c9bd4e5f3b56110b1ef8",
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "provenance": {
+    "author_id": "oml-lead-maintainer-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "independently_reviewed": false,
+    "created_at": "2026-08-02T18:00:00Z"
+  },
+  "treatment_id": "T2",
+  "treatment_name": "execution_evidence",
+  "combined_arm": false,
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "start_line": 2635,
+          "end_line": 2714
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "name": "$ZodTuple",
+          "kind": "variable"
+        },
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "name": "handleTupleResult",
+          "kind": "function"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "$ZodTuple",
+        "consumer_symbol": "handleTupleResult",
+        "type": "call"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Parsing the two-item tuple [string, string.default('fallback')] with the one-item input ['present'] returns the one-item output ['present'] with length 1.",
+          "evidence_refs": [
+            "evidence:base-run"
+          ],
+          "certainty": "observed"
+        }
+      ]
+    }
+  },
+  "derived_from": {
+    "protocol_version": "gate-m-real-tasks-v2",
+    "levels": [
+      "L2",
+      "L3"
+    ],
+    "packet_sha256": {
+      "L2": "00b5534bc1628780d18aa9b0ffda92714a371234a609d2bd8f780c4a1eb2640a",
+      "L3": "9ecbba31b379d34478b573cac84c09a76fac1493dc003a54b2f829a930dfb565"
+    }
+  },
+  "content_sha256": "f5a4af2efccbaba34ddec18b74e0decbe8529fd5da4a2a2e23e1f34ddf890fd2"
+}

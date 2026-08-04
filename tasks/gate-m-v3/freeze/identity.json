@@ -1,0 +1,331 @@
+{
+  "schema_version": "1.0",
+  "freeze_id": "gate-m-treatments-v3-2026-08-02",
+  "protocol_version": "gate-m-treatments-v3",
+  "created_at": "2026-08-02T18:00:00Z",
+  "phase": "gate_m_kernel_validated",
+  "status": "ready_for_exploratory_gate_h",
+  "capability_claim_permitted": false,
+  "supersedes": [
+    {
+      "freeze_id": "gate-m-real-tasks-2026-08-02-pre-review-v1",
+      "relationship": "provenance_only",
+      "status": "preserved_unmodified"
+    },
+    {
+      "freeze_id": "gate-m-real-tasks-v2-2026-08-02-pre-review",
+      "relationship": "provenance_only",
+      "status": "preserved_unmodified"
+    }
+  ],
+  "code_identity": {
+    "commit": "cd7fdb131aeb8fd6bcd297a590c18bc6a0aeafe3",
+    "tree": "1f9a90f61066eac746820c6c367259b4daf288dc"
+  },
+  "environment": {
+    "platform": "linux",
+    "architecture": "x64",
+    "node_versions_validated": [
+      "v22.22.2",
+      "v24.18.1"
+    ],
+    "clean_clone_provisioning_required": true,
+    "provisioning_entry_point": "npm run gate-m:provision",
+    "validation_entry_point": "npm run gate-m:validate",
+    "kernel_entry_point": "npm run gate-m:kernel",
+    "network_required_during_provisioning_only": true
+  },
+  "tasks": [
+    {
+      "task_id": "zod-tuple-default",
+      "repo": "colinhacks/zod",
+      "base": "ec979ad783a9e9c992d3c9bd4e5f3b56110b1ef8",
+      "corrected": "b6066b3e4730fc8b966d13974b4abae8dce25df4",
+      "base_archive": "db2a94e7fde8db8d3ea244df4dd94b3b8172d801e062384b5efc9dfbd7ffc72c",
+      "corrected_archive": "9223198b45c0e7b62bb24830b9c370493ffcc24968806fd360c96a3f47b7f142",
+      "license": "MIT"
+    },
+    {
+      "task_id": "zod-absent-catch",
+      "repo": "colinhacks/zod",
+      "base": "b8dffe9e62f17e6571e6249d05cc5102b54d94e4",
+      "corrected": "1cab69383fcdeae2a366d5e2a2fc4d8fc765d168",
+      "base_archive": "c5b0f46d101a54485e440382bb67852391771e98f941a50c6810b5dabc49c24c",
+      "corrected_archive": "3807313c68bad89e1d63a00a6fb5945a645a1b173262c9654b2828da21f71ddb",
+      "license": "MIT"
+    },
+    {
+      "task_id": "date-fns-zh-month",
+      "repo": "date-fns/date-fns",
+      "base": "39d1e14200cead9e4be5df88695b5e82082875ed",
+      "corrected": "b9c5865edb7610c59e6b3694ed1e1691f4807688",
+      "base_archive": "2521606bb70dd781849cc7a5f120ba09a89a3f9b0ab98ddfa984427ddd3ff00a",
+      "corrected_archive": "1fb62cb08a98addb864d5e37c63e7469f7f5b05fd66d80e842dc35835a1e2dbd",
+      "license": "MIT"
+    },
+    {
+      "task_id": "type-fest-conditional-keys",
+      "repo": "sindresorhus/type-fest",
+      "base": "b6d8dd60726a8d7df5a5eea3b3c9d830804d2570",
+      "corrected": "0fb2d62f7d222d3effb0ad89d5b340e36285bcc4",
+      "base_archive": "7fdeb70c2eab145029340e3c64288ad349bff000d2d3ad6ed1d2903bc8e5097c",
+      "corrected_archive": "747ea7d24e27ae6e97b46c3b4f3837e57b80facbce31a62ace479cd9ba00384d",
+      "license": "MIT OR CC0-1.0"
+    }
+  ],
+  "treatment_design": {
+    "arms": [
+      "T0",
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "t0_has_no_packet": true,
+    "t3_is_combined_arm": true,
+    "t3_combines": [
+      "causal_diagnosis",
+      "behavioral_objective"
+    ],
+    "five_level_ladder": "superseded",
+    "l3_l4_agreement_analysis": "discontinued"
+  },
+  "semantic_review": {
+    "status": "optional_external_audit_evidence",
+    "is_merge_gate": false,
+    "is_execution_prerequisite": false,
+    "eligible_reviews_completed": 0,
+    "packet_status": "author_reviewed_semantic_separation_unverified",
+    "policy_sha256": "ff834d71a76fcb31978ad43831107c4fd461e645a57dbc6b1b22bd8f50d05b6c"
+  },
+  "leakage_controls": {
+    "implementation_sha256": "af956c42af912bb337e6ccefd3f60b19420050559ba42a5e127373b387373dc4",
+    "report_sha256": "efb036be00aa104609e3255a5306acdee73711e67d075823b6871cb9952dba58",
+    "is_heuristic": true,
+    "not_a_purity_proof": true
+  },
+  "model_execution": {
+    "live_model_calls": false,
+    "adapter_id": "deterministic-test-double",
+    "model_snapshot": "test-double/not-a-model@fixture-1",
+    "reasoning_effort": "none"
+  },
+  "negative_controls": [
+    {
+      "id": "evaluator_argv_canary",
+      "test": "scorer declared interface rejects treatment canaries in argv, environment, stdin, and filenames"
+    },
+    {
+      "id": "evaluator_workspace_canary",
+      "test": "scorer rejects a canary embedded in a copied workspace filename"
+    },
+    {
+      "id": "adjacent_trace_isolation",
+      "test": "scorer uses a detached workspace and does not expose the adjacent orchestrator trace by its interface"
+    },
+    {
+      "id": "freeze_mutation_detection",
+      "test": "rejects packet modified after freeze"
+    },
+    {
+      "id": "control_path_leak",
+      "test": "user-visible receipt metadata rejects control-only artifact paths"
+    },
+    {
+      "id": "t0_has_no_packet",
+      "test": "validate-kernel treatment_specific_materialization"
+    },
+    {
+      "id": "no_repair_in_model_visible_material",
+      "test": "validate-kernel no_corrected_patch_in_model_visible_material"
+    }
+  ],
+  "scorer": {
+    "source_path": "src/scoring.ts",
+    "source_sha256": "63cfba421d028f18326c144438e313b950faf462fb187ac07154868846a2b601",
+    "classification": "interface_blind_host_confidentiality_not_enforced"
+  },
+  "artifact_count": 36,
+  "artifacts": [
+    {
+      "role": "harness",
+      "path": "data/pricing/openai-2026-08-02.evidence.json",
+      "sha256": "d58b6f84a329744106cd3f730b7c0719e815c05d44353bc400e170ad5d113aac"
+    },
+    {
+      "role": "harness",
+      "path": "fixtures/smoke/deterministic-adapter.mjs",
+      "sha256": "87226387ebb4f57ee813e9e45391b99df3159cec3693567a5727deb8a9dda111"
+    },
+    {
+      "role": "harness",
+      "path": "scripts/gate-m/build-v3-treatments.mjs",
+      "sha256": "f3aabf5b60575c9f1e43452438be79f779bfdaf5577bf1973b8dfc9aeeb7e147"
+    },
+    {
+      "role": "harness",
+      "path": "scripts/gate-m/check-v3-leakage.mjs",
+      "sha256": "af956c42af912bb337e6ccefd3f60b19420050559ba42a5e127373b387373dc4"
+    },
+    {
+      "role": "harness",
+      "path": "scripts/gate-m/provision-sources.mjs",
+      "sha256": "60f22d3aba7ef64c608ffacc46d4c9372a5ae784f796188ac0e59ea88393d1ab"
+    },
+    {
+      "role": "harness",
+      "path": "scripts/gate-m/validate-kernel.mjs",
+      "sha256": "013fb9c5394907aeec817a2ab489feea027ef99f136f9e62179adbfb1435b391"
+    },
+    {
+      "role": "harness",
+      "path": "scripts/gate-m/validate-real-tasks.mjs",
+      "sha256": "89afa7bb9b859d07d284e08dfa9ffb825bff31a7d0dc7aed434be0048588ccf3"
+    },
+    {
+      "role": "harness",
+      "path": "src/scoring.ts",
+      "sha256": "63cfba421d028f18326c144438e313b950faf462fb187ac07154868846a2b601"
+    },
+    {
+      "role": "treatment_packet",
+      "path": "tasks/gate-m-v3/date-fns-zh-month/treatments/T1.json",
+      "sha256": "ac9821e91f5888b5b5617910f2abfc03971d935904f8b54ec1242eaf7e7b988a"
+    },
+    {
+      "role": "treatment_packet",
+      "path": "tasks/gate-m-v3/date-fns-zh-month/treatments/T2.json",
+      "sha256": "357cce5c9967e5fadd47c012e43bedbb985cdfdfc020553d52ad0049ef999982"
+    },
+    {
+      "role": "treatment_packet",
+      "path": "tasks/gate-m-v3/date-fns-zh-month/treatments/T3.json",
+      "sha256": "1dd8c8ccc04232ecf27a6e38ab4678b365450a2459326f852744f0ef33cfa591"
+    },
+    {
+      "role": "leakage_report",
+      "path": "tasks/gate-m-v3/leakage-report.json",
+      "sha256": "efb036be00aa104609e3255a5306acdee73711e67d075823b6871cb9952dba58"
+    },
+    {
+      "role": "v3_material",
+      "path": "tasks/gate-m-v3/PROTOCOL.md",
+      "sha256": "40e1bb4493e7f76b2d73c1071765308ab9cf372733b1b274d1363aff5c1a8350"
+    },
+    {
+      "role": "research_policy",
+      "path": "tasks/gate-m-v3/review-policy.json",
+      "sha256": "ff834d71a76fcb31978ad43831107c4fd461e645a57dbc6b1b22bd8f50d05b6c"
+    },
+    {
+      "role": "v3_material",
+      "path": "tasks/gate-m-v3/TREATMENTS.json",
+      "sha256": "398fce55b446222da96d609d3c42f521f6c1d41e8a9b86a59be39ed8c8b65dfb"
+    },
+    {
+      "role": "treatment_packet",
+      "path": "tasks/gate-m-v3/type-fest-conditional-keys/treatments/T1.json",
+      "sha256": "54fc5e409bdf6c306a90a4c6cdfae8710b909edf3e053204ff7ea5d70a91e051"
+    },
+    {
+      "role": "treatment_packet",
+      "path": "tasks/gate-m-v3/type-fest-conditional-keys/treatments/T2.json",
+      "sha256": "3d6034944588f97998fb4d36363a8a6a8714e64d043cd3617ca310928c2aa53d"
+    },
+    {
+      "role": "treatment_packet",
+      "path": "tasks/gate-m-v3/type-fest-conditional-keys/treatments/T3.json",
+      "sha256": "9774f607cf2bb1296dd8f3689a2a8ce4f46133f2be3ee8981142d3d0c137530b"
+    },
+    {
+      "role": "treatment_packet",
+      "path": "tasks/gate-m-v3/zod-absent-catch/treatments/T1.json",
+      "sha256": "a96f45892e869f9d6ec7cd5b4b399194d2b5c0dbb9e7459b32095ad148dc6b78"
+    },
+    {
+      "role": "treatment_packet",
+      "path": "tasks/gate-m-v3/zod-absent-catch/treatments/T2.json",
+      "sha256": "03c7eb2916ec9b0277295cd0f7006f341d8c967e388ce709ec487a5f8f541b38"
+    },
+    {
+      "role": "treatment_packet",
+      "path": "tasks/gate-m-v3/zod-absent-catch/treatments/T3.json",
+      "sha256": "1d83f722670a0aebc0bf6671a087b803b464be840628db8eebe57bc5ee18b20f"
+    },
+    {
+      "role": "treatment_packet",
+      "path": "tasks/gate-m-v3/zod-tuple-default/treatments/T1.json",
+      "sha256": "c9d9031b278ad16e734e5f2348735a176ca1e228dd5a2652cc34136e830c84e8"
+    },
+    {
+      "role": "treatment_packet",
+      "path": "tasks/gate-m-v3/zod-tuple-default/treatments/T2.json",
+      "sha256": "a22a1edbf34a40a8c7c00f058bd6888e6221d453306cf02cd820ec7cad47a2f3"
+    },
+    {
+      "role": "treatment_packet",
+      "path": "tasks/gate-m-v3/zod-tuple-default/treatments/T3.json",
+      "sha256": "500e0d91f0edfdf4889356a20bea81b419db8d25d25d14884b5a90375060fb13"
+    },
+    {
+      "role": "evaluator",
+      "path": "tasks/gate-m/date-fns-zh-month/control/evaluator/verify.mjs",
+      "sha256": "8511e0d97221d4151015d39c7dd223ff24caf86956d85250830821d3a528b38f"
+    },
+    {
+      "role": "manifest",
+      "path": "tasks/gate-m/date-fns-zh-month/manifest.json",
+      "sha256": "b6cea9f3d64a3d28842a10afbe742008951cfc293fef6a53c9fce644791afcf8"
+    },
+    {
+      "role": "visible_issue",
+      "path": "tasks/gate-m/date-fns-zh-month/visible/issue.md",
+      "sha256": "129c95c081d9b28012d66271fc8e6ab868daffbba61b536d1599d3e0bfa4c166"
+    },
+    {
+      "role": "evaluator",
+      "path": "tasks/gate-m/type-fest-conditional-keys/control/evaluator/verify.mjs",
+      "sha256": "14f1c3a2740d2e542a115df6277e5da8ed515c967cc518748dde60937714e1d1"
+    },
+    {
+      "role": "manifest",
+      "path": "tasks/gate-m/type-fest-conditional-keys/manifest.json",
+      "sha256": "ca3aff1d3ea62788e15e04c152acc1a133c5ef004dd71bd36defdab7b3df98d2"
+    },
+    {
+      "role": "visible_issue",
+      "path": "tasks/gate-m/type-fest-conditional-keys/visible/issue.md",
+      "sha256": "87961e952a157b1e42490c844947e67c0976a0d2188898f974a64dd7bedc53d8"
+    },
+    {
+      "role": "evaluator",
+      "path": "tasks/gate-m/zod-absent-catch/control/evaluator/verify.mjs",
+      "sha256": "f27d0c012fd00c750bbf097d051c8c900cfee4231cbcdcaa6af4c05f82213d79"
+    },
+    {
+      "role": "manifest",
+      "path": "tasks/gate-m/zod-absent-catch/manifest.json",
+      "sha256": "2624d2b192a1a69f36833b5712c8fa9515ee1cc9560ffb4d078245763ef407e7"
+    },
+    {
+      "role": "visible_issue",
+      "path": "tasks/gate-m/zod-absent-catch/visible/issue.md",
+      "sha256": "1c34471f1badd195eddb952ed0ee67b26d367ba9524c02c4c5fc1e473765dd45"
+    },
+    {
+      "role": "evaluator",
+      "path": "tasks/gate-m/zod-tuple-default/control/evaluator/verify.mjs",
+      "sha256": "11b21860e83fe0dcbfd09d193d31ef38dffe7a387eedea98c7b46a8336cc6909"
+    },
+    {
+      "role": "manifest",
+      "path": "tasks/gate-m/zod-tuple-default/manifest.json",
+      "sha256": "fa47fe2600b55604995e0ef97185f8eaecfd7319e178e84e76922976925eca96"
+    },
+    {
+      "role": "visible_issue",
+      "path": "tasks/gate-m/zod-tuple-default/visible/issue.md",
+      "sha256": "72fa83b191a6f8caf55f3730a51bee4a8bf0c9e87498772a79a5e3157e7e89d1"
+    }
+  ],
+  "aggregate_sha256": "5b34326a081072c8c5749f695b0df6ba8644687110d973458060cfed2229df2b"
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-h-heldout-v1",
+  "task_id": "boltons-ead236e2",
+  "treatment_id": "T3",
+  "combined_arm": true,
+  "combined_arm_note": "Diagnosis and behavioral objective are deliberately combined. No effect may be attributed to one rather than the other.",
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "boltons/iterutils.py",
+          "start_line": 630,
+          "end_line": 680
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "boltons/iterutils.py",
+          "name": "backoff_iter",
+          "kind": "function"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "backoff_iter",
+        "consumer_symbol": "caller",
+        "type": "raise"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Calling backoff_iter(1.0, 1.0, factor=1.0) against the base commit raises ZeroDivisionError: float division by zero. The error originates inside the library rather than being reported as an invalid argument.",
+          "command": "python3 -c \"from boltons.iterutils import backoff_iter; list(backoff_iter(1.0, 1.0, factor=1.0))\"",
+          "certainty": "observed"
+        }
+      ]
+    },
+    "diagnosis": {
+      "root_cause": "When no count is supplied the number of steps is derived from a logarithm taken to the base of the growth factor. A factor of 1.0 makes that logarithm's denominator zero, so the derivation divides by zero before any argument validation notices that a non-growing factor cannot determine a step count. The case where start and stop are already equal needs no growth at all and is therefore well defined, but it is not distinguished from the case that genuinely cannot be derived.",
+      "certainty": "confirmed"
+    },
+    "behavioral_objective": {
+      "objective": "A non-growing factor with no explicit count must not raise an arithmetic error from inside the library. Where the requested range needs no growth the call must succeed; where it cannot be satisfied the caller must receive a clear argument error.",
+      "constraints": [
+        "Existing behaviour for factors greater than 1.0 must not change.",
+        "An explicitly supplied count must keep working, including the repeat form.",
+        "The existing validation of start and stop ordering must be preserved.",
+        "Behaviour relied on by the existing test suite must continue to hold."
+      ],
+      "non_goals": [
+        "Do not change the jitter behaviour.",
+        "Do not change the public signature."
+      ]
+    }
+  },
+  "content_sha256": "687e9b68509c9613355ccbe4dfe1d69ff57440490e125427a89e79c2570c330d"
+}

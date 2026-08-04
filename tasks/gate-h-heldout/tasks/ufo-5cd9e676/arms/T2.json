@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-h-heldout-v1",
+  "task_id": "ufo-5cd9e676",
+  "treatment_id": "T2",
+  "combined_arm": false,
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "src/utils.ts",
+          "start_line": 310,
+          "end_line": 340
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "src/utils.ts",
+          "name": "withoutBase",
+          "kind": "function"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "withoutBase",
+        "consumer_symbol": "caller",
+        "type": "return"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Running the package test suite against the base commit reports: expected \"//evil.com\" to be \"/evil.com\"; expected \"///evil.com\" to be \"/evil.com\"; expected \"//\" to be \"/\". The number of leading slashes in the remainder is preserved in the result.",
+          "command": "npx vitest run test",
+          "certainty": "observed"
+        }
+      ]
+    }
+  },
+  "content_sha256": "4f2e96761ba362e6cbba15660fda8ac8ce36ffb2d4e0ee2f00d1c6c57a744578"
+}

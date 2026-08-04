@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-h-heldout-v1",
+  "task_id": "tomlkit-43668dde",
+  "treatment_id": "T3",
+  "combined_arm": true,
+  "combined_arm_note": "Diagnosis and behavioral objective are deliberately combined. No effect may be attributed to one rather than the other.",
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "tomlkit/container.py",
+          "start_line": 350,
+          "end_line": 400
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "tomlkit/container.py",
+          "name": "Container",
+          "kind": "class"
+        },
+        {
+          "path": "tomlkit/container.py",
+          "name": "_handle_dotted_key",
+          "kind": "method"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "Container.append",
+        "consumer_symbol": "Container.as_string",
+        "type": "return"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Against the base commit, parsing \"[x]\\na.b = {}\" and then assigning doc[\"x\"][\"c\"] = 3 renders as '[x]\\na.b = {}c = 3\\n'. The newline that should follow the dotted entry is absent, so the appended key shares a line with it.",
+          "command": "python3 -c \"import tomlkit; d=tomlkit.parse('[x]\\\\na.b = {}'); d['x']['c']=3; print(repr(d.as_string()))\"",
+          "certainty": "observed"
+        }
+      ]
+    },
+    "diagnosis": {
+      "root_cause": "A dotted key is stored as a super table wrapping the real entry, and the trailing whitespace that ends the line is recorded on the wrapper rather than on the entry inside it. When a new key is appended, the code inspects the last element of the body to decide whether a separator is required; it sees the wrapper, whose own inner element does not end in a newline, and concludes that no separator is needed. The newline held by the wrapper is never transferred to the entry that is actually rendered, so the appended key is written immediately after it.",
+      "certainty": "confirmed"
+    },
+    "behavioral_objective": {
+      "objective": "Appending a key to a document whose last element is a dotted entry must produce valid TOML in which the appended key begins on its own line.",
+      "constraints": [
+        "Existing separation behaviour for ordinary tables and keys must not change.",
+        "Round-tripping a document that is not modified must remain byte-identical.",
+        "Comments and existing blank lines must be preserved.",
+        "Behaviour relied on by the existing test suite must continue to hold."
+      ],
+      "non_goals": [
+        "Do not change the parser.",
+        "Do not change how dotted keys are represented."
+      ]
+    }
+  },
+  "content_sha256": "d54382f6e669e1f27410112f653401f9265a03672ed010d8b370262f47b01d2d"
+}
