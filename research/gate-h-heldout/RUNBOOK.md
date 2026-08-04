@@ -38,12 +38,39 @@ source have diverged and the run would be measuring something else.
 
 Exit codes: `3` source unavailable, `4` content mismatch, `5` missing local tool.
 
+> **These codes did not work until 2026-08-04.** `ProvisionError` was never
+> caught, so every failure surfaced as an unhandled rejection and exited **1** —
+> including exit 4, the one this runbook singles out as needing different
+> handling. If you have notes saying exit 4 never appears, that is why. Fixed;
+> exit 4 now also prints the "do not update the expected hash" warning at the
+> point of failure rather than only here.
+
 ## 2. Confirm the freeze before spending anything
 
 ```sh
-npm run heldout:verify     # expect: checked=43 mismatched=0 aggregate=match
+npm run heldout:verify     # expect: checked=43 mismatched=0 aggregate=match document=match
 npm run heldout:dry-run    # expect: 20/20 PASS, $0.00, "DRY RUN"
 ```
+
+> **Read `document=`, not only `aggregate=` (2026-08-04).** `aggregate_sha256`
+> covers six top-level fields; `identity.json` is excluded from the artifact
+> list. The registered continuation rule, the forbidden-claims list and
+> `live_calls_made` were covered by nothing. A freeze with the rule lowered from
+> "at least two tasks" to "at least ONE" and `live_calls_made: 999` verified
+> clean at exit 0.
+>
+> `document_sha256` now covers the whole document, and `--verify` prints its own
+> coverage every run. `document=NOT_SEALED` means the registered commitments are
+> unverified — seal only from a state confirmed against git:
+>
+> ```sh
+> git diff --exit-code tasks/gate-h-heldout/freeze/identity.json
+> npm run heldout:seal
+> ```
+>
+> Tamper *evidence*, not tamper proofing: someone who edits and re-seals passes,
+> and the re-seal shows in the diff. `--seal` refuses to overwrite a seal that is
+> present and wrong. See `../../docs/adr/0018-freeze-covers-the-whole-document.md`.
 
 The dry run substitutes a deterministic stub for the model, so it proves the
 whole pipeline — prompt assembly, output parsing, patch application, evaluation,
@@ -59,24 +86,61 @@ not show 20/20, stop; a live run would only waste money.
 > (`run-stage-a.mjs:113-129`) — they hold precisely what the model lacks.
 >
 > `gate-h-heldout-v1` fails exactly there: the prompt omits the source the model
-> must reproduce, and the transport sends `tools: []`. Run the sufficiency check:
+> must reproduce, and the transport sends `tools: []`. Run the sufficiency gates:
 >
 > ```sh
-> node scripts/gate-h-heldout/check-prompt-completeness.mjs
+> npm run heldout:sufficiency          # all four gates against frozen v1
+> npm run heldout:sufficiency-v2       # against the v2 candidate
 > ```
 >
-> Exit `0` source present · `6` source absent (the defect) · `7` not provisioned.
+> Exit `0` all pass · `6` source absent (the defect) · `7` not provisioned ·
+> `8` output cap · `9` template claim · `10` stub realism.
+>
+> **Measured 2026-08-04 against a provisioned corpus.** v1 fails three of the
+> four gates:
+>
+> ```
+> FAIL  prompt_completeness    24/24 combinations omit the source
+> FAIL  output_cap_headroom    2/5 tasks require more output tokens than the cap
+> FAIL  template_claim_audit   1 phrase asserts a capability the transport withholds
+> PASS  stub_realism
+> ```
+>
+> The second is independent of the prompt and was not previously measured:
+> `tomlkit/container.py` needs ~12,136 tokens and `boltons/iterutils.py` ~15,262,
+> against `max_output_tokens: 8192`. Two of five tasks were impossible under v1
+> whatever the prompt said.
+>
 > **Exit 6 is blocking.** Do not continue to step 3 or 4; go to
 > `../../docs/gate-h-heldout-v2-plan.md`. Full analysis in
-> `DEFECT-2026-08-03-unseen-source.md`.
+> `DEFECT-2026-08-03-unseen-source.md`; measurements in
+> `../../docs/status-2026-08-04.md`.
 
-Other stubs, if you want to see the failure paths:
+Other v1 stubs, if you want to see the failure paths:
 
 ```sh
 node scripts/gate-h-heldout/run-stage-a.mjs --dry-run prose   # 20/20 fail: prose is not success
 node scripts/gate-h-heldout/run-stage-a.mjs --dry-run noop    # 20/20 fail: no-change cannot pass
 node scripts/gate-h-heldout/run-stage-a.mjs --dry-run mixed   # continuation rule fires
 ```
+
+Under v2 the expectations are asserted rather than eyeballed, and there are five:
+
+```sh
+npm run heldout:v2:stubs
+```
+
+The one that matters most is `noop`. In v2 an unprivileged stub receives the
+prompt and nothing else — no filesystem argument exists in its signature — so
+`noop` reconstructs the base file *from the prompt* and must produce zero diff
+hunks across all twenty cells. It therefore fails under a v1-shaped prompt
+instead of passing 20/20, which is the property whose absence caused this whole
+defect. `oracle` remains the one declared privileged stub.
+
+> **v1's `evaluate.mjs` leaks a workspace copy per evaluation.** Its cleanup is in
+> a `finally` and every terminal path calls `process.exit()`, which does not
+> unwind. If you run v1 dry runs repeatedly, clear `oml-heldout-*` from your temp
+> directory; twenty accumulate per Stage A. v2 does not have this.
 
 ## 3. One paid smoke call — do this before Stage A
 
@@ -172,19 +236,33 @@ that verified nothing, both passing every test their author wrote
 (`../luna-example-framevault-ab.md`). Whether Gate H should measure that class at
 all is an open decision in `../../docs/gate-h-heldout-v2-plan.md` §8.
 
+**Executed 2026-08-04.** Both suites pass at 15/15, and the doubling series
+confirms the quadratic growth: 2.65x, 3.28x, 3.84x, 4.56x per doubling, against a
+control that stays flat between 0.6 ms and 6.2 ms. So the claim above is now a
+measurement — a program green on every test its author wrote holds a denial of
+service reachable from untrusted input, invisible to `evaluator_exit === 0`. It
+still says nothing about which model produced it, or whether a skill was
+involved: n=1 per arm, and no arm records a model identity.
+
 ### Reading exit 17
 
 On the two Python tasks `pytest` runs with `-x` (`evaluate.mjs:80`), so it stops
 at the first failing assertion and the receipt shows that failure, not all of
 them. The TypeScript runners are not passed an equivalent flag.
 
-More importantly, **17 does not only mean "tests failed."** The evaluator kills
-the child with SIGKILL after 300s (`evaluate.mjs:41`). A signal-killed child
-reports `code === null`, so the `code === -1` guard at `:96` does not fire and
-`:97` returns 17 — the same code as a clean test failure. When you see a 17,
-check the attempt's wall time before concluding the fix was wrong. Reasoned from
-Node's `close` semantics, not yet executed; a distinct timeout code is queued for
-the v2 re-freeze.
+More importantly, **under v1, 17 does not only mean "tests failed."** The
+evaluator kills the child with SIGKILL after 300s (`evaluate.mjs:41`). A
+signal-killed child reports `code === null`, so the `code === -1` guard at `:96`
+does not fire and `:97` returns 17 — the same code as a clean test failure. When
+you see a v1 17, check the attempt's wall time before concluding the fix was
+wrong.
+
+**Executed 2026-08-04 and confirmed:** a signal-killed child reports
+`{ code: null, signal: "SIGKILL" }`, so the guard cannot fire. Fixed in v2, which
+returns **18** for its own timeout and **19** for a foreign signal, marks both
+`attributable_to_model: false`, and writes a JSON receipt carrying `signal` and
+`duration_ms` — so a 17 can be told apart from an 18 from logs alone. v1 keeps
+the behaviour; it is inside the freeze.
 
 ## Safety properties you can rely on
 

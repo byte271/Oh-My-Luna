@@ -5,8 +5,25 @@ found:       2026-08-03, by reading the frozen pipeline
 severity:    blocking; invalidates Stage A as a capability measurement
 affects:     gate-h-heldout-v1, all four arms, all five tasks
 cost to date: $0.00 — found before the first live call
-status:      confirmed by code reading; automated check written, NOT YET RUN
+status:      CONFIRMED BY EXECUTION 2026-08-04. 24/24 combinations, exit 6.
+             Repaired in the v2 candidate, which passes all four gates.
+             v2 is not frozen; see docs/gate-h-heldout-v2-plan.md §5 and §8.
 ```
+
+> **Executed 2026-08-04.** The check written on 2026-08-03 could not be run in
+> that session. It has now been run against a provisioned corpus:
+>
+> ```
+> $ npm run heldout:check-prompt
+> source absent: 24/24            exit 6
+> ```
+>
+> The prompt-size corroboration below is also now measured rather than inferred:
+> assembled v1 prompts are **131–738 tokens** against a forecast of 18,000–21,000.
+> The gap is 30x–140x, and it is the size of the missing source.
+>
+> The "second, independent risk" in §*Output cap* is no longer unmeasured. See
+> that section.
 
 ## The defect
 
@@ -131,7 +148,7 @@ and hides the cause.
 
 The finding survives all five.
 
-## Second, independent risk — output cap, unmeasured
+## Second, independent risk — output cap. MEASURED 2026-08-04: it fires
 
 `max_output_tokens: 8192` (`identity.json:215`). If a permitted file exceeds that,
 the response truncates, `validateProviderOutput` returns `response_incomplete`
@@ -140,30 +157,92 @@ harness reason. Whole-file output makes the cap a function of **file size**, not
 answer length.
 
 `boltons/iterutils.py` and `tomlkit/container.py` are both large modules and
-plausibly exceed 8192 tokens. **This is unverified** — I could not measure the
-files in this session. `check-prompt-completeness.mjs` computes it per task/path
-(`exceeds_max_output_tokens`); run it before drawing any conclusion. If it fires,
-whole-file output is unworkable for this corpus regardless of the first defect.
+plausibly exceed 8192 tokens. This was recorded as unverified; the corpus has now
+been provisioned and both were measured.
+
+```
+tomlkit-43668dde     needs  12136 tok   DOES NOT FIT   (cap 8192)
+boltons-ead236e2     needs  15262 tok   DOES NOT FIT
+scule-57cfd152       needs   1359 tok   fits
+scule-3815767f       needs   2091 tok   fits
+ufo-5cd9e676         needs   4784 tok   fits
+```
+
+**It fires. Two of five tasks were impossible under v1 regardless of the first
+defect**, exactly as this section warned.
+
+Two refinements the original estimate did not make, both of which raise the
+figure:
+
+- The quantity that must fit is the **JSON-encoded envelope**, not the raw
+  source. The model returns its file inside a JSON string, and escaping quotes,
+  backslashes and newlines inflated this corpus by 3.2%–6.4%.
+- A **multi-file task emits every permitted file in one response**.
+  `scule-3815767f` has two permitted paths, so the per-file comparison the first
+  version of the check performed was the wrong unit. It does not change the
+  verdict here (2,091 tokens still fits) but it would on a larger task.
+
+The v2 candidate raises the cap to 24,576 — 16,384 for the answer, clearing the
+largest envelope by 7%, and 8,192 reserved for reasoning tokens, which
+`max_output_tokens` bounds together with the answer. Shrinking the corpus to the
+three tasks that fit 8,192 was considered and rejected: it would take five tasks
+to three and remove both Python repositories, leaving a single-language corpus.
+The rule and the rejected alternative are recorded in
+`tasks/gate-h-heldout-v2/protocol.candidate.json`.
 
 ## Detection
 
-`scripts/gate-h-heldout/check-prompt-completeness.mjs` re-implements Stage A's
-prompt assembly, then checks whether a distinctive interior line of each permitted
-file at its base commit appears in the rendered prompt. Offline, free, no provider.
+The check now lives in `scripts/gate-h-heldout/check-sufficiency.mjs` as one gate
+of four; `check-prompt-completeness.mjs` remains as its entry point because this
+document, the RUNBOOK and SKILL.md all name it. Offline, free, no provider.
 
 ```sh
-npm run heldout:provision   # required: reads files from the corpus cache
-node scripts/gate-h-heldout/check-prompt-completeness.mjs
+npm run heldout:provision       # required: reads files from the corpus cache
+npm run heldout:check-prompt    # this gate only
+npm run heldout:sufficiency     # all four gates
 ```
 
-Exit `0` source present · `6` source absent (the defect) · `7` not provisioned.
+Exit `0` all pass · `6` source absent (the defect) · `7` not provisioned ·
+`8` output cap · `9` template claim · `10` stub realism.
 
-> **Not yet executed.** Written and reviewed in this session; the sandbox could
-> not run it. Expected verdict on `v1` is exit 6 for all 20 combinations. Run it
-> and record the output before acting on this document. The finding stands on the
-> code reading above; the script exists to make it mechanical and repeatable.
+> **Executed 2026-08-04. Exit 6, `source absent: 24/24`** — the expected verdict,
+> confirmed.
+>
+> Three defects in the original standalone implementation were corrected when it
+> moved into the shared gate runner, and the first of them was serious enough to
+> record here:
+>
+> - It **duplicated `buildPrompt` from `run-stage-a.mjs`**, carrying a comment
+>   warning that the copy must be kept in step "or it silently stops measuring
+>   reality." A sufficiency check that can drift from the thing it measures is not
+>   a check. Both callers now import one definition from `src/heldout/prompt.ts`.
+> - **Partial provisioning produced a complete-looking verdict.** It exited 7 only
+>   when *nothing* resolved, so a corpus missing one repository reported a clean
+>   pass over the remainder.
+> - **A single mid-file probe line** could be satisfied by a T1–T3 assistance
+>   packet quoting a base-state symbol, reporting a prompt as carrying source it
+>   did not carry. Presence now requires several evenly spaced interior probes to
+>   all appear.
 
 ## Fix — requires a re-freeze, not an edit
+
+**Implemented 2026-08-04 as a candidate; not frozen.** The v2 protocol is at
+`tasks/gate-h-heldout-v2/protocol.candidate.json` and passes all four sufficiency
+gates. Its runner (`scripts/gate-h-heldout/v2/run-stage-a.mjs`) refuses live
+execution with exit 21 while plan §5 and §8 remain open — those are owner
+decisions, and settling either after results exist is the same failure as adding
+an arm after results exist.
+
+One hazard the minimal repair below introduces, found while implementing it and
+recorded because it is silent: v1 assembles prompts with
+`.replace("{{ISSUE}}", issue)`, and a **string** replacement expands `$&`,
+`` $` ``, `$'`, `$1`–`$99` and `$$` inside the replacement text. No issue file in
+the corpus contains a `$`, so v1 never triggered it — but source code does
+routinely, and this fix puts source into the prompt. The corrupted prompt would
+then have been hashed into `prompt_sha256` as though it were the intended text,
+and the resulting failures attributed to the model. v2 substitutes every
+placeholder in one pass with a function replacer, which performs no `$` expansion
+and never rescans substituted text.
 
 The arm set, prompts and settings are bound into `gate-h-heldout-v1`; changing the
 template aborts with exit 30 (`RUNBOOK.md:130-134`). The fix belongs in

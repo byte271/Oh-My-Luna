@@ -107,6 +107,24 @@ foundation, and the falsified pricing premise is the standing counterexample.
 Reverse the sequencing only if `check-prompt-completeness.mjs` exits 0 against a
 provisioned corpus, which would falsify the defect and remove the prerequisite.
 
+> **Tested 2026-08-04. Not reversed.** The corpus was provisioned and the check
+> run: exit 6, `source absent: 24/24`. The defect is confirmed and the
+> prerequisite stands.
+>
+> The decision is also now *better* supported than when it was made. A second,
+> independent reason to fix sufficiency first surfaced in the same measurement:
+> two of five tasks cannot emit their file within `max_output_tokens: 8192` at
+> all — `tomlkit/container.py` needs ~12,136 tokens and `boltons/iterutils.py`
+> ~15,262. An effort study run before that was fixed would have measured the cap
+> on 40% of the corpus, which is the same failure mode this ADR rejected option 1
+> for, arriving by a different route.
+>
+> Status of the two premises this ADR rests on, unchanged: the effort-parity
+> claim is still uncorroborated, and whether `max_output_tokens` bounds reasoning
+> tokens together with the answer is still unverified against current provider
+> docs. The v2 cap reserves 8,192 for reasoning on that assumption; if the
+> assumption is wrong the reserve is unnecessary rather than harmful.
+
 Abandon the effort axis if calibration shows that reasoning tokens at `max` push
 per-attempt cost above the point where Luna's price advantage over Sol survives,
 since the axis would then be uninteresting even if it worked.

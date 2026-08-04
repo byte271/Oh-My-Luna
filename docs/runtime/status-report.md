@@ -174,12 +174,12 @@ The following tasks were identified during the mission but are **blocked** by th
 same shell-classifier unavailability and are **not** part of this runtime slice:
 
 - Fresh live OMX GitHub retrieval (WebFetch down; immutable npm tarball was used)
-- `npm run heldout:check-prompt` execution (Gate H sufficiency script written,
-  expected exit 6, not yet run)
-- FrameVault test suite execution (Luna-example analysis found defects; suites
-  exist but not run)
+- ~~`npm run heldout:check-prompt` execution~~ — **run 2026-08-04, exit 6 as
+  expected**, `source absent: 24/24`
+- ~~FrameVault test suite execution~~ — **run 2026-08-04.** Both arms 15/15,
+  exit 0; `dos-probe.mjs` confirms the quadratic blowup at 4.56x per doubling
 - Any live model call or provider operation (no credential supplied; not needed
-  for this work)
+  for this work) — **still true, and still not on the critical path**
 
 ## One defect found and fixed during self-verification
 

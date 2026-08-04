@@ -111,3 +111,9 @@ files named. Execution (`tsc` build + `node --test`) is **owed**: the safety
 classifier gating the shell was unavailable for the whole implementation session,
 so no build or test run has executed. The adversarial suite that would confirm the
 [tested] tags in the threat model is written but not yet run.
+
+> **Discharged 2026-08-04.** `npm run typecheck` and `npm test` both run clean:
+> 218 tests, 218 pass, 0 fail — including the five runtime suites. The [tested]
+> tags in the threat model are now verified by execution rather than by
+> inspection. The symlink-creation tests skip rather than pass on hosts without
+> symlink privilege; on this host they ran.

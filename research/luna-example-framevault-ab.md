@@ -220,7 +220,12 @@ SIGKILL after 300s (`:41`). A signal-killed child reports `code === null` at
 `close`, so the `code === -1` check at `:96` does not fire and `:97` returns
 **17** — the same code as a clean test failure. A quadratic blowup that timed out
 would therefore be indistinguishable in the receipts from "the fix was wrong."
-Established by code reading; not executed.
+
+**Executed 2026-08-04 and confirmed:** a signal-killed child reports
+`{ code: null, signal: "SIGKILL" }`, so the guard cannot fire. Repaired in the v2
+evaluator, which returns 18 for its own timeout and 19 for a foreign signal, marks
+both `attributable_to_model: false`, and records `signal` and `duration_ms`. v1
+keeps the behaviour: `evaluate.mjs` is inside the freeze.
 
 The T0–T3 ladder does not help. It varies *information supplied*, and neither
 defect is caused by missing information. Adding source to the prompt (v2 §1)

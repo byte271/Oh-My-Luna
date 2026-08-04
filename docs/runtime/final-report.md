@@ -165,6 +165,13 @@ freeze later. Full reasoning: `docs/runtime/gate-h-migration-note.md`.
 - **[blocked]** `npm run heldout:check-prompt` (Gate H sufficiency script, expected
   exit 6), FrameVault suites — all shell-gated.
 
+> **Unblocked 2026-08-04.** A shell was available and all three ran.
+> `npm test` passes (218 tests, 0 failures), so the adversarial coverage table
+> above is now **verified by execution** rather than written-but-unexecuted.
+> `heldout:check-prompt` returns exit 6 as expected. Both FrameVault suites pass
+> at 15/15, and `dos-probe.mjs` confirms the quadratic blowup at 4.56x per
+> doubling. See `docs/status-2026-08-04.md`.
+
 ## Cost and safety ledger
 
 - **Spent:** $0.00

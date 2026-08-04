@@ -101,7 +101,11 @@ the defect.
 Three additions to the v2 freeze, each offline and free:
 
 1. **`check-prompt-completeness.mjs`** as a required pre-flight gate (exit 0 or
-   abort).
+   abort). **Landed 2026-08-04**, and wider than proposed here: it is one of four
+   gates in `scripts/gate-h-heldout/check-sufficiency.mjs`, alongside
+   `output_cap_headroom`, `template_claim_audit` and `stub_realism`. The v2
+   runner aborts with exit 31 if any gate fails. Frozen v1 fails three of the
+   four; the v2 candidate passes all four.
 2. **`readiness.sufficiency`** check in the runbook, with frozen `required_paths`
    and `provided_paths` lists per task.
 3. **State and evidence capture** at evaluation time (optional; does not block
