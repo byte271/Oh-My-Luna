@@ -32,9 +32,14 @@
     "gate-h:forecast": "npm run build && node scripts/gate-h/forecast-cost.mjs",
     "heldout:provision": "node scripts/gate-h-heldout/provision.mjs",
     "heldout:verify": "node scripts/gate-h-heldout/freeze.mjs --verify",
-    "heldout:check-prompt": "node scripts/gate-h-heldout/check-prompt-completeness.mjs",
+    "heldout:seal": "node scripts/gate-h-heldout/freeze.mjs --seal",
+    "heldout:check-prompt": "npm run build && node scripts/gate-h-heldout/check-prompt-completeness.mjs",
+    "heldout:sufficiency": "npm run build && node scripts/gate-h-heldout/check-sufficiency.mjs",
+    "heldout:sufficiency-v2": "npm run build && node scripts/gate-h-heldout/check-sufficiency.mjs --protocol v2",
     "heldout:dry-run": "npm run build && node scripts/gate-h-heldout/run-stage-a.mjs --dry-run oracle",
-    "heldout:stage-a": "npm run build && node scripts/gate-h-heldout/run-stage-a.mjs"
+    "heldout:stage-a": "npm run build && node scripts/gate-h-heldout/run-stage-a.mjs",
+    "heldout:v2:dry-run": "npm run build && node scripts/gate-h-heldout/v2/run-stage-a.mjs --dry-run oracle",
+    "heldout:v2:stubs": "npm run build && node scripts/gate-h-heldout/v2/run-all-stubs.mjs"
   },
   "dependencies": {
     "ajv": "8.20.0",

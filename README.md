@@ -30,22 +30,37 @@ Current status:
   **Not executable as frozen** — see below. 0 live calls, $0.00 spent.
 - First model output examined: `Luna-example/` (untracked sample, outside the
   harness, n=1 per arm, provenance unverified). Not a result; see below.
+- Protocol v2: implemented and passing its sufficiency gates, **deliberately not
+  frozen** — two owner decisions are open. See below and
+  `docs/status-2026-08-04.md`.
 
-## Known blocking defect (2026-08-03)
+## Known blocking defect in v1 (2026-08-03, measured 2026-08-04)
 
 `gate-h-heldout-v1` must not be run live. The Stage A prompt does not contain the
 source the model is required to reproduce, and the transport sends `tools: []`, so
 every arm would fail for a harness reason. The resulting flat row of failures is
 indistinguishable from a genuine negative finding about oracle information.
 
-The offline dry run does **not** catch this — it reports 20/20, because the stubs
-read the file from disk and so hold exactly what the real model lacks.
+Now measured rather than inferred, against a provisioned corpus:
+
+```
+$ npm run heldout:check-prompt
+source absent: 24/24            exit 6
+```
+
+The offline dry run does **not** catch this — it reports 20/20, because v1's
+stubs read the file from disk and so hold exactly what the real model lacks.
+
+A second v1 defect surfaced in the same measurement: two permitted files exceed
+the output cap the model must emit them within — `tomlkit/container.py` at
+~12,136 tokens and `boltons/iterutils.py` at ~15,262, against `max_output_tokens:
+8192`. Two of five tasks were impossible under v1 regardless of the prompt.
 
 - Defect: `research/gate-h-heldout/DEFECT-2026-08-03-unseen-source.md`
 - Repair plan: `docs/gate-h-heldout-v2-plan.md`
 - Sequencing decision: `docs/adr/0016-prompt-sufficiency-before-effort-axis.md`
 - Detector: `npm run heldout:check-prompt`
-- Full review: `docs/status-2026-08-03.md`
+- Reviews: `docs/status-2026-08-03.md`, then `docs/status-2026-08-04.md`
 
 The critical path is offline and costs nothing. The absent API credential is a
 second, non-binding blocker: supplying one now would only make a defective run
@@ -56,6 +71,45 @@ check verifies **integrity** — that inputs are the intended bytes and that
 mutation is detected. None verified **sufficiency** — that the intended bytes are
 adequate to the task posed. A 43-artifact freeze, a 10-check kernel gate, a
 leakage audit and four stubs all passed over a prompt missing its source.
+
+That pattern recurred twice more, and both instances are now fixed:
+
+- **The freeze verifier reported success over fields it never hashed.**
+  `aggregate_sha256` covers six of twenty-two top-level fields, and
+  `identity.json` is excluded from the artifact list — so `analysis_plan`
+  (containing the registered continuation rule), `forbidden_claims` and
+  `live_calls_made` were unprotected. Demonstrated by lowering the continuation
+  rule, deleting a forbidden claim and setting `live_calls_made: 999`, after
+  which `--verify` still printed `mismatched=0 aggregate=match` and exited 0.
+  Fixed by a document-wide seal; the verifier now prints its own coverage every
+  run. `docs/adr/0018-freeze-covers-the-whole-document.md`.
+- **The stubs were better informed than the model.** In v2 an unprivileged stub's
+  type gives it the prompt and nothing else, so the rule is enforced by the
+  signature rather than by a convention nobody checked.
+
+## Protocol v2 — implemented, gated, not frozen
+
+Steps 1–6 of the repair plan are done: source in every arm, four blocking
+sufficiency gates, an output cap set from measurement, base-vs-returned diff
+metadata, timeout distinguished from test failure, and a fifth `unseen` stub as
+the regression test for the original defect.
+
+```sh
+npm run heldout:sufficiency        # v1  -> 3 of 4 gates FAIL, exit 6
+npm run heldout:sufficiency-v2     # v2  -> 4 of 4 PASS,     exit 0
+npm run heldout:v2:stubs           # asserts all five stub outcomes
+```
+
+`npm run heldout:v2:stubs` is the strongest offline evidence available: the
+`noop` stub reconstructs each base file **from the prompt alone** and must
+produce zero diff hunks on all twenty cells, so it passes only if the v2 prompt
+round-trips every corpus file byte-exactly.
+
+The v2 runner **refuses to execute live** (exit 21). Two decisions are the
+owner's and are open — the skill-control arm (plan §5) and whether
+`evaluator_exit === 0` is an adequate outcome measure (plan §8). Freezing before
+they are settled would convert them into author discretion after the fact, which
+is the failure the whole protocol exists to prevent.
 
 ## Open question — the success criterion may not express the weakness (2026-08-03)
 
@@ -92,7 +146,22 @@ npm ci
 npm run typecheck
 npm test
 npm run smoke
-npm run gate-m:validate
+npm run gate-m:setup      # provision, then validate
+```
+
+`gate-m:validate` on its own fails with `stale worktree commit` on a fresh
+checkout: it reads worktrees that `gate-m:provision` materializes, and
+`.gate-m-cache/` is gitignored. `gate-m:setup` runs both in order.
+
+Held-out pipeline (offline, $0.00; needs Node 22/24, Python 3.11+ with `pytest`,
+git and ~2 GB disk):
+
+```sh
+npm run heldout:provision      # clones 4 upstream repos, verifies pinned commits
+npm run heldout:verify         # checked=43 mismatched=0 aggregate=match document=match
+npm run heldout:sufficiency    # v1: 3 of 4 gates fail, exit 6 — this is correct
+npm run heldout:sufficiency-v2 # v2 candidate: 4 of 4 pass
+npm run heldout:v2:stubs       # all five stub expectations
 ```
 
 The included smoke adapter is a deterministic test double. A passing configured

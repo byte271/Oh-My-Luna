@@ -1,14 +1,25 @@
 # Gate H held-out, protocol v2 — plan
 
 ```
-status:            draft; nothing frozen, nothing run
+status:            steps 1-6 IMPLEMENTED and passing their gates (2026-08-04).
+                   Still not frozen, still nothing run against a model.
 supersedes:        nothing. gate-h-heldout-v1 remains the record of what was frozen
                    on 2026-08-02 and why it cannot be executed as-is
 blocking input:    research/gate-h-heldout/DEFECT-2026-08-03-unseen-source.md
-open decision:     §8, outcome-measure validity — owner's call, needed before freeze
+open decisions:    §5, skill-control arm      — owner's call, needed before freeze
+                   §8, outcome-measure validity — owner's call, needed before freeze
                    motivated by research/luna-example-framevault-ab.md
+implementation:    tasks/gate-h-heldout-v2/protocol.candidate.json  (candidate)
+                   scripts/gate-h-heldout/check-sufficiency.mjs     (4 gates)
+                   scripts/gate-h-heldout/v2/                       (runner, evaluator)
+                   src/heldout/                                     (tested modules)
 live calls to date: 0        cost to date: $0.00
 ```
+
+The v2 runner refuses live execution (exit 21) while §5 and §8 are open. That is
+deliberate: settling either after results exist is the same failure as adding an
+arm after results exist, and a runner that *can* spend money before the decisions
+are made is an invitation to make them implicitly.
 
 `v1` is not being rewritten. It stays exactly as frozen, with the defect recorded
 against it. That preserves the property the project cares most about: an outside
@@ -247,30 +258,44 @@ experiment into a search.
 
 Nothing here needs a credential except where marked.
 
-1. `npm run heldout:provision`, then run `check-prompt-completeness.mjs`. Record
-   the output. Expect exit 6 on v1.
-2. From its `exceeds_max_output_tokens` column, set the output cap — or shrink the
-   corpus by a mechanical size rule, recording exclusions.
-3. Amend the template: add `{{SOURCE}}`, delete the false repository-root line.
-4. Implement the four sufficiency checks; wire them into the freeze path so they
-   can refuse.
-5. Add base-vs-returned diff recording (§3b), as diagnostic fields only. In the
-   same pass, distinguish a timeout/kill from a test failure in the evaluator's
-   exit codes, and record `signal` and `duration_ms` (§8).
-6. Re-run all four stubs. Add a fifth — `unseen` — that returns a plausible
-   hallucinated file, and assert it fails. This is the regression test for this
-   defect.
-7. Decide on the skill-control arm; leakage-check it if included. Settle §8's
-   outcome-measure question in the same pass — both are decide-before-freezing
-   items, and both become author discretion the moment results exist.
-8. Freeze as `gate-h-heldout-v2` with a new `freeze_id`. Verify.
+1. ~~`npm run heldout:provision`, then run the completeness check.~~ **DONE
+   2026-08-04.** Exit 6, source absent in 24/24 combinations.
+2. ~~Set the output cap from measurement, or shrink the corpus.~~ **DONE.** Cap
+   raised to 24,576 (16,384 answer + 8,192 reasoning) against a largest required
+   envelope of 15,262. Shrinking the corpus was considered and rejected: it would
+   take five tasks to three and remove both Python repositories. The rule and the
+   rejected alternative are recorded in
+   `tasks/gate-h-heldout-v2/protocol.candidate.json`.
+3. ~~Amend the template: add `{{SOURCE}}`, delete the false repository-root
+   line.~~ **DONE.** Substitution also rewritten to be single-pass and immune to
+   `$`-pattern expansion, without which §1 would have silently corrupted prompts.
+4. ~~Implement the four sufficiency checks; wire them in so they can refuse.~~
+   **DONE.** `npm run heldout:sufficiency`. v1 fails three of four; the v2
+   candidate passes all four. The v2 runner refuses to start on a gate failure
+   (exit 31).
+5. ~~Add base-vs-returned diff recording; distinguish timeout/kill from test
+   failure.~~ **DONE.** Diff metrics are diagnostic only and never enter success.
+   Evaluator exits: 17 test failure, 18 our timeout, 19 foreign signal, each with
+   `attributable_to_model`.
+6. ~~Re-run all stubs; add `unseen`.~~ **DONE.** `npm run heldout:v2:stubs`
+   asserts all five outcomes rather than leaving them to be eyeballed. `noop` now
+   reconstructs the base file from the prompt and must produce zero diff hunks,
+   so it fails under a v1-shaped prompt instead of passing 20/20.
+7. **OPEN — owner.** Decide on the skill-control arm; leakage-check it if
+   included. Settle §8's outcome-measure question in the same pass — both are
+   decide-before-freezing items, and both become author discretion the moment
+   results exist.
+8. **BLOCKED on 7.** Freeze as `gate-h-heldout-v2` with a new `freeze_id`.
+   Verify. New freezes are document-sealed at write time
+   (`docs/adr/0018-freeze-covers-the-whole-document.md`).
 9. **[credential]** One paid smoke call. Confirm `transport_valid`.
 10. **[credential]** Two calibration calls for Study E token counts.
 11. **[credential]** Stage A as frozen. Then Study E.
 
-Steps 1–8 are the whole critical path and cost nothing. The project's binding
-constraint has never been the credential; it is that the frozen protocol does not
-yet pose an answerable question.
+Steps 1–6 were the engineering and are done, at $0.00. The binding constraint has
+never been the credential; it was that the frozen protocol did not pose an
+answerable question. It now poses one — and what stands between here and a freeze
+is two judgements that are not the implementer's to make.
 
 ### Portability — the offline path does not run on Windows
 
@@ -297,22 +322,57 @@ trips the mutation abort. Fix them as part of the v2 re-freeze, and add the
 operating system to the RUNBOOK prerequisites or to the provisioning pre-flight
 check.
 
-> Confirmed by reading Node's `win32.resolve` behaviour, **not by execution** —
-> the sandbox in this session could not run node. Verify with one command before
-> relying on it:
-> `node -e "const{resolve}=require('path');console.log(resolve(new URL('../..','file:///C:/a/b/c.mjs').pathname))"`
+> **Executed 2026-08-04. Confirmed, and the characterization above is too
+> narrow.** `new URL('../..','file:///C:/a/b/c.mjs').pathname` is `/C:/`, and
+> `path.win32.resolve('/C:/')` is `\C:` — drive-relative, as reasoned.
+>
+> But `pathname` is also **percent-encoded**, which makes this a Linux defect as
+> well:
+>
+> ```
+> $ node -e "console.log(new URL('../..','file:///home/user/Oh My Luna/scripts/x/y.mjs').pathname)"
+> /home/user/Oh%20My%20Luna/
+> ```
+>
+> `path.resolve` does not decode it, so any checkout under a path containing a
+> space, `#`, `?` or non-ASCII character fails with ENOENT on a directory that
+> plainly exists. "Correct on the validated platform" holds only for the
+> particular directory the freeze happened to be validated in.
+>
+> Every script outside the freeze now uses `fileURLToPath`, including
+> `provision.mjs` and `freeze.mjs`. The frozen scripts keep the bug; their v2
+> replacements do not have it.
 
 ## 7. Verification owed on this document
 
 Stated plainly so a later reader does not mistake reasoning for measurement.
 
+Updated 2026-08-04, after the corpus was provisioned and the checks were run.
+Full account: `docs/status-2026-08-04.md`.
+
 | Item | Status |
 | --- | --- |
-| Source absent from prompt | **confirmed** by code reading; `check-prompt-completeness.mjs` written, **never executed** |
-| No base-vs-returned diff anywhere | **confirmed** by reading `run-stage-a.mjs:312-353` and grepping `scripts/` |
-| Two permitted files exceed the output cap | **unverified** — corpus not provisioned, freeze records no sizes |
-| Windows path resolution breaks the offline scripts | **reasoned from Node semantics, not executed** — one command confirms it (§6) |
-| `max_output_tokens` bounds reasoning tokens too | **unverified against current provider docs** — retrieval unavailable this session |
+| Source absent from prompt | **CONFIRMED BY EXECUTION** — `check-prompt-completeness.mjs`, 24/24 combinations, exit 6 |
+| No base-vs-returned diff anywhere | **confirmed** by reading `run-stage-a.mjs:312-353` and grepping `scripts/`; implemented in v2 |
+| Two permitted files exceed the output cap | **CONFIRMED AND QUANTIFIED** — `tomlkit/container.py` 12,136 tok, `boltons/iterutils.py` 15,262 tok, vs a cap of 8,192. Both measured on the JSON-encoded envelope the model must actually emit, which escaping inflates 3.2%–6.4% above raw source |
+| Windows path resolution breaks the offline scripts | **CONFIRMED, AND WIDER THAN RECORDED** — `pathname` is percent-encoded, so a Linux checkout under a path containing a space also fails. Not a Windows-only gap. See §6 note below |
+| `max_output_tokens` bounds reasoning tokens too | **still unverified against current provider docs.** The v2 cap reserves 8,192 for reasoning on this assumption; if the assumption is wrong the reserve is unnecessary, not harmful |
+
+Two defects found in the same pass that this plan did not anticipate, both now
+fixed and both recorded in `docs/status-2026-08-04.md`:
+
+- the freeze verifier reported `aggregate=match` over a lowered continuation
+  rule, a deleted forbidden claim and `live_calls_made: 999`
+  (`docs/adr/0018-freeze-covers-the-whole-document.md`);
+- `evaluate.mjs` leaks a workspace copy per evaluation, because `process.exit()`
+  does not run a `finally`.
+
+And one latent defect that **this plan's own §1 would have activated**: prompt
+assembly uses `String.replace` with a string replacement, which expands `$&`,
+`` $` ``, `$'` and `$1`–`$99`. No issue file in the corpus contains a `$`, so v1
+never triggered it — but source code does, routinely, and §1 puts source into the
+prompt. The corrupted prompt would have been hashed into `prompt_sha256` as
+though intended.
 
 The last one matters for §4's trap. It is the documented behaviour of the
 Responses API as understood here, but it was not re-checked against the live

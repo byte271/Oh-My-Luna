@@ -4,17 +4,66 @@
 // hashes, evaluators, permitted paths, T0-T3 material, prompts, model settings,
 // budgets, the Stage A schedule, the continuation rule and the analysis plan.
 //
-// Usage: node scripts/gate-h-heldout/freeze.mjs [--verify]
+// Usage: node scripts/gate-h-heldout/freeze.mjs [--verify] [--seal]
+//
+// Coverage note, established by experiment on 2026-08-04:
+//
+//   `aggregate_sha256` covers exactly {freeze_id, artifacts, corpus, prompts,
+//   model_settings, schedule}. It does NOT cover analysis_plan,
+//   forbidden_claims, arms, leakage_controls, status, live_calls_made or
+//   capability_claim_permitted — and identity.json is excluded from the
+//   artifact list, so nothing else covered them either.
+//
+//   Demonstrated by lowering the continuation rule from "at least two tasks" to
+//   "at least ONE task", deleting a forbidden claim, and setting
+//   live_calls_made to 999. `--verify` reported:
+//
+//       checked=43 mismatched=0 aggregate=match      (exit 0)
+//
+//   Those are the fields a result-motivated edit would target, and the
+//   continuation rule is the single registered commitment the whole
+//   pre-registration exists to protect. `document_sha256` now covers the entire
+//   document, and --verify reports coverage explicitly rather than letting
+//   "aggregate=match" be read as "the freeze is intact".
+//
+//   This is tamper *evidence*, not tamper proofing: an editor who also re-seals
+//   passes. The seal is committed, so a re-seal appears in the diff. Git remains
+//   the underlying record; the seal makes an in-place edit fail loudly at the
+//   point of use instead of silently at review time.
 
 import { createHash, createHmac } from "node:crypto";
 import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { spawn } from "node:child_process";
 import { arch, platform } from "node:process";
 
-const root = resolve(new URL("../..", import.meta.url).pathname);
+// fileURLToPath, not `new URL(...).pathname`: the latter is percent-encoded, so
+// a checkout under a path containing a space breaks on Linux too, not only on
+// Windows where it also yields "/C:/…".
+const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const base = resolve(root, "tasks/gate-h-heldout");
 const verifyOnly = process.argv.includes("--verify");
+const sealOnly = process.argv.includes("--seal");
+
+/** Key-sorted JSON so a digest does not depend on property order. */
+function canonicalJson(value) {
+  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  return `{${Object.entries(value)
+    .sort(([l], [r]) => (l < r ? -1 : l > r ? 1 : 0))
+    .map(([k, v]) => `${JSON.stringify(k)}:${canonicalJson(v)}`)
+    .join(",")}}`;
+}
+
+/** Digest of the whole freeze document, excluding the digest field itself. */
+function documentDigest(doc) {
+  const { document_sha256: _omitted, ...rest } = doc;
+  return sha256(canonicalJson(rest));
+}
+
+/** Top-level fields the v1 aggregate never covered. */
+const AGGREGATE_COVERS = ["freeze_id", "artifacts", "corpus", "prompts", "model_settings", "schedule"];
 
 const FREEZE_ID = "gate-h-heldout-2026-08-02";
 const PROTOCOL = "gate-h-heldout-v1";
@@ -215,6 +264,30 @@ freeze.aggregate_sha256 = sha256(
 
 const outPath = resolve(base, "freeze", "identity.json");
 
+if (sealOnly) {
+  // One-time establishment of a document digest over a freeze written before
+  // document sealing existed. Refuses to overwrite a digest that is present and
+  // wrong: that is a tampered document, not an unsealed one, and quietly
+  // re-sealing it would destroy the only evidence.
+  const existing = JSON.parse(await readFile(outPath, "utf8"));
+  const digest = documentDigest(existing);
+  if (typeof existing.document_sha256 === "string") {
+    if (existing.document_sha256 === digest) {
+      process.stdout.write(`already sealed: ${digest}\n`);
+      process.exit(0);
+    }
+    process.stderr.write(
+      `refusing to re-seal: the document carries ${existing.document_sha256} but hashes to ${digest}.\n` +
+        "Something edited a sealed freeze. Inspect `git diff` before doing anything else.\n"
+    );
+    process.exit(1);
+  }
+  const sealed = { ...existing, document_sha256: digest };
+  await writeFile(outPath, `${JSON.stringify(sealed, null, 2)}\n`);
+  process.stdout.write(`sealed ${outPath}\ndocument_sha256: ${digest}\n`);
+  process.exit(0);
+}
+
 if (verifyOnly) {
   const existing = JSON.parse(await readFile(outPath, "utf8"));
   let bad = 0;
@@ -231,10 +304,48 @@ if (verifyOnly) {
     }
   }
   const aggregateOk = existing.aggregate_sha256 === freeze.aggregate_sha256;
-  process.stdout.write(`checked=${existing.artifacts.length} mismatched=${bad} aggregate=${aggregateOk ? "match" : "DIFFERS"}\n`);
-  process.exit(bad === 0 && aggregateOk ? 0 : 1);
+
+  // The document check. Without it, "aggregate=match" is read as "the freeze is
+  // intact" while the continuation rule, the forbidden-claims list and the
+  // execution counters sit entirely outside the hash.
+  let documentState;
+  if (typeof existing.document_sha256 !== "string") {
+    documentState = "NOT_SEALED";
+  } else {
+    documentState = documentDigest(existing) === existing.document_sha256 ? "match" : "DIFFERS";
+  }
+
+  const uncovered = Object.keys(existing).filter(
+    (k) => !AGGREGATE_COVERS.includes(k) && k !== "aggregate_sha256" && k !== "document_sha256"
+  );
+
+  process.stdout.write(
+    `checked=${existing.artifacts.length} mismatched=${bad} aggregate=${aggregateOk ? "match" : "DIFFERS"} document=${documentState}\n`
+  );
+  process.stdout.write(`aggregate covers: ${AGGREGATE_COVERS.join(", ")}\n`);
+  process.stdout.write(`aggregate does NOT cover (document digest does): ${uncovered.join(", ")}\n`);
+  if (documentState === "NOT_SEALED") {
+    process.stderr.write(
+      "\nThis freeze has no document digest, so the registered analysis plan, the\n" +
+        "forbidden-claims list and the execution counters are unverified. Establish\n" +
+        "one only from a state you have confirmed against git:\n" +
+        "  git diff --exit-code tasks/gate-h-heldout/freeze/identity.json\n" +
+        "  node scripts/gate-h-heldout/freeze.mjs --seal\n"
+    );
+  }
+  if (documentState === "DIFFERS") {
+    process.stderr.write(
+      "\nThe freeze document does not match its own seal. A field outside the\n" +
+        "aggregate has been edited. Do not run anything against it; read `git diff`.\n"
+    );
+  }
+  process.exit(bad === 0 && aggregateOk && documentState === "match" ? 0 : 1);
 }
 
 await mkdir(resolve(base, "freeze"), { recursive: true });
+freeze.document_sha256 = documentDigest(freeze);
 await writeFile(outPath, `${JSON.stringify(freeze, null, 2)}\n`);
-process.stdout.write(`freeze_id: ${FREEZE_ID}\nartifacts: ${artifacts.length}\naggregate_sha256: ${freeze.aggregate_sha256}\nstage_a_attempts: ${schedule.length}\n`);
+process.stdout.write(
+  `freeze_id: ${FREEZE_ID}\nartifacts: ${artifacts.length}\naggregate_sha256: ${freeze.aggregate_sha256}\n` +
+    `document_sha256: ${freeze.document_sha256}\nstage_a_attempts: ${schedule.length}\n`
+);

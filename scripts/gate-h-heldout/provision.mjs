@@ -21,9 +21,34 @@
 import { createHash } from "node:crypto";
 import { mkdir, rm, stat, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { spawn } from "node:child_process";
 
-const root = resolve(new URL("../..", import.meta.url).pathname);
+// Until 2026-08-04 nothing caught a ProvisionError, so the exit codes documented
+// above were unreachable: every failure surfaced as an unhandled rejection and
+// exited 1. That mattered operationally, because SKILL.md instructs an operator
+// to treat exit 4 — corpus and upstream have diverged — differently from every
+// other failure, and no operator could ever observe it.
+const fatal = (error) => {
+  const exit = typeof error?.exit === "number" ? error.exit : 1;
+  process.stderr.write(`${error?.message ?? String(error)}\n`);
+  if (exit === 4) {
+    process.stderr.write(
+      "\nA pinned commit's content no longer matches its frozen archive hash.\n" +
+        "Do NOT update the expected hash: the corpus and upstream have diverged,\n" +
+        "and a run against the new content would measure a different experiment.\n"
+    );
+  }
+  process.exit(exit);
+};
+process.on("uncaughtException", fatal);
+process.on("unhandledRejection", fatal);
+
+// fileURLToPath, not `new URL(...).pathname`. The latter is percent-encoded, so
+// a checkout under a path containing a space resolves to a directory that does
+// not exist — on Linux as well as Windows — and on Windows it additionally
+// yields "/C:/…", which path.resolve expands to "C:\C:\…".
+const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
 const cache = resolve(root, ".gate-h-heldout-cache");
 const offline = process.argv.includes("--offline");
 
