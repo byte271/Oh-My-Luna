@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-m-treatments-v3",
+  "task_id": "date-fns-zh-month",
+  "task_base_commit": "39d1e14200cead9e4be5df88695b5e82082875ed",
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "provenance": {
+    "author_id": "oml-lead-maintainer-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "independently_reviewed": false,
+    "created_at": "2026-08-02T18:00:00Z"
+  },
+  "treatment_id": "T1",
+  "treatment_name": "bounded_context",
+  "combined_arm": false,
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "pkgs/core/src/locale/zh-CN/_lib/match/index.ts",
+          "start_line": 27,
+          "end_line": 60
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "pkgs/core/src/locale/zh-CN/_lib/match/index.ts",
+          "name": "matchMonthPatterns",
+          "kind": "variable"
+        },
+        {
+          "path": "pkgs/core/src/locale/zh-CN/_lib/match/index.ts",
+          "name": "parseMonthPatterns",
+          "kind": "variable"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "matchMonthPatterns",
+        "consumer_symbol": "parseMonthPatterns",
+        "type": "return"
+      }
+    }
+  },
+  "derived_from": {
+    "protocol_version": "gate-m-real-tasks-v2",
+    "levels": [
+      "L2"
+    ],
+    "packet_sha256": {
+      "L2": "8d90ddd153ffea8dca12576827f9cd216e6331c9184e2b04fd2fc734d6295d5c"
+    }
+  },
+  "content_sha256": "e5b03d0d6d77611cba2473a34aa5cc1efb3e1600b383f907420ad5ec1a4acc50"
+}

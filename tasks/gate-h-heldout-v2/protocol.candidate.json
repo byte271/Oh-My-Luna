@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-h-heldout-v2",
+  "status": "candidate_not_frozen",
+  "supersedes": "gate-h-heldout-v1",
+  "live_calls_made": 0,
+  "cost_usd_to_date": 0,
+  "note": "A candidate, not a freeze. Two decisions are the owner's and are open: the skill-control arm (plan §5) and the outcome-measure question (plan §8). Freezing before those are settled would convert them into author discretion, which is the failure this protocol exists to avoid.",
+
+  "prompts": {
+    "system_prompt": "You are fixing a defect in an existing software repository.\n\nMake the smallest change that corrects the reported behaviour. Do not modify\ntests. Do not modify unrelated files.\n\nReply with a single JSON object and nothing else:\n{\"files\":[{\"path\":\"<repository-relative path>\",\"contents\":\"<complete new file contents>\"}]}\n\nEvery file you list is written verbatim, so each \"contents\" must be the entire\nfinal file, not a fragment or a diff.",
+    "task_prompt_template": "<issue>\n{{ISSUE}}\n</issue>\n<source>\n{{SOURCE}}\n</source>\n{{ASSISTANCE}}\nApply your fix and reply with the JSON object described in the system prompt.",
+    "changes_from_v1": [
+      "Added {{SOURCE}}: every arm, T0 included, receives the complete contents of each permitted path at the base commit. v1 required complete file contents while supplying none, under tools: [].",
+      "Deleted 'Repository root contains the project source.' It was false under tools: [] and told the model it had access it did not have. The template-claim audit now fails any protocol that reinstates it."
+    ]
+  },
+
+  "arm_semantics_restated": {
+    "why": "With source in every arm, T1 no longer measures the value of POSSESSING the file. It measures the value of POINTING AT the right region and symbols. That is a narrower and more honest claim than v1's 'bounded context', and it is stated here rather than left for a reader to infer the broader one.",
+    "T0": "issue and complete source; no assistance metadata",
+    "T1": "T0 plus paths, regions, base-state symbols, failing boundary",
+    "T2": "T1 plus raw reproduced observations from the base commit",
+    "T3": "T2 plus author-produced causal diagnosis and behavioral objective, deliberately combined",
+    "t3_is_combined": true,
+    "t3_note": "No effect may be attributed to diagnosis rather than behavioral objective."
+  },
+
+  "model_settings_proposed": {
+    "model_alias": "gpt-5.6-luna",
+    "model_alias_is_mutable": true,
+    "immutable_snapshot_available": false,
+    "reasoning_effort": "low",
+    "store": false,
+    "tools": [],
+    "max_output_tokens": 24576,
+    "answer_headroom_tokens": 16384,
+    "reasoning_headroom_tokens": 8192,
+    "timeout_ms": 180000,
+    "sdk_max_retries": 0,
+    "attempt_retries": 0,
+    "per_request_cap_usd": 0.05,
+    "session_cap_usd": 1.59,
+    "sdk_version": "7.3.0",
+    "documentation_evidence_id": "provider-contract-2026-08-02",
+    "pricing_snapshot_id": "openai-2026-08-02"
+  },
+
+  "output_cap_derivation": {
+    "measured_on": "2026-08-04",
+    "method": "estimateChangeSetTokens over the JSON-encoded {files:[...]} envelope at each task's base commit, corpus provisioned",
+    "why_not_raw_source": "The model emits its file inside a JSON string. Escaping inflated this corpus by 3.2%-6.4%, and a multi-file task must emit every permitted file in one response. v1's check compared raw per-file source against the cap and under-reported both effects.",
+    "per_task_required_output_tokens": {
+      "scule-57cfd152": 1359,
+      "scule-3815767f": 2091,
+      "ufo-5cd9e676": 4784,
+      "tomlkit-43668dde": 12136,
+      "boltons-ead236e2": 15262
+    },
+    "largest_required": 15262,
+    "v1_cap": 8192,
+    "tasks_impossible_under_v1_cap": ["tomlkit-43668dde", "boltons-ead236e2"],
+    "chosen_cap": 24576,
+    "rationale": "16384 for the answer clears the largest envelope by 7%; 8192 reserved for reasoning tokens, which max_output_tokens bounds together with the answer. A cap sized to the answer alone yields responses that terminate incomplete before emitting a file, which measures the cap and blames the model.",
+    "rejected_alternative": {
+      "option": "shrink the corpus to the three tasks that fit 8192",
+      "why_rejected": "Five tasks is already too few for anything but an exploratory signal; dropping to three, and dropping both Python tasks with them, would leave a single-language corpus. Raising the cap costs about $0.02 per request at the pessimistic reservation and changes no measurement.",
+      "if_chosen_instead": "The exclusion is mechanical and must be recorded with its rule before any model runs, never after seeing results."
+    },
+    "cost_impact": {
+      "pessimistic_per_request_usd_at_24576_output": 0.0295,
+      "still_under_per_request_cap": true,
+      "note": "Pessimistic reservation assumes the full output budget is spent. Actual output is bounded by the file the model returns."
+    }
+  },
+
+  "sufficiency_gates_required_before_freeze": [
+    "prompt_completeness",
+    "output_cap_headroom",
+    "template_claim_audit",
+    "stub_realism"
+  ],
+
+  "open_owner_decisions": {
+    "skill_control_arm": {
+      "plan_ref": "docs/gate-h-heldout-v2-plan.md §5",
+      "candidate_text": "arms/skill-control/candidate.md",
+      "cost_if_included": "Stage A goes from 20 to 25 attempts",
+      "why_it_matters": "Without it a T1 gain is ambiguous between 'the specific context helped' and 'being told to work systematically helped'.",
+      "status": "undecided"
+    },
+    "outcome_measure_validity": {
+      "plan_ref": "docs/gate-h-heldout-v2-plan.md §8",
+      "problem": "Success is exactly evaluator_exit === 0, which cannot express any non-functional property: asymptotic cost, adversarial input handling, allocation behaviour, or whether a self-reported verification step verified anything.",
+      "options": ["narrow the claim", "add a non-functional probe to the corpus", "run a separate rubric-scored greenfield study"],
+      "status": "undecided"
+    }
+  },
+
+  "forbidden_claims": [
+    "general Luna improvement",
+    "benchmark leadership",
+    "product readiness",
+    "diagnosis alone caused an effect",
+    "any fraction of a Luna-Sol gap (there is no matched Sol arm)",
+    "statistical generalization",
+    "independently validated intervention semantics"
+  ]
+}

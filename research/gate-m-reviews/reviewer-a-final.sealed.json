@@ -1,0 +1,589 @@
+{
+  "collapse_recommended": false,
+  "decision_counts": {
+    "approve": 15,
+    "collapse_levels": 0,
+    "reject": 0,
+    "revise": 5
+  },
+  "export_readme_sha256": "24a574f41329773ef311e8f9c55aff81ff7290bf475ed0e9b2ca3e4cbd0c7034",
+  "independence_limitations": [
+    "Reviewer A is an AI model session that will subsequently act as repository maintainer; it is one reviewer, not two.",
+    "Before reviewing, the agent listed repository FILE PATHS (not contents) to locate the export, and read only tasks/gate-m/review-export/.",
+    "Not accessed before sealing: author records, tasks/gate-m/review-control/, git history, PR #1 discussion, any packet-to-level mapping.",
+    "PARTIAL BLINDING BY CONSTRUCTION: the cumulative payload schema means the set of present sections (context/localization/observation/diagnosis/plan) determines the intended level structurally. Level identification was therefore near-mechanical; the substantive contribution of this review is the within-level wording audit, not level recovery.",
+    "Phase 1 was written and hashed before any repair-comparison.patch was opened; Phase 1 content was not edited afterwards."
+  ],
+  "l3_l4_distinguishable_all": true,
+  "level_counts": {
+    "L1": 4,
+    "L2": 4,
+    "L3": 4,
+    "L4": 4,
+    "L5": 4
+  },
+  "packet_count": 20,
+  "phase1_record_sha256": "fbe83f337b64249a16787c2300907b6c0569459226429fac0face38a7575169c",
+  "record_type": "reviewer_a_final_sealed",
+  "records": [
+    {
+      "bundle_sha256": "0a616df9688e003a82bc371d6bd6639d879d2a67a63cc70a6c900a96fcbb1ab3",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-067d114928e8fbad",
+      "phase1": {
+        "actual_level": "L3",
+        "confidence": "high",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L2",
+        "sentence_level_comments": [
+          {
+            "finding": "Reproducible compiler diagnostic with no interpretation. Clean L3.",
+            "sentence": "TypeScript 5.4.2 reports TS2344 ('Type false does not satisfy the constraint true') ..."
+          }
+        ]
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [],
+        "suspicious_repair_similarity": "low"
+      },
+      "repair_patch_sha256": "7a9d411994faf1a38e2e65cc375606c10b2740417b77d460d370198926626f8b"
+    },
+    {
+      "bundle_sha256": "f52236c4063d3f30326117b51485e7f4bd80d085765f97324377e7b6e4d2d6d6",
+      "final_decision": "revise",
+      "opaque_packet_id": "gm-0f7f687c8e2fa9a7",
+      "phase1": {
+        "actual_level": "L5",
+        "confidence": "medium",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L4",
+        "sentence_level_comments": [
+          {
+            "finding": "Behavioral objective stated at the level of required outcome. Borderline specific; verify repair similarity in Phase 2.",
+            "sentence": "Materialize an omitted tuple position when its schema produces a defined output, while continuing to omit trailing positions whose output is genuinely optional."
+          }
+        ]
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [
+          {
+            "finding": "NON-GOAL CONTRADICTS THE REFERENCE REPAIR. The repair does change object-property handling (handlePropertyResult gains isOptionalIn and emits an invalid_type/nonoptional issue; $ZodObject, $ZodObjectJIT and $ZodUndefined all change). A solver obeying this non-goal is steered away from the reference correction, which biases the treatment against success for reasons unrelated to information level.",
+            "sentence": "Do not change object-property default behavior."
+          }
+        ],
+        "suspicious_repair_similarity": "moderate"
+      },
+      "repair_patch_sha256": "0ac27a210827b3cf7741dad0a8b1754b481cda51f49038d83023037b257d5901"
+    },
+    {
+      "bundle_sha256": "b6717afffeaecff584752c12c316fd1b424da0d4028ca85060baed37cc7a517c",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-3feefc569ee17295",
+      "phase1": {
+        "actual_level": "L2",
+        "confidence": "medium",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L1",
+        "sentence_level_comments": [
+          {
+            "finding": "Boundary uses descriptive prose rather than base-visible symbol names. Not later-level information, but weaker L2 evidence than the other ladders.",
+            "sentence": "failing_boundary: producer 'mapped property selection', consumer 'indexed key union'"
+          }
+        ]
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [
+          {
+            "finding": "Weaker L2 instantiation than sibling ladders, but discloses nothing from the repair.",
+            "sentence": "failing_boundary producer/consumer are prose, not base symbols"
+          }
+        ],
+        "suspicious_repair_similarity": "none"
+      },
+      "repair_patch_sha256": "7a9d411994faf1a38e2e65cc375606c10b2740417b77d460d370198926626f8b"
+    },
+    {
+      "bundle_sha256": "0cd707b6475edd3bbc593929ce1ecb41ca19352bd0769ce1296ca9fc88ebf2fb",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-59436f5889eb772b",
+      "phase1": {
+        "actual_level": "L1",
+        "confidence": "high",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L2",
+        "sentence_level_comments": []
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [],
+        "suspicious_repair_similarity": "none"
+      },
+      "repair_patch_sha256": "0ac27a210827b3cf7741dad0a8b1754b481cda51f49038d83023037b257d5901"
+    },
+    {
+      "bundle_sha256": "b91c9f8ea50c00cffe5a0b02f01fc9c3663720c51ee131a912914d0bafc1c114",
+      "final_decision": "revise",
+      "opaque_packet_id": "gm-5a5e77a19db97a35",
+      "phase1": {
+        "actual_level": "L5",
+        "confidence": "medium",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L4",
+        "sentence_level_comments": [
+          {
+            "finding": "Behavioral objective that is close to a direct statement of the mapped-type modifier change. Verify in Phase 2 for implementation disclosure.",
+            "sentence": "Make key selection independent of optional property modifiers before extracting the selected key union."
+          }
+        ]
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": true,
+        "sentence_level_comments": [
+          {
+            "finding": "IMPLEMENTATION DISCLOSURE. 'Independent of optional property modifiers' is the mapped-type modifier change (-?) restated in prose; it describes the internal construct rather than the required observable typing outcome. Restate behaviorally against the assertion the task checks.",
+            "sentence": "Make key selection independent of optional property modifiers before extracting the selected key union."
+          }
+        ],
+        "suspicious_repair_similarity": "high"
+      },
+      "repair_patch_sha256": "7a9d411994faf1a38e2e65cc375606c10b2740417b77d460d370198926626f8b"
+    },
+    {
+      "bundle_sha256": "7dee10c86666f3efa33d7f8c7a3c1ca61d030cde417113947866e82f31606078",
+      "final_decision": "revise",
+      "opaque_packet_id": "gm-6381ad9fb536272d",
+      "phase1": {
+        "actual_level": "L5",
+        "confidence": "low",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L4",
+        "sentence_level_comments": [
+          {
+            "finding": "Describes the need for an additional signal on the result object, which approaches a mechanism rather than a behavior. Strongest implementation-disclosure candidate at L5. Verify in Phase 2.",
+            "sentence": "...carry enough result semantics for an optional wrapper to distinguish fallback substitution from an ordinary absent value."
+          }
+        ]
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": true,
+        "sentence_level_comments": [
+          {
+            "finding": "IMPLEMENTATION DISCLOSURE. This specifies the repair's mechanism (a marker on ParsePayload set by $ZodCatch and read by handleOptionalResult), not a behavior. Nothing user-visible distinguishes 'fallback substitution' from 'absent value' here; the sentence only makes sense as internal plumbing. Restate as the required parse outcome.",
+            "sentence": "...carry enough result semantics for an optional wrapper to distinguish fallback substitution from an ordinary absent value."
+          }
+        ],
+        "suspicious_repair_similarity": "high"
+      },
+      "repair_patch_sha256": "375eca2d5fc7591b9795a47a0b1c94fe633c8407d07325144ed93b11f3379d4f"
+    },
+    {
+      "bundle_sha256": "5e84b9ec1d042c4843b8bfc690c5472ccdb8507a5503f1a6bdc15159c80e6a07",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-65d09dde5ad57aae",
+      "phase1": {
+        "actual_level": "L1",
+        "confidence": "high",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L2",
+        "sentence_level_comments": []
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [],
+        "suspicious_repair_similarity": "none"
+      },
+      "repair_patch_sha256": "375eca2d5fc7591b9795a47a0b1c94fe633c8407d07325144ed93b11f3379d4f"
+    },
+    {
+      "bundle_sha256": "0a8195781972c88282171a6cc06248dce3791ba8e62a0e337565db1325aa9df9",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-6fc51697cbfedd5b",
+      "phase1": {
+        "actual_level": "L4",
+        "confidence": "medium",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L5",
+        "sentence_level_comments": [
+          {
+            "finding": "Multi-clause causal chain spanning two call sites. Rich, but still explanatory rather than prescriptive. Verify in Phase 2.",
+            "sentence": "Catch substitutes a successful fallback after its inner schema reports issues, but the absent-property path still derives input optionality and downstream handling from the inner schema, so the substituted result is treated as a missing nonoptional property."
+          }
+        ]
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [
+          {
+            "finding": "Directly names the defective derivation that the repair replaces (optin lazily derived from innerType). Causal, not prescriptive; approve with similarity recorded.",
+            "sentence": "...the absent-property path still derives input optionality and downstream handling from the inner schema..."
+          }
+        ],
+        "suspicious_repair_similarity": "high"
+      },
+      "repair_patch_sha256": "375eca2d5fc7591b9795a47a0b1c94fe633c8407d07325144ed93b11f3379d4f"
+    },
+    {
+      "bundle_sha256": "1f6913be0f94faa0c8b4a40b1e11143423ecd12c7b4541c40bf96085c7cc728e",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-8bc4f402d6e23c1e",
+      "phase1": {
+        "actual_level": "L4",
+        "confidence": "medium",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L5",
+        "sentence_level_comments": [
+          {
+            "finding": "Causal and correct, but names the exact defective construct; the repair is close to the logical inverse of this sentence. Highest repair-similarity risk at L4. Verify in Phase 2.",
+            "sentence": "The mapped type preserves optional property modifiers while constructing the intermediate key map; under TypeScript 5.4 this changes the indexed-union result for optional candidate keys before the final non-null filtering step."
+          }
+        ]
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [
+          {
+            "finding": "Names both constructs the repair touches (the mapped-type modifier and the NonNullable wrapper). Highest repair similarity of any L4 packet. Retained as approve because it states cause, not edit, and for a one-token repair cause and edit necessarily converge; recorded so the second reviewer sees the risk explicitly.",
+            "sentence": "The mapped type preserves optional property modifiers ... before the final non-null filtering step."
+          }
+        ],
+        "suspicious_repair_similarity": "high"
+      },
+      "repair_patch_sha256": "7a9d411994faf1a38e2e65cc375606c10b2740417b77d460d370198926626f8b"
+    },
+    {
+      "bundle_sha256": "c7acd09c8281af9995c8a95812f25b73af211f059dcf13364bf594763c22d11a",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-95d476297f814499",
+      "phase1": {
+        "actual_level": "L3",
+        "confidence": "high",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L2",
+        "sentence_level_comments": [
+          {
+            "finding": "Observed issue payload only. Clean L3.",
+            "sentence": "Parsing an empty object with the reported preprocessed array property followed by catch([]) exits with an invalid_type issue whose expected value is nonoptional and whose path is ['area']."
+          }
+        ]
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [],
+        "suspicious_repair_similarity": "low"
+      },
+      "repair_patch_sha256": "375eca2d5fc7591b9795a47a0b1c94fe633c8407d07325144ed93b11f3379d4f"
+    },
+    {
+      "bundle_sha256": "7bd090d682d54990e5de158fa4e163bceacf35f1d10e402ac281fc46114414e6",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-96fc152b96143c6d",
+      "phase1": {
+        "actual_level": "L2",
+        "confidence": "high",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L1",
+        "sentence_level_comments": []
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [],
+        "suspicious_repair_similarity": "none"
+      },
+      "repair_patch_sha256": "375eca2d5fc7591b9795a47a0b1c94fe633c8407d07325144ed93b11f3379d4f"
+    },
+    {
+      "bundle_sha256": "4e85bfc86d9af1d40956a53760e4932c2dd89338efeb09f0fd762d16e39d56b7",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-b5861ade218fe3c1",
+      "phase1": {
+        "actual_level": "L2",
+        "confidence": "high",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L1",
+        "sentence_level_comments": []
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [],
+        "suspicious_repair_similarity": "none"
+      },
+      "repair_patch_sha256": "486708ccc895b9b87a90c8fb582abd546441f4404f6e741b38de6fef899ba55c"
+    },
+    {
+      "bundle_sha256": "89c7cfb6bf509db399912f8214bab619ebf2d8eb9cafe716db6bbad8ac7d854f",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-c6186b505f3bb178",
+      "phase1": {
+        "actual_level": "L1",
+        "confidence": "high",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L2",
+        "sentence_level_comments": []
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [],
+        "suspicious_repair_similarity": "none"
+      },
+      "repair_patch_sha256": "486708ccc895b9b87a90c8fb582abd546441f4404f6e741b38de6fef899ba55c"
+    },
+    {
+      "bundle_sha256": "d006796f17076cacf14bc93f06eabc9997c6afa77702c312e792a0b4d02983e9",
+      "final_decision": "revise",
+      "opaque_packet_id": "gm-c8319a153dc6dda2",
+      "phase1": {
+        "actual_level": "L4",
+        "confidence": "high",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L3",
+        "sentence_level_comments": [
+          {
+            "finding": "Causal mechanism, no code or replacement expression. Implies a repair direction (prefer complete tokens), which L4 permits; verify against repair in Phase 2.",
+            "sentence": "The Chinese month match and parse alternatives accept ambiguous prefixes for the two-digit months, allowing a shorter month token to win before the complete October-through-December token is classified."
+          }
+        ]
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [
+          {
+            "finding": "CAUSAL ACCOUNT IS INCOMPLETE AND PARTLY WRONG. It explains the November/December misclassification (unanchored numeric alternative in parseMonthPatterns.any), but the October failure has a different cause: matchMonthPatterns requires a suffix (十[二一]) so bare 十月 never matches at all, and the abbreviated numeric class 1[12] excludes 10. Those are missing alternatives, not a shorter token winning. An L4 packet whose diagnosis does not explain a defect the issue explicitly names is not a valid L4 instance.",
+            "sentence": "...allowing a shorter month token to win before the complete October-through-December token is classified."
+          }
+        ],
+        "suspicious_repair_similarity": "moderate"
+      },
+      "repair_patch_sha256": "486708ccc895b9b87a90c8fb582abd546441f4404f6e741b38de6fef899ba55c"
+    },
+    {
+      "bundle_sha256": "260a6c0d9b5c63d0b5f077a5b6c4e6c9e6a205c10b36d2511ea3451d3acb206b",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-cd5c987cfac9d9f3",
+      "phase1": {
+        "actual_level": "L1",
+        "confidence": "high",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L2",
+        "sentence_level_comments": []
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [],
+        "suspicious_repair_similarity": "none"
+      },
+      "repair_patch_sha256": "7a9d411994faf1a38e2e65cc375606c10b2740417b77d460d370198926626f8b"
+    },
+    {
+      "bundle_sha256": "58533a19957e34a55a4681e2312c0984555b4e9f5b0f5968c457061001e8b957",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-d60f2e9633e32fdf",
+      "phase1": {
+        "actual_level": "L3",
+        "confidence": "high",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L2",
+        "sentence_level_comments": [
+          {
+            "finding": "Pure observed input/output behavior; states no mechanism or cause. Stays within L3.",
+            "sentence": "With zh-CN, the base parser returns invalid dates for numeric and wide-form October; the same evaluator reports month 1 for numeric November and December."
+          }
+        ]
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [],
+        "suspicious_repair_similarity": "low"
+      },
+      "repair_patch_sha256": "486708ccc895b9b87a90c8fb582abd546441f4404f6e741b38de6fef899ba55c"
+    },
+    {
+      "bundle_sha256": "2c25f1abef10080bc621200c2f152a6ac4a06cd9fbe5dfb7f1562f99cafda809",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-d6398cd982e959a0",
+      "phase1": {
+        "actual_level": "L2",
+        "confidence": "high",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L1",
+        "sentence_level_comments": []
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [],
+        "suspicious_repair_similarity": "none"
+      },
+      "repair_patch_sha256": "0ac27a210827b3cf7741dad0a8b1754b481cda51f49038d83023037b257d5901"
+    },
+    {
+      "bundle_sha256": "1d59d7abb373cfe4c8d8bb4535d7629c0b1341a7597f7abe02550679574b16b5",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-d6816489673b67cc",
+      "phase1": {
+        "actual_level": "L3",
+        "confidence": "high",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L2",
+        "sentence_level_comments": [
+          {
+            "finding": "Concrete observed value and length; no mechanism. Clean L3.",
+            "sentence": "Parsing the two-item tuple [string, string.default('fallback')] with the one-item input ['present'] returns the one-item output ['present'] with length 1."
+          }
+        ]
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [],
+        "suspicious_repair_similarity": "low"
+      },
+      "repair_patch_sha256": "0ac27a210827b3cf7741dad0a8b1754b481cda51f49038d83023037b257d5901"
+    },
+    {
+      "bundle_sha256": "312f2072fc90d4cc83bc658eaca22c35f9d2d4cfed12f0820f439b442be86f55",
+      "final_decision": "approve",
+      "opaque_packet_id": "gm-e692ae5756b004e4",
+      "phase1": {
+        "actual_level": "L4",
+        "confidence": "high",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L3",
+        "sentence_level_comments": [
+          {
+            "finding": "Causal mechanism without prescribing an edit. Within L4.",
+            "sentence": "The tuple parser classifies every absent position at or beyond its optional-input boundary as skippable, including schemas that produce a defined output from absent input."
+          }
+        ]
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": false,
+        "sentence_level_comments": [
+          {
+            "finding": "Accurate for the tuple hunk. The reference repair is substantially wider (touches $ZodUndefined optin/optout, handlePropertyResult, $ZodObject, $ZodObjectJIT); the diagnosis under-describes rather than over-discloses, which is acceptable at L4.",
+            "sentence": "The tuple parser classifies every absent position at or beyond its optional-input boundary as skippable..."
+          }
+        ],
+        "suspicious_repair_similarity": "moderate"
+      },
+      "repair_patch_sha256": "0ac27a210827b3cf7741dad0a8b1754b481cda51f49038d83023037b257d5901"
+    },
+    {
+      "bundle_sha256": "153f591704a2f949f82e9ecbbbee26b20b4607673c5993b373d69ee399784be7",
+      "final_decision": "revise",
+      "opaque_packet_id": "gm-f8fb9e6e81a35927",
+      "phase1": {
+        "actual_level": "L5",
+        "confidence": "medium",
+        "initial_decision": "approve",
+        "l3_l4_distinguishable": true,
+        "later_level_information_present": false,
+        "second_best_level": "L4",
+        "sentence_level_comments": [
+          {
+            "finding": "Constraint is unusually operational and edges toward describing regex behavior rather than user-visible behavior. Check repair similarity in Phase 2.",
+            "sentence": "Do not consume digits beyond a complete one-digit month token."
+          }
+        ]
+      },
+      "phase2": {
+        "base_unavailable_identifier_present": false,
+        "effectively_solves_task": false,
+        "implementation_or_patch_disclosed": true,
+        "sentence_level_comments": [
+          {
+            "finding": "IMPLEMENTATION DISCLOSURE. This is a natural-language statement of the negative lookahead the repair inserts (1(?!\\d)). L5 forbids the exact condition to insert. Must be restated as user-visible behavior (e.g. 'numeric 11 and 12 must not be read as 1').",
+            "sentence": "Do not consume digits beyond a complete one-digit month token."
+          },
+          {
+            "finding": "Scope is inaccurate: the repair also changes the narrow pattern. A solver honoring this scope would produce an incomplete correction.",
+            "sentence": "...for both abbreviated and wide zh-CN month forms."
+          }
+        ],
+        "suspicious_repair_similarity": "high"
+      },
+      "repair_patch_sha256": "486708ccc895b9b87a90c8fb582abd546441f4404f6e741b38de6fef899ba55c"
+    }
+  ],
+  "reviewer_class": "isolated_model_session_acting_as_single_reviewer",
+  "reviewer_id": "reviewer-a-claude-opus-5-2026-08-02",
+  "rubric_sha256": "1e64ba705691f462ac761b12b6fb8c24ab2c7b9dd3c8b459b977bd7cf6c1ab87",
+  "schema_version": "0.1",
+  "sealed_at": "2026-08-02T07:11:55.752766+00:00"
+}

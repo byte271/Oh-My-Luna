@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "gate-m-independent-review/2.0.0",
+  "protocol_version": "gate-m-real-tasks-v2",
+  "supersedes_policy_id": "gate-m-independent-review/1.0.0",
+  "rubric_version": "oracle-boundary/2.0.0",
+  "required_distinct_reviewers": 2,
+  "author_may_review": false,
+  "maintainer_may_review": false,
+  "reviewers_may_see_prior_decisions": false,
+  "packet_order_blinded": true,
+  "target_level_hidden": true,
+  "structural_level_cue_removed": true,
+  "accepted_reviewer_classes": [
+    "human",
+    "separately_operated_external_model"
+  ],
+  "rejected_reviewer_classes": [
+    "maintainer_session",
+    "subagent_of_maintainer_session",
+    "second_pass_by_an_existing_reviewer",
+    "any_reviewer_with_access_to_another_reviewer_output"
+  ],
+  "model_review_not_equivalent_to_human_review": true,
+  "collapse_rule": {
+    "levels": [
+      "L3_observation",
+      "L4_diagnosis"
+    ],
+    "exact_agreement_threshold": 0.8,
+    "collapse_if_below_threshold": true,
+    "qualitative_triggers": [
+      "disagreement repeatedly centers on unavoidable causal wording",
+      "removing causal interpretation makes L3 unusable",
+      "L4 cannot be authored without nearly specifying the repair"
+    ],
+    "registered_before_reviews": true,
+    "carried_unchanged_from": "gate-m-independent-review/1.0.0",
+    "note": "Threshold is deliberately unchanged from V1. It was registered before any review existed and must not be adjusted after results are seen."
+  },
+  "conservative_packet_policy": {
+    "note": "Approval is not a majority vote. Any one of these findings from either reviewer blocks scheduling.",
+    "blocking_findings": [
+      "material implementation disclosure",
+      "corrected-version-only information",
+      "evaluator-only information",
+      "effective solution disclosure",
+      "substantial level ambiguity between reviewers"
+    ]
+  },
+  "preregistered_confound_check": {
+    "reason": "The corpus is cumulative, so statement count correlates with level. High exact-level agreement could reflect counting rather than reading.",
+    "procedure": "Before interpreting exact-level agreement, score a classifier that uses statement count alone, fitted on the disclosed per-level count table. Report reviewer agreement alongside that baseline.",
+    "interpretation_rule": "If reviewer exact-level agreement does not clearly exceed the count-only baseline, exact-level agreement must not be reported as evidence of semantic separability.",
+    "registered_before_reviews": true
+  },
+  "seed_disclosure": {
+    "seed_is_controller_only": true,
+    "seed_sha256": "5641e3b982f9d10ec03f6fa208427e7a3560b7688eb993164e3699e30f4a0752",
+    "note": "The ordering seed is recorded in the V2 freeze. It is never included in a reviewer export."
+  }
+}

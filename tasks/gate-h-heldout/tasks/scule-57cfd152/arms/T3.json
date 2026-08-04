@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-h-heldout-v1",
+  "task_id": "scule-57cfd152",
+  "treatment_id": "T3",
+  "combined_arm": true,
+  "combined_arm_note": "Diagnosis and behavioral objective are deliberately combined. No effect may be attributed to one rather than the other.",
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "src/index.ts",
+          "start_line": 1,
+          "end_line": 60
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "src/index.ts",
+          "name": "isUppercase",
+          "kind": "function"
+        },
+        {
+          "path": "src/index.ts",
+          "name": "splitByCase",
+          "kind": "function"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "isUppercase",
+        "consumer_symbol": "splitByCase",
+        "type": "return"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Running the package test suite against the base commit reports: expected [ \"new\", \"-name\", \"-value\" ] to match object [ \"new-name-value\" ]. The input is split at each hyphen.",
+          "command": "npx vitest run test",
+          "certainty": "observed"
+        }
+      ]
+    },
+    "diagnosis": {
+      "root_cause": "The case predicate decides that a character is uppercase by comparing it with its own upper-cased form. A character that has no cased form is unchanged by upper-casing, so the comparison holds and the character is classified as uppercase. The splitter treats a lower-to-upper transition as a word boundary, so every caseless character inside an identifier is read as the start of a new segment.",
+      "certainty": "confirmed"
+    },
+    "behavioral_objective": {
+      "objective": "Characters that have no upper or lower form must not be treated as uppercase, so that identifiers containing such characters are not split at them.",
+      "constraints": [
+        "Genuine upper-case letters must still be reported as uppercase.",
+        "Genuine lower-case letters must still be reported as not uppercase.",
+        "Numeric characters must keep their current undefined result.",
+        "Behaviour relied on by the existing test suite must continue to hold."
+      ],
+      "non_goals": [
+        "Do not change the configurable splitter list.",
+        "Do not change the public signature."
+      ]
+    }
+  },
+  "content_sha256": "3a8ff49bf68bb25337d9d777d1da26c2097a53572acbe56084c2a6fb06a66217"
+}

@@ -1,0 +1,117 @@
+{
+  "schema_version": "0.1",
+  "task_id": "zod-absent-catch",
+  "task_base_commit": "b8dffe9e62f17e6571e6249d05cc5102b54d94e4",
+  "intervention_level": "L5_plan",
+  "design": "cumulative",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "start_line": 3470,
+          "end_line": 3502
+        },
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "start_line": 3887,
+          "end_line": 3932
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "name": "handleOptionalResult",
+          "kind": "function"
+        },
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "name": "$ZodOptional",
+          "kind": "variable"
+        },
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "name": "$ZodCatch",
+          "kind": "variable"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "$ZodCatch",
+        "consumer_symbol": "$ZodOptional",
+        "type": "return"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Parsing an empty object with the reported preprocessed array property followed by catch([]) exits with an invalid_type issue whose expected value is nonoptional and whose path is ['area'].",
+          "evidence_refs": [
+            "evidence:base-run"
+          ],
+          "certainty": "observed"
+        }
+      ]
+    },
+    "diagnosis": {
+      "root_cause": "Catch substitutes a successful fallback after its inner schema reports issues, but the absent-property path still derives input optionality and downstream handling from the inner schema, so the substituted result is treated as a missing nonoptional property.",
+      "supporting_evidence_refs": [
+        "base:packages/zod/src/v4/core/schemas.ts:3470-3502",
+        "base:packages/zod/src/v4/core/schemas.ts:3887-3932",
+        "evidence:base-run"
+      ],
+      "certainty": "confirmed"
+    },
+    "plan": {
+      "behavioral_objective": "Honor a catch fallback when the wrapped property is absent and carry enough result semantics for an optional wrapper to distinguish fallback substitution from an ordinary absent value.",
+      "constraints": [
+        "Preserve catch behavior for present invalid values.",
+        "Preserve ordinary optional-property omission semantics.",
+        "Keep synchronous and asynchronous catch paths equivalent."
+      ],
+      "non_goals": [
+        "Do not change the public catch callback API.",
+        "Do not make every inner schema optional."
+      ]
+    }
+  },
+  "source": {
+    "kind": "model_authored_unreviewed",
+    "evidence_refs": [
+      "visible/issue.md",
+      "control/task-validation.json#base"
+    ],
+    "fixed_commit_accessible_to_agent": false,
+    "facts_visible_from_base": false
+  },
+  "information_boundary": {
+    "allowed_categories": [
+      "context",
+      "localization",
+      "observation",
+      "diagnosis",
+      "plan"
+    ],
+    "forbidden_categories": [
+      "patch_text",
+      "fixed_commit",
+      "hidden_evaluator",
+      "implementation_instruction"
+    ],
+    "contains_diagnosis": true,
+    "contains_plan": true,
+    "contains_code_location": true,
+    "contains_exact_identifier": true,
+    "contains_patch_text": false
+  },
+  "review_status": "pending_independent_review",
+  "provenance": {
+    "author_id": "codex-sol-primary-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "created_at": "2026-08-02T06:30:00Z",
+    "rubric_version": "oracle-boundary/1.0.0",
+    "revision": 1,
+    "content_sha256": "66cee72ad28a0d283bc1b70eaff081899922f483e9e26ffb769814a409208688"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "0.1",
+  "task_id": "zod-tuple-default",
+  "task_base_commit": "ec979ad783a9e9c992d3c9bd4e5f3b56110b1ef8",
+  "intervention_level": "L1_context",
+  "design": "cumulative",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "start_line": 2635,
+          "end_line": 2714
+        }
+      ]
+    }
+  },
+  "source": {
+    "kind": "model_authored_unreviewed",
+    "evidence_refs": [
+      "base:packages/zod/src/v4/core/schemas.ts:2635-2714"
+    ],
+    "fixed_commit_accessible_to_agent": false,
+    "facts_visible_from_base": true
+  },
+  "information_boundary": {
+    "allowed_categories": [
+      "context"
+    ],
+    "forbidden_categories": [
+      "patch_text",
+      "fixed_commit",
+      "hidden_evaluator",
+      "implementation_instruction",
+      "L2_localization",
+      "L3_observation",
+      "L4_diagnosis",
+      "L5_plan"
+    ],
+    "contains_diagnosis": false,
+    "contains_plan": false,
+    "contains_code_location": true,
+    "contains_exact_identifier": false,
+    "contains_patch_text": false
+  },
+  "review_status": "pending_independent_review",
+  "provenance": {
+    "author_id": "codex-sol-primary-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "created_at": "2026-08-02T06:30:00Z",
+    "rubric_version": "oracle-boundary/1.0.0",
+    "revision": 1,
+    "content_sha256": "55ab8b83de90054b5cbda31afb820d1e03861d700e27f33bd5e74cbed6162045"
+  }
+}

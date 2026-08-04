@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.1",
+  "purpose": "method_mechanics_only",
+  "capability_claim_permitted": false,
+  "fixtures": [
+    {
+      "id": "treatment-isolation",
+      "control": "Selected packet materializes payload only; adapter and configured-verifier invocations receive no treatment identifier.",
+      "expected": "pass",
+      "executable_test": "tests/runner.integration.test.ts: runner records a selected oracle treatment without exposing the packet path"
+    },
+    {
+      "id": "observation-semantic-leak",
+      "control": "Observation containing diagnosis and repair language is rejected.",
+      "expected": "OML_LEAK_OBSERVATION_CONTAINS_DIAGNOSIS",
+      "executable_test": "tests/interventions.test.ts: rejects diagnosis and plan leaked into an observation"
+    },
+    {
+      "id": "diagnosis-patch-leak",
+      "control": "Diagnosis containing code-shaped patch text is rejected.",
+      "expected": "OML_LEAK_DIAGNOSIS_CONTAINS_PATCH",
+      "executable_test": "tests/interventions.test.ts: rejects patch text inside a diagnosis"
+    },
+    {
+      "id": "packet-task-and-commit-binding",
+      "control": "Packet task and base commit must match the frozen fixture.",
+      "expected": "OML_INTERVENTION_TASK_MISMATCH or OML_STALE_TASK_COMMIT",
+      "executable_test": "tests/interventions.test.ts: rejects packet-task mismatch and stale base commit"
+    },
+    {
+      "id": "selection-freeze-mutation",
+      "control": "Candidate-pool mutation after selection freeze is rejected.",
+      "expected": "OML_TASK_POOL_FREEZE_MISMATCH",
+      "executable_test": "tests/freezes.test.ts: rejects task-pool mutation after freeze"
+    },
+    {
+      "id": "scorer-blind-invocation",
+      "control": "Configured verifier receives only its predeclared arguments and allowlisted environment, without treatment identity.",
+      "expected": "pass under trusted-process contract; not a containment guarantee",
+      "executable_test": "tests/runner.integration.test.ts: runner records a selected oracle treatment without exposing the packet path"
+    }
+  ]
+}

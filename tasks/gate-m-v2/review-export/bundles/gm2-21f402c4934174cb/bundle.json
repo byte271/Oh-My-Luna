@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "gm2-21f402c4934174cb",
+  "protocol_version": "gate-m-real-tasks-v2",
+  "task_material": {
+    "issue": "# ConditionalKeys loses optional keys under TypeScript 5.4\n\nWith TypeScript 5.4, `ConditionalKeys<T, string | undefined>` does not include an optional string property that should satisfy the condition.\n\nFor a type containing a required string, an optional string-or-number, an optional string, and a record, the result should be the required-string key plus the optional-string key.\n",
+    "base_version_excerpt": "FILE source/conditional-keys.d.ts\nLINES 33-47\n    33\texport type ConditionalKeys<Base, Condition> = NonNullable<\n    34\t// Wrap in `NonNullable` to strip away the `undefined` type from the produced union.\n    35\t{\n    36\t\t// Map through all the keys of the given base type.\n    37\t\t[Key in keyof Base]:\n    38\t\t// Pick only keys with types extending the given `Condition` type.\n    39\t\tBase[Key] extends Condition\n    40\t\t// Retain this key since the condition passes.\n    41\t\t\t? Key\n    42\t\t// Discard this key since the condition fails.\n    43\t\t\t: never;\n    44\t\n    45\t\t// Convert the produced object into a union type of the keys which passed the conditional test.\n    46\t}[keyof Base]\n    47\t>;"
+  },
+  "candidate_information": [
+    {
+      "item_id": "it-e42c9fbc5e2d",
+      "kind": "statement",
+      "text": "The base version of `source/conditional-keys.d.ts` between lines 33 and 47 is relevant to this task."
+    },
+    {
+      "item_id": "it-8009bf32ac36",
+      "kind": "statement",
+      "text": "The mapped type preserves optional property modifiers while constructing the intermediate key map; under TypeScript 5.4 this changes the indexed-union result for optional candidate keys before the final non-null filtering step."
+    },
+    {
+      "item_id": "it-32eebcee54d8",
+      "kind": "statement",
+      "text": "In the base version, `ConditionalKeys` supplies a value that `NonNullable` receives (return)."
+    },
+    {
+      "item_id": "it-4e8e28a6c008",
+      "kind": "statement",
+      "text": "The base version defines `NonNullable` (type) in `source/conditional-keys.d.ts`."
+    },
+    {
+      "item_id": "it-5f960edd80e3",
+      "kind": "statement",
+      "text": "TypeScript 5.4.2 reports TS2344 ('Type false does not satisfy the constraint true') for an equality assertion comparing ConditionalKeys<Example, string | undefined> with the expected union 'a' | 'c'."
+    },
+    {
+      "item_id": "it-216b7588f12e",
+      "kind": "statement",
+      "text": "The base version defines `ConditionalKeys` (type) in `source/conditional-keys.d.ts`."
+    }
+  ],
+  "reviewer_material": {
+    "comparison_file": "repair-comparison.patch",
+    "answer_file": "answer-template.json",
+    "comparison_is_phase_two_only": true
+  },
+  "target_level_disclosed": false,
+  "previous_reviews_included": false
+}

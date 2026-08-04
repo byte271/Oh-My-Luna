@@ -1,0 +1,90 @@
+{
+  "schema_version": "0.1",
+  "task_id": "zod-tuple-default",
+  "task_base_commit": "ec979ad783a9e9c992d3c9bd4e5f3b56110b1ef8",
+  "intervention_level": "L3_observation",
+  "design": "cumulative",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "start_line": 2635,
+          "end_line": 2714
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "name": "$ZodTuple",
+          "kind": "variable"
+        },
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "name": "handleTupleResult",
+          "kind": "function"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "$ZodTuple",
+        "consumer_symbol": "handleTupleResult",
+        "type": "call"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Parsing the two-item tuple [string, string.default('fallback')] with the one-item input ['present'] returns the one-item output ['present'] with length 1.",
+          "evidence_refs": [
+            "evidence:base-run"
+          ],
+          "certainty": "observed"
+        }
+      ]
+    }
+  },
+  "source": {
+    "kind": "model_authored_unreviewed",
+    "evidence_refs": [
+      "control/task-validation.json#base"
+    ],
+    "fixed_commit_accessible_to_agent": false,
+    "facts_visible_from_base": true
+  },
+  "information_boundary": {
+    "allowed_categories": [
+      "context",
+      "localization",
+      "observation"
+    ],
+    "forbidden_categories": [
+      "patch_text",
+      "fixed_commit",
+      "hidden_evaluator",
+      "implementation_instruction",
+      "L4_diagnosis",
+      "L5_plan"
+    ],
+    "contains_diagnosis": false,
+    "contains_plan": false,
+    "contains_code_location": true,
+    "contains_exact_identifier": true,
+    "contains_patch_text": false
+  },
+  "review_status": "pending_independent_review",
+  "provenance": {
+    "author_id": "oml-lead-maintainer-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "created_at": "2026-08-02T12:00:00Z",
+    "rubric_version": "oracle-boundary/2.0.0",
+    "revision": 2,
+    "content_sha256": "f5a4af2efccbaba34ddec18b74e0decbe8529fd5da4a2a2e23e1f34ddf890fd2"
+  },
+  "protocol_version": "gate-m-real-tasks-v2",
+  "derived_from": {
+    "protocol_version": "gate-m-real-tasks-v1",
+    "packet_sha256": "8396fef1536f74a76096a6d86dfc5a2aa4d47ac514d3f6c729eec9542d05a486"
+  }
+}

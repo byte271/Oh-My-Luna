@@ -1,5 +1,8 @@
 # Roadmap
 
+Status: superseded on 2026-08-02 by `roadmap-v3.md`. Retained as a historical
+decision record.
+
 ## Gate C: evaluation mechanics
 
 Complete typed fixtures, runner/adapters, isolated workspaces, trace and
@@ -40,4 +43,3 @@ Choose exactly one:
 - Windows/macOS/Linux sandbox backend conformance suite;
 - offline prompt/workflow optimization;
 - explicit hybrid escalation policy.
-

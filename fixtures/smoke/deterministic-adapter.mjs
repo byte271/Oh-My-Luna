@@ -9,5 +9,11 @@ process.stdout.write(JSON.stringify({
   files: [{ path: "result.txt", content: `${value}\n` }],
   claims: ["The deterministic smoke-test transform was applied."],
   usage: { input_tokens: 0, cached_input_tokens: 0, output_tokens: 0 },
-  raw_trace: { kind: "deterministic-test-double", is_model_run: false }
+  billing: { accuracy: "not_applicable", records: [], omitted_charge_categories: [] },
+  raw_trace: {
+    kind: "deterministic-test-double",
+    is_model_run: false,
+    request_keys: Object.keys(request).sort(),
+    assistance_keys: request.assistance ? Object.keys(request.assistance).sort() : []
+  }
 }));

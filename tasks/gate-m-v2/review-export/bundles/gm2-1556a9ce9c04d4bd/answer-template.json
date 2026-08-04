@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "gm2-1556a9ce9c04d4bd",
+  "reviewer_id": null,
+  "reviewer_class": null,
+  "phase1": {
+    "sealed_before_comparison": null,
+    "actual_level": null,
+    "second_best_level": null,
+    "confidence": null,
+    "later_level_information_present": null,
+    "l3_l4_distinguishable": null,
+    "item_findings": [
+      {
+        "item_id": "it-f49d305cc250",
+        "finding": null
+      },
+      {
+        "item_id": "it-ecf2452d8fce",
+        "finding": null
+      },
+      {
+        "item_id": "it-c41f76806f8c",
+        "finding": null
+      },
+      {
+        "item_id": "it-fa55c355bd98",
+        "finding": null
+      },
+      {
+        "item_id": "it-3d9a31153ea6",
+        "finding": null
+      },
+      {
+        "item_id": "it-7dfbc7d4eb67",
+        "finding": null
+      },
+      {
+        "item_id": "it-c6e71ca491be",
+        "finding": null
+      },
+      {
+        "item_id": "it-ac94ab424b8f",
+        "finding": null
+      }
+    ],
+    "initial_decision": null
+  },
+  "phase2": {
+    "suspicious_repair_similarity": null,
+    "implementation_or_patch_disclosed": null,
+    "base_unavailable_identifier_present": null,
+    "evaluator_only_information_present": null,
+    "effectively_solves_task": null,
+    "item_findings": []
+  },
+  "final_decision": null,
+  "decision_options": [
+    "approve",
+    "revise",
+    "reject",
+    "collapse_levels"
+  ],
+  "level_options": [
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5",
+    "L3_L4_indistinguishable",
+    "mixed"
+  ]
+}

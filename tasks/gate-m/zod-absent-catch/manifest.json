@@ -1,0 +1,11 @@
+{
+  "schema_version": "0.1",
+  "id": "zod-absent-catch",
+  "repository": { "organization": "colinhacks", "name": "zod", "base_commit": "b8dffe9e62f17e6571e6249d05cc5102b54d94e4", "fixed_commit": "1cab69383fcdeae2a366d5e2a2fc4d8fc765d168" },
+  "split": "test",
+  "task_statement": "Make an absent object property honor its catch fallback instead of producing a nonoptional error.",
+  "task_family": "regression",
+  "provenance": { "source_url": "https://github.com/colinhacks/zod/issues/5937", "license_spdx": "MIT", "derived_at": "2026-08-02T06:18:56.243Z" },
+  "hashes": { "base_archive_sha256": "c5b0f46d101a54485e440382bb67852391771e98f941a50c6810b5dabc49c24c", "hidden_verifier_sha256": "f27d0c012fd00c750bbf097d051c8c900cfee4231cbcdcaa6af4c05f82213d79" },
+  "boundaries": { "agent_visible_paths": ["upstream-base-workspace", "visible/issue.md", "visible/public-test-information.json", "selected-intervention.json"], "hidden_paths": ["control", "interventions/unassigned", "reviews", "freeze"] }
+}

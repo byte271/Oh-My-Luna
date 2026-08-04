@@ -1,0 +1,17 @@
+{
+  "base_commit": "39d1e14200cead9e4be5df88695b5e82082875ed",
+  "components": {
+    "context": { "regions": [{ "path": "pkgs/core/src/locale/zh-CN/_lib/match/index.ts", "start_line": 27, "end_line": 60 }] },
+    "localization": { "symbols": [{ "path": "pkgs/core/src/locale/zh-CN/_lib/match/index.ts", "name": "matchMonthPatterns", "kind": "variable" }, { "path": "pkgs/core/src/locale/zh-CN/_lib/match/index.ts", "name": "parseMonthPatterns", "kind": "variable" }], "failing_boundary": { "producer_symbol": "matchMonthPatterns", "consumer_symbol": "parseMonthPatterns", "type": "return" } },
+    "observation": { "facts": [{ "statement": "With zh-CN, the base parser returns invalid dates for numeric and wide-form October; the same evaluator reports month 1 for numeric November and December.", "evidence_refs": ["evidence:base-run"], "certainty": "observed" }] },
+    "diagnosis": { "root_cause": "The Chinese month match and parse alternatives accept ambiguous prefixes for the two-digit months, allowing a shorter month token to win before the complete October-through-December token is classified.", "supporting_evidence_refs": ["base:pkgs/core/src/locale/zh-CN/_lib/match/index.ts:27-60", "evidence:base-run"], "certainty": "confirmed" },
+    "plan": { "behavioral_objective": "Recognize complete October, November, and December tokens before classifying their numeric or Chinese prefixes, for both abbreviated and wide zh-CN month forms.", "constraints": ["Continue accepting months one through nine.", "Preserve narrow, abbreviated, and wide matching contracts.", "Do not consume digits beyond a complete one-digit month token."], "non_goals": ["Do not change date arithmetic.", "Do not alter unrelated locale text."] }
+  },
+  "evidence_refs": {
+    "L1_context": ["base:pkgs/core/src/locale/zh-CN/_lib/match/index.ts:27-60"],
+    "L2_localization": ["base:pkgs/core/src/locale/zh-CN/_lib/match/index.ts:27-60"],
+    "L3_observation": ["control/task-validation.json#base"],
+    "L4_diagnosis": ["base:pkgs/core/src/locale/zh-CN/_lib/match/index.ts:27-60", "control/task-validation.json#base"],
+    "L5_plan": ["visible/issue.md", "control/task-validation.json#base"]
+  }
+}

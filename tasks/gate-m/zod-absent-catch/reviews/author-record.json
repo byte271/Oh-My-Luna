@@ -1,0 +1,40 @@
+{
+  "schema_version": "0.1",
+  "task_id": "zod-absent-catch",
+  "author_id": "codex-sol-primary-2026-08-02",
+  "author_class": "model_assisted_primary_author",
+  "authored_at": "2026-08-02T06:30:00Z",
+  "fixed_repair_was_available_to_author": true,
+  "independent_reviewer": false,
+  "rubric_version": "oracle-boundary/1.0.0",
+  "drafts": [
+    {
+      "level": "L1_context",
+      "path": "interventions/L1.json",
+      "content_sha256": "05fc41ea4808b8ff7f8301e47d39b07ced390957f9f9dff051b33abcf80b5dae"
+    },
+    {
+      "level": "L2_localization",
+      "path": "interventions/L2.json",
+      "content_sha256": "95a35fbcc04bf392895cc13637865889b1ab528a80e3802227c0029e26dc6483"
+    },
+    {
+      "level": "L3_observation",
+      "path": "interventions/L3.json",
+      "content_sha256": "e188b3368c7415a758b086656784b78c0aaa15569600b3c9c6126faf950859c2"
+    },
+    {
+      "level": "L4_diagnosis",
+      "path": "interventions/L4.json",
+      "content_sha256": "115c1a3d0e6c884af1f8f45f0337eb5d2e6747f384b3deadd59617207a4a22a5"
+    },
+    {
+      "level": "L5_plan",
+      "path": "interventions/L5.json",
+      "content_sha256": "66cee72ad28a0d283bc1b70eaff081899922f483e9e26ffb769814a409208688"
+    }
+  ],
+  "limitations": [
+    "The author inspected the historical repair while constructing the task; independent leakage review is mandatory before scheduling."
+  ]
+}

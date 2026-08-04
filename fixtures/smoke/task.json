@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.1",
+  "schema_version": "0.2",
   "id": "harness-smoke-not-a-model-eval",
   "issue": "Create result.txt containing exactly the normalized value named in input.txt.",
   "repository": {
@@ -10,12 +10,24 @@
     "id": "deterministic-test-double",
     "command": ["node", "{fixture_dir}/deterministic-adapter.mjs"],
     "model": "test-double/not-a-model",
+    "model_snapshot": "test-double/not-a-model@fixture-1",
     "reasoning_effort": "none",
+    "service_tier": "not_applicable",
+    "prompt_sha256": "87226387ebb4f57ee813e9e45391b99df3159cec3693567a5727deb8a9dda111",
+    "skill_sha256": null,
     "rates_usd_per_million_tokens": {
       "input": 0,
       "cached_input": 0,
       "output": 0
     }
+  },
+  "environment": {
+    "id": "smoke-copy-environment-v1",
+    "definition_sha256": "00537e28ea2ec793bcf7b54ffd0161c3bfaffd14b6b31cac0f2f484ccb2fa9c1",
+    "image_digest": null
+  },
+  "confidentiality": {
+    "hidden_paths": [".oml-hidden"]
   },
   "verifier": {
     "command": ["node", "{fixture_dir}/verifier.mjs"],

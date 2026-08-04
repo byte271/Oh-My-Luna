@@ -1,0 +1,318 @@
+{
+  "export_readme_sha256": "24a574f41329773ef311e8f9c55aff81ff7290bf475ed0e9b2ca3e4cbd0c7034",
+  "packet_count": 20,
+  "phase2_material_accessed_before_seal": false,
+  "record_type": "phase1_sealed",
+  "records": [
+    {
+      "actual_level": "L1",
+      "bundle_sha256": "89c7cfb6bf509db399912f8214bab619ebf2d8eb9cafe716db6bbad8ac7d854f",
+      "confidence": "high",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-c6186b505f3bb178",
+      "phase": 1,
+      "second_best_level": "L2",
+      "sentence_level_comments": []
+    },
+    {
+      "actual_level": "L2",
+      "bundle_sha256": "4e85bfc86d9af1d40956a53760e4932c2dd89338efeb09f0fd762d16e39d56b7",
+      "confidence": "high",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-b5861ade218fe3c1",
+      "phase": 1,
+      "second_best_level": "L1",
+      "sentence_level_comments": []
+    },
+    {
+      "actual_level": "L3",
+      "bundle_sha256": "58533a19957e34a55a4681e2312c0984555b4e9f5b0f5968c457061001e8b957",
+      "confidence": "high",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-d60f2e9633e32fdf",
+      "phase": 1,
+      "second_best_level": "L2",
+      "sentence_level_comments": [
+        {
+          "finding": "Pure observed input/output behavior; states no mechanism or cause. Stays within L3.",
+          "sentence": "With zh-CN, the base parser returns invalid dates for numeric and wide-form October; the same evaluator reports month 1 for numeric November and December."
+        }
+      ]
+    },
+    {
+      "actual_level": "L4",
+      "bundle_sha256": "d006796f17076cacf14bc93f06eabc9997c6afa77702c312e792a0b4d02983e9",
+      "confidence": "high",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-c8319a153dc6dda2",
+      "phase": 1,
+      "second_best_level": "L3",
+      "sentence_level_comments": [
+        {
+          "finding": "Causal mechanism, no code or replacement expression. Implies a repair direction (prefer complete tokens), which L4 permits; verify against repair in Phase 2.",
+          "sentence": "The Chinese month match and parse alternatives accept ambiguous prefixes for the two-digit months, allowing a shorter month token to win before the complete October-through-December token is classified."
+        }
+      ]
+    },
+    {
+      "actual_level": "L5",
+      "bundle_sha256": "153f591704a2f949f82e9ecbbbee26b20b4607673c5993b373d69ee399784be7",
+      "confidence": "medium",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-f8fb9e6e81a35927",
+      "phase": 1,
+      "second_best_level": "L4",
+      "sentence_level_comments": [
+        {
+          "finding": "Constraint is unusually operational and edges toward describing regex behavior rather than user-visible behavior. Check repair similarity in Phase 2.",
+          "sentence": "Do not consume digits beyond a complete one-digit month token."
+        }
+      ]
+    },
+    {
+      "actual_level": "L1",
+      "bundle_sha256": "260a6c0d9b5c63d0b5f077a5b6c4e6c9e6a205c10b36d2511ea3451d3acb206b",
+      "confidence": "high",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-cd5c987cfac9d9f3",
+      "phase": 1,
+      "second_best_level": "L2",
+      "sentence_level_comments": []
+    },
+    {
+      "actual_level": "L2",
+      "bundle_sha256": "b6717afffeaecff584752c12c316fd1b424da0d4028ca85060baed37cc7a517c",
+      "confidence": "medium",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-3feefc569ee17295",
+      "phase": 1,
+      "second_best_level": "L1",
+      "sentence_level_comments": [
+        {
+          "finding": "Boundary uses descriptive prose rather than base-visible symbol names. Not later-level information, but weaker L2 evidence than the other ladders.",
+          "sentence": "failing_boundary: producer 'mapped property selection', consumer 'indexed key union'"
+        }
+      ]
+    },
+    {
+      "actual_level": "L3",
+      "bundle_sha256": "0a616df9688e003a82bc371d6bd6639d879d2a67a63cc70a6c900a96fcbb1ab3",
+      "confidence": "high",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-067d114928e8fbad",
+      "phase": 1,
+      "second_best_level": "L2",
+      "sentence_level_comments": [
+        {
+          "finding": "Reproducible compiler diagnostic with no interpretation. Clean L3.",
+          "sentence": "TypeScript 5.4.2 reports TS2344 ('Type false does not satisfy the constraint true') ..."
+        }
+      ]
+    },
+    {
+      "actual_level": "L4",
+      "bundle_sha256": "1f6913be0f94faa0c8b4a40b1e11143423ecd12c7b4541c40bf96085c7cc728e",
+      "confidence": "medium",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-8bc4f402d6e23c1e",
+      "phase": 1,
+      "second_best_level": "L5",
+      "sentence_level_comments": [
+        {
+          "finding": "Causal and correct, but names the exact defective construct; the repair is close to the logical inverse of this sentence. Highest repair-similarity risk at L4. Verify in Phase 2.",
+          "sentence": "The mapped type preserves optional property modifiers while constructing the intermediate key map; under TypeScript 5.4 this changes the indexed-union result for optional candidate keys before the final non-null filtering step."
+        }
+      ]
+    },
+    {
+      "actual_level": "L5",
+      "bundle_sha256": "b91c9f8ea50c00cffe5a0b02f01fc9c3663720c51ee131a912914d0bafc1c114",
+      "confidence": "medium",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-5a5e77a19db97a35",
+      "phase": 1,
+      "second_best_level": "L4",
+      "sentence_level_comments": [
+        {
+          "finding": "Behavioral objective that is close to a direct statement of the mapped-type modifier change. Verify in Phase 2 for implementation disclosure.",
+          "sentence": "Make key selection independent of optional property modifiers before extracting the selected key union."
+        }
+      ]
+    },
+    {
+      "actual_level": "L1",
+      "bundle_sha256": "0cd707b6475edd3bbc593929ce1ecb41ca19352bd0769ce1296ca9fc88ebf2fb",
+      "confidence": "high",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-59436f5889eb772b",
+      "phase": 1,
+      "second_best_level": "L2",
+      "sentence_level_comments": []
+    },
+    {
+      "actual_level": "L2",
+      "bundle_sha256": "2c25f1abef10080bc621200c2f152a6ac4a06cd9fbe5dfb7f1562f99cafda809",
+      "confidence": "high",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-d6398cd982e959a0",
+      "phase": 1,
+      "second_best_level": "L1",
+      "sentence_level_comments": []
+    },
+    {
+      "actual_level": "L3",
+      "bundle_sha256": "1d59d7abb373cfe4c8d8bb4535d7629c0b1341a7597f7abe02550679574b16b5",
+      "confidence": "high",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-d6816489673b67cc",
+      "phase": 1,
+      "second_best_level": "L2",
+      "sentence_level_comments": [
+        {
+          "finding": "Concrete observed value and length; no mechanism. Clean L3.",
+          "sentence": "Parsing the two-item tuple [string, string.default('fallback')] with the one-item input ['present'] returns the one-item output ['present'] with length 1."
+        }
+      ]
+    },
+    {
+      "actual_level": "L4",
+      "bundle_sha256": "312f2072fc90d4cc83bc658eaca22c35f9d2d4cfed12f0820f439b442be86f55",
+      "confidence": "high",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-e692ae5756b004e4",
+      "phase": 1,
+      "second_best_level": "L3",
+      "sentence_level_comments": [
+        {
+          "finding": "Causal mechanism without prescribing an edit. Within L4.",
+          "sentence": "The tuple parser classifies every absent position at or beyond its optional-input boundary as skippable, including schemas that produce a defined output from absent input."
+        }
+      ]
+    },
+    {
+      "actual_level": "L5",
+      "bundle_sha256": "f52236c4063d3f30326117b51485e7f4bd80d085765f97324377e7b6e4d2d6d6",
+      "confidence": "medium",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-0f7f687c8e2fa9a7",
+      "phase": 1,
+      "second_best_level": "L4",
+      "sentence_level_comments": [
+        {
+          "finding": "Behavioral objective stated at the level of required outcome. Borderline specific; verify repair similarity in Phase 2.",
+          "sentence": "Materialize an omitted tuple position when its schema produces a defined output, while continuing to omit trailing positions whose output is genuinely optional."
+        }
+      ]
+    },
+    {
+      "actual_level": "L1",
+      "bundle_sha256": "5e84b9ec1d042c4843b8bfc690c5472ccdb8507a5503f1a6bdc15159c80e6a07",
+      "confidence": "high",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-65d09dde5ad57aae",
+      "phase": 1,
+      "second_best_level": "L2",
+      "sentence_level_comments": []
+    },
+    {
+      "actual_level": "L2",
+      "bundle_sha256": "7bd090d682d54990e5de158fa4e163bceacf35f1d10e402ac281fc46114414e6",
+      "confidence": "high",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-96fc152b96143c6d",
+      "phase": 1,
+      "second_best_level": "L1",
+      "sentence_level_comments": []
+    },
+    {
+      "actual_level": "L3",
+      "bundle_sha256": "c7acd09c8281af9995c8a95812f25b73af211f059dcf13364bf594763c22d11a",
+      "confidence": "high",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-95d476297f814499",
+      "phase": 1,
+      "second_best_level": "L2",
+      "sentence_level_comments": [
+        {
+          "finding": "Observed issue payload only. Clean L3.",
+          "sentence": "Parsing an empty object with the reported preprocessed array property followed by catch([]) exits with an invalid_type issue whose expected value is nonoptional and whose path is ['area']."
+        }
+      ]
+    },
+    {
+      "actual_level": "L4",
+      "bundle_sha256": "0a8195781972c88282171a6cc06248dce3791ba8e62a0e337565db1325aa9df9",
+      "confidence": "medium",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-6fc51697cbfedd5b",
+      "phase": 1,
+      "second_best_level": "L5",
+      "sentence_level_comments": [
+        {
+          "finding": "Multi-clause causal chain spanning two call sites. Rich, but still explanatory rather than prescriptive. Verify in Phase 2.",
+          "sentence": "Catch substitutes a successful fallback after its inner schema reports issues, but the absent-property path still derives input optionality and downstream handling from the inner schema, so the substituted result is treated as a missing nonoptional property."
+        }
+      ]
+    },
+    {
+      "actual_level": "L5",
+      "bundle_sha256": "7dee10c86666f3efa33d7f8c7a3c1ca61d030cde417113947866e82f31606078",
+      "confidence": "low",
+      "initial_decision": "approve",
+      "l3_l4_distinguishable": true,
+      "later_level_information_present": false,
+      "opaque_packet_id": "gm-6381ad9fb536272d",
+      "phase": 1,
+      "second_best_level": "L4",
+      "sentence_level_comments": [
+        {
+          "finding": "Describes the need for an additional signal on the result object, which approaches a mechanism rather than a behavior. Strongest implementation-disclosure candidate at L5. Verify in Phase 2.",
+          "sentence": "...carry enough result semantics for an optional wrapper to distinguish fallback substitution from an ordinary absent value."
+        }
+      ]
+    }
+  ],
+  "reviewer_class": "isolated_model_session_acting_as_single_reviewer",
+  "reviewer_id": "reviewer-a-claude-opus-5-2026-08-02",
+  "rubric_sha256": "1e64ba705691f462ac761b12b6fb8c24ab2c7b9dd3c8b459b977bd7cf6c1ab87",
+  "schema_version": "0.1",
+  "sealed_at": "2026-08-02T07:09:33.660284+00:00"
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "effort-parity-2026-08-03",
+  "purpose": "Record the project owner's asserted capability claim that gpt-5.6-luna at reasoning effort 'max' is comparable to gpt-5.6-sol at reasoning effort 'medium', separating what is verified in this repository from what is asserted without support.",
+  "claim_as_stated": "In benchmarks, gpt-5.6-luna's reasoning capability at the 'max' setting is comparable to the 'medium' level of gpt-5.6-sol.",
+  "claim_status": "owner_asserted_uncorroborated",
+  "recorded_at": "2026-08-03",
+  "recorded_by": "takeover session; owner selected 'External benchmark I trust' when asked for provenance",
+
+  "why_this_file_exists": "ADR 0014 requires that any external factual premise entering the trust chain carry its provenance. This claim currently motivates a protocol change (see docs/gate-h-heldout-v2-plan.md and docs/adr/0016-prompt-sufficiency-before-effort-axis.md), so it must be recorded with its weakness visible rather than absorbed silently into design rationale.",
+
+  "independently_verified_here": {
+    "note": "Only the existence and spelling of the effort levels is verifiable in this repository. Nothing about relative capability is.",
+    "facts": [
+      {
+        "fact": "ReasoningEffort admits 'none' | 'minimal' | 'low' | 'medium' | 'high' | 'xhigh' | 'max' | null, so both 'max' and 'medium' are real, settable values.",
+        "source": "data/provider-evidence/excerpts/sdk-reasoning-effort.md",
+        "sha256": "ef3145b61eb9caec433b1c03733cdc3d76696525b2a5bf1510859d9e711a6848"
+      },
+      {
+        "fact": "gpt-5.6-luna and gpt-5.6-sol are both valid ResponsesModel values.",
+        "source": "data/provider-evidence/excerpts/sdk-responses-model-union.md",
+        "sha256": "894d8687e6774300a2b72fdc32903508874586ee809d4d0bf32e2ec4795e58de"
+      },
+      {
+        "fact": "The only capability comparison committed in this repository is a third-party bash-only SWE-bench Verified run: Luna 93.0%, Sol 96.2% overall. The retrieved page did not expose reasoning effort, so it cannot corroborate or contradict an effort-conditioned claim.",
+        "source": "research/luna-sol-gap.md:11-23"
+      }
+    ]
+  },
+
+  "supplied_by_owner_not_verified_here": {
+    "note": "The owner stated this as an external benchmark they trust. No URL, retrieval date, benchmark name, task set, sample size, effort settings for the comparison, scaffold, or numeric scores were supplied. Web retrieval was unavailable in this session, so no independent check was possible.",
+    "missing_fields": [
+      "source_url",
+      "retrieved_at",
+      "benchmark_identity",
+      "task_count",
+      "scaffold_and_tool_surface",
+      "numeric_scores",
+      "definition_of_comparable",
+      "whether_cost_was_held_equal"
+    ],
+    "retrieval_attempted": true,
+    "retrieval_outcome": "unavailable_in_session",
+    "retrieval_note": "WebSearch was non-functional for the duration of this session. This is not evidence of absence; the claim is simply unchecked."
+  },
+
+  "precedent_warning": {
+    "note": "This repository has already been burned once by an uncorroborated owner-supplied quantitative premise. A prior handoff asserted a 5:1 Sol-to-Luna price ratio; it was false at retrieval time, and the official pages showed 25:1.",
+    "sources": [
+      "research/repository-truth-audit.md:95-98",
+      "research/architecture-reset.md:12-15"
+    ],
+    "consequence": "An owner-supplied number is treated here as a hypothesis worth testing, never as a measured fact, regardless of the owner's confidence."
+  },
+
+  "permitted_use": [
+    "Motivating a protocol that measures the effort/success/cost relationship first-party.",
+    "Explaining why reasoning effort was promoted to an experimental axis rather than held constant."
+  ],
+
+  "forbidden_use": [
+    "Stating or implying that Luna at max effort is as capable as Sol at medium effort.",
+    "Sizing an effect, powering a study, or setting a success threshold from this claim.",
+    "Citing this file as evidence of the claim. It is evidence only that the claim was made.",
+    "Justifying any release, product, or benchmark statement."
+  ],
+
+  "how_to_upgrade_this_record": "Supply the source URL and retrieval date. If it is a first-party OpenAI page, capture a bounded excerpt under data/provider-evidence/excerpts/ with a sha256 and reference it here, matching the pattern in manifest.json. If it is third-party, record its scaffold and limitations the way research/sources.json records the SWE-bench run. Then change claim_status and state precisely what the excerpt does and does not establish.",
+
+  "limitations": [
+    "This file establishes only that a claim was made, by whom, and when.",
+    "The claim is unfalsified and unverified in this repository.",
+    "'Comparable' is undefined in the claim as stated; it may mean equal task success, equal subjective quality, or something else.",
+    "Even if true, the claim says nothing about cost parity: max effort spends reasoning tokens that bill as output tokens, so a capability tie does not imply an economic tie."
+  ]
+}

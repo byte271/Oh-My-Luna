@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "gm2-35dd6d69c1389c99",
+  "reviewer_id": null,
+  "reviewer_class": null,
+  "phase1": {
+    "sealed_before_comparison": null,
+    "actual_level": null,
+    "second_best_level": null,
+    "confidence": null,
+    "later_level_information_present": null,
+    "l3_l4_distinguishable": null,
+    "item_findings": [
+      {
+        "item_id": "it-27f5a5169d90",
+        "finding": null
+      },
+      {
+        "item_id": "it-8232e14a6747",
+        "finding": null
+      },
+      {
+        "item_id": "it-dd9ade931b2a",
+        "finding": null
+      },
+      {
+        "item_id": "it-c9edd44bb121",
+        "finding": null
+      },
+      {
+        "item_id": "it-19c8b2546ab2",
+        "finding": null
+      },
+      {
+        "item_id": "it-3e1f1b30a263",
+        "finding": null
+      },
+      {
+        "item_id": "it-f7243ea34bd7",
+        "finding": null
+      },
+      {
+        "item_id": "it-3e1d173bd9c4",
+        "finding": null
+      },
+      {
+        "item_id": "it-3a6853de50cb",
+        "finding": null
+      },
+      {
+        "item_id": "it-014541476ab8",
+        "finding": null
+      },
+      {
+        "item_id": "it-44a777625f89",
+        "finding": null
+      },
+      {
+        "item_id": "it-339cb046164d",
+        "finding": null
+      },
+      {
+        "item_id": "it-8047135829e8",
+        "finding": null
+      },
+      {
+        "item_id": "it-5d8342ef3802",
+        "finding": null
+      }
+    ],
+    "initial_decision": null
+  },
+  "phase2": {
+    "suspicious_repair_similarity": null,
+    "implementation_or_patch_disclosed": null,
+    "base_unavailable_identifier_present": null,
+    "evaluator_only_information_present": null,
+    "effectively_solves_task": null,
+    "item_findings": []
+  },
+  "final_decision": null,
+  "decision_options": [
+    "approve",
+    "revise",
+    "reject",
+    "collapse_levels"
+  ],
+  "level_options": [
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5",
+    "L3_L4_indistinguishable",
+    "mixed"
+  ]
+}

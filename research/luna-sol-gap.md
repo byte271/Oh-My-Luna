@@ -5,7 +5,7 @@
 **Fact:** Official OpenAI documentation positions Luna for clear, repeatable,
 high-volume work and Sol for complex, open-ended, high-value work. Luna and Sol
 both expose the modern tool surface and a 1.05M context window. At standard
-short-context API rates retrieved on 2026-08-01, Luna costs $0.20/M input and
+short-context Standard API rates retrieved on 2026-08-02T00:49:04-04:00, Luna costs $0.20/M input and
 $1.20/M output; Sol costs $5/M input and $30/M output: a 25x token-price ratio.
 
 **Observation:** A third-party, bash-only SWE-bench Verified run reports 93.0%
@@ -67,23 +67,13 @@ and distributions rather than false decimal precision.
 
 ## Required first-party measurements
 
-The first evaluation must use at least 20 development and 20 held-out tasks to
-estimate a useful direction; release claims require a larger pre-registered
-sample. Tasks should emphasize the 1-4-hour human difficulty band, but be
-bounded to the agent-run budget. Each arm uses the same repository commit,
-issue text, environment image, maximum turns, wall time, permissions, and
-visible tests.
-
-Required arms:
-
-1. native Luna;
-2. Luna plus one lean fixed skill;
-3. Luna plus compiled context and fixed evidence flow;
-4. Luna plus composition-only specialist probe;
-5. the complete surviving V0;
-6. Sol with the same minimal harness.
+The original broad-arm plan is superseded by `../docs/evaluation-plan-v3.md`.
+Gate M first validates the method without a capability claim. Gate H then uses
+frozen representative and high-gap slices to estimate oracle headroom. Gate A
+separately tests the smallest practical approximation; it cannot be selected
+from oracle success alone. A 12–20-task pilot remains exploratory, and release
+claims require a larger pre-registered sample sized at the task level.
 
 Until those runs exist, the claim is only: **there is credible prior evidence
 that better interfaces can close some model gaps, and a large current price
 ratio makes the experiment economically worthwhile.**
-

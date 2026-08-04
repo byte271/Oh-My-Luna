@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "warning": "CONTROLLER ONLY. Names the regression tests that detect the defect.",
+  "task_id": "tomlkit-43668dde",
+  "repository": "https://github.com/sdispater/tomlkit",
+  "base_commit": "d3c76f0bbe90af4b12a3b83bd8e59bc9061dfe85",
+  "corrected_commit": "43668ddebc3f082bf385d328aceed18d26976897",
+  "runner": "pytest",
+  "language": "python",
+  "injected_test_files": [
+    "tests/test_toml_document.py"
+  ],
+  "permitted_paths": [
+    "tomlkit/container.py"
+  ],
+  "base_exit": 1,
+  "corrected_exit": 0
+}

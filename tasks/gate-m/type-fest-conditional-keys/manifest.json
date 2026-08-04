@@ -1,0 +1,8 @@
+{
+  "schema_version": "0.1", "id": "type-fest-conditional-keys",
+  "repository": { "organization": "sindresorhus", "name": "type-fest", "base_commit": "b6d8dd60726a8d7df5a5eea3b3c9d830804d2570", "fixed_commit": "0fb2d62f7d222d3effb0ad89d5b340e36285bcc4" },
+  "split": "test", "task_statement": "Preserve optional keys selected by ConditionalKeys when the condition includes undefined under TypeScript 5.4.", "task_family": "compatibility",
+  "provenance": { "source_url": "https://github.com/sindresorhus/type-fest/issues/831", "license_spdx": "MIT OR CC0-1.0", "derived_at": "2026-08-02T06:18:56.243Z" },
+  "hashes": { "base_archive_sha256": "7fdeb70c2eab145029340e3c64288ad349bff000d2d3ad6ed1d2903bc8e5097c", "hidden_verifier_sha256": "14f1c3a2740d2e542a115df6277e5da8ed515c967cc518748dde60937714e1d1" },
+  "boundaries": { "agent_visible_paths": ["upstream-base-workspace", "visible/issue.md", "visible/public-test-information.json", "selected-intervention.json"], "hidden_paths": ["control", "interventions/unassigned", "reviews", "freeze"] }
+}

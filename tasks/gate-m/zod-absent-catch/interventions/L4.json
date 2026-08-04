@@ -1,0 +1,106 @@
+{
+  "schema_version": "0.1",
+  "task_id": "zod-absent-catch",
+  "task_base_commit": "b8dffe9e62f17e6571e6249d05cc5102b54d94e4",
+  "intervention_level": "L4_diagnosis",
+  "design": "cumulative",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "start_line": 3470,
+          "end_line": 3502
+        },
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "start_line": 3887,
+          "end_line": 3932
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "name": "handleOptionalResult",
+          "kind": "function"
+        },
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "name": "$ZodOptional",
+          "kind": "variable"
+        },
+        {
+          "path": "packages/zod/src/v4/core/schemas.ts",
+          "name": "$ZodCatch",
+          "kind": "variable"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "$ZodCatch",
+        "consumer_symbol": "$ZodOptional",
+        "type": "return"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Parsing an empty object with the reported preprocessed array property followed by catch([]) exits with an invalid_type issue whose expected value is nonoptional and whose path is ['area'].",
+          "evidence_refs": [
+            "evidence:base-run"
+          ],
+          "certainty": "observed"
+        }
+      ]
+    },
+    "diagnosis": {
+      "root_cause": "Catch substitutes a successful fallback after its inner schema reports issues, but the absent-property path still derives input optionality and downstream handling from the inner schema, so the substituted result is treated as a missing nonoptional property.",
+      "supporting_evidence_refs": [
+        "base:packages/zod/src/v4/core/schemas.ts:3470-3502",
+        "base:packages/zod/src/v4/core/schemas.ts:3887-3932",
+        "evidence:base-run"
+      ],
+      "certainty": "confirmed"
+    }
+  },
+  "source": {
+    "kind": "model_authored_unreviewed",
+    "evidence_refs": [
+      "base:packages/zod/src/v4/core/schemas.ts:3470-3502",
+      "base:packages/zod/src/v4/core/schemas.ts:3887-3932",
+      "control/task-validation.json#base"
+    ],
+    "fixed_commit_accessible_to_agent": false,
+    "facts_visible_from_base": false
+  },
+  "information_boundary": {
+    "allowed_categories": [
+      "context",
+      "localization",
+      "observation",
+      "diagnosis"
+    ],
+    "forbidden_categories": [
+      "patch_text",
+      "fixed_commit",
+      "hidden_evaluator",
+      "implementation_instruction",
+      "L5_plan"
+    ],
+    "contains_diagnosis": true,
+    "contains_plan": false,
+    "contains_code_location": true,
+    "contains_exact_identifier": true,
+    "contains_patch_text": false
+  },
+  "review_status": "pending_independent_review",
+  "provenance": {
+    "author_id": "codex-sol-primary-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "created_at": "2026-08-02T06:30:00Z",
+    "rubric_version": "oracle-boundary/1.0.0",
+    "revision": 1,
+    "content_sha256": "115c1a3d0e6c884af1f8f45f0337eb5d2e6747f384b3deadd59617207a4a22a5"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "gm2-56fab98e7718b4be",
+  "protocol_version": "gate-m-real-tasks-v2",
+  "task_material": {
+    "issue": "# Chinese locale month parsing mishandles October through December\n\nParsing Chinese dates with the `zh-CN` locale does not correctly recognize October and can classify November or December as January.\n\nThe parser should accept both numeric and Chinese month text and preserve the intended month for October, November, and December.\n",
+    "base_version_excerpt": "FILE pkgs/core/src/locale/zh-CN/_lib/match/index.ts\nLINES 27-60\n    27\tconst matchMonthPatterns = {\n    28\t  narrow: /^(一|二|三|四|五|六|七|八|九|十[二一])/i,\n    29\t  abbreviated: /^(一|二|三|四|五|六|七|八|九|十[二一]|\\d|1[12])月/i,\n    30\t  wide: /^(一|二|三|四|五|六|七|八|九|十[二一])月/i,\n    31\t};\n    32\tconst parseMonthPatterns = {\n    33\t  narrow: [\n    34\t    /^一/i,\n    35\t    /^二/i,\n    36\t    /^三/i,\n    37\t    /^四/i,\n    38\t    /^五/i,\n    39\t    /^六/i,\n    40\t    /^七/i,\n    41\t    /^八/i,\n    42\t    /^九/i,\n    43\t    /^十(?!(一|二))/i,\n    44\t    /^十一/i,\n    45\t    /^十二/i,\n    46\t  ] as const,\n    47\t  any: [\n    48\t    /^一|1/i,\n    49\t    /^二|2/i,\n    50\t    /^三|3/i,\n    51\t    /^四|4/i,\n    52\t    /^五|5/i,\n    53\t    /^六|6/i,\n    54\t    /^七|7/i,\n    55\t    /^八|8/i,\n    56\t    /^九|9/i,\n    57\t    /^十(?!(一|二))|10/i,\n    58\t    /^十一|11/i,\n    59\t    /^十二|12/i,\n    60\t  ] as const,"
+  },
+  "candidate_information": [
+    {
+      "item_id": "it-214dac5c8f0d",
+      "kind": "statement",
+      "text": "In the base version, `matchMonthPatterns` supplies a value that `parseMonthPatterns` receives (return)."
+    },
+    {
+      "item_id": "it-e1182c8d0ecb",
+      "kind": "statement",
+      "text": "Two independent defects combine to produce the four reported results. At the match stage the zh-CN month patterns offer no alternative that accepts October in either written form: the wide and narrow month patterns require a further character after the Chinese ten, and the abbreviated pattern's numeric alternatives cover only a single digit before the month character together with the two-digit forms eleven and twelve. An October token therefore matches nothing and parsing reports an invalid date. At the selection stage each entry of the any-width parse table pairs an anchored Chinese alternative with an unanchored numeric alternative, so the numeric alternative may match at any position inside the token; the first entry consequently matches any token containing the digit one, and because entries are tested in order, the November and December tokens are selected as the first entry and reported as month one. The match-stage defect accounts for the two invalid results and the selection-stage defect for the two month-one results; neither accounts for the other."
+    },
+    {
+      "item_id": "it-ae02373e7bbc",
+      "kind": "statement",
+      "text": "Do not change date arithmetic."
+    },
+    {
+      "item_id": "it-9ac529423cd7",
+      "kind": "statement",
+      "text": "A token denoting October must parse as October rather than producing an invalid date."
+    },
+    {
+      "item_id": "it-67aa5cb17dd5",
+      "kind": "statement",
+      "text": "The base version defines `parseMonthPatterns` (variable) in `pkgs/core/src/locale/zh-CN/_lib/match/index.ts`."
+    },
+    {
+      "item_id": "it-a43b484ec144",
+      "kind": "statement",
+      "text": "Do not alter locale text for fields other than the month."
+    },
+    {
+      "item_id": "it-91298ce9e0f0",
+      "kind": "statement",
+      "text": "Behavior relied on by the existing test suite must continue to hold."
+    },
+    {
+      "item_id": "it-18f42b02bdbe",
+      "kind": "statement",
+      "text": "With zh-CN, the base parser returns invalid dates for numeric and wide-form October; the same evaluator reports month 1 for numeric November and December."
+    },
+    {
+      "item_id": "it-d84b49f9460e",
+      "kind": "statement",
+      "text": "The base version defines `matchMonthPatterns` (variable) in `pkgs/core/src/locale/zh-CN/_lib/match/index.ts`."
+    },
+    {
+      "item_id": "it-66ab8d8eedfb",
+      "kind": "statement",
+      "text": "Parsing a zh-CN date must yield the month that the written token denotes, for all twelve months, in each month form the locale accepts."
+    },
+    {
+      "item_id": "it-f245f0e1feec",
+      "kind": "statement",
+      "text": "The base version of `pkgs/core/src/locale/zh-CN/_lib/match/index.ts` between lines 27 and 60 is relevant to this task."
+    },
+    {
+      "item_id": "it-6561f893b7cc",
+      "kind": "statement",
+      "text": "The narrow, abbreviated, and wide month formats must all remain usable."
+    },
+    {
+      "item_id": "it-39424de73ab9",
+      "kind": "statement",
+      "text": "Months one through nine must continue to parse as they do now."
+    },
+    {
+      "item_id": "it-ab8112788281",
+      "kind": "statement",
+      "text": "A token denoting November or December must parse as that month rather than as January."
+    }
+  ],
+  "reviewer_material": {
+    "comparison_file": "repair-comparison.patch",
+    "answer_file": "answer-template.json",
+    "comparison_is_phase_two_only": true
+  },
+  "target_level_disclosed": false,
+  "previous_reviews_included": false
+}

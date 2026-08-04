@@ -14,6 +14,8 @@ Trusted control-plane assets:
 - model credentials and billing configuration;
 - capability registry and permission policy;
 - fixture answers and hidden tests;
+- fixed patches, oracle packets, intervention reviews, task labels, split
+  membership, treatment assignments, and other-arm traces;
 - append-only evidence ledger and receipt signer;
 - artifact store outside model-directed filesystem scope.
 
@@ -67,6 +69,22 @@ gap when only containment exists.
   removed, and failure recorded. Cleanup success is independently checked.
 - Promotion: no automatically generated instrument enters the registry.
 
+## Oracle-study confidentiality
+
+Each adapter request is constructed from one treatment-specific packet and
+contains only `schema_version` plus the selected payload. The model workspace
+does not receive the packet file, review, fixed commit, hidden verifier, labels,
+assignment, or another arm's trace. Packet/task/base/design/level and freeze
+hashes are checked before execution. The configured verifier receives no
+treatment field or treatment environment variable.
+
+These are interface controls, not containment. The current adapter, verifier,
+and repository process execute with host authority; a trusted verifier could
+inspect sibling run files, and malicious repository tests could inspect the
+host. Filesystem copy isolation cannot enforce scorer blindness or hidden-data
+confidentiality against such a process. Gate H must not execute hostile code or
+claim security until an attested sandbox and separate scorer boundary exist.
+
 ## Evidence integrity model
 
 An evidence record is valid only if:
@@ -99,4 +117,3 @@ Tier 3 remains disabled until all supported backends pass a public adversarial
 suite covering every matrix row, including repository-borne injection, path
 confusion, malicious tests, evidence forgery, and resource exhaustion. A single
 container smoke test is insufficient.
-

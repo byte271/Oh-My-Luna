@@ -1,5 +1,9 @@
 # Product thesis
 
+> Superseded candidate thesis. It remains a falsifiable baseline, not an
+> implemented or measured capability claim. See the Gate R0 audit and the
+> architecture-reset research.
+
 ## One sentence
 
 Oh-My-Luna is a model-snapshot-specific repository capability runtime that
@@ -82,4 +86,3 @@ to reproduce public claims, or require uploading source for local use.
   evidence validity, and no hidden model routing.
 
 No unconditional “Sol-quality” claim is permitted.
-

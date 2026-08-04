@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "gm2-45d116a9ec539d80",
+  "reviewer_id": null,
+  "reviewer_class": null,
+  "phase1": {
+    "sealed_before_comparison": null,
+    "actual_level": null,
+    "second_best_level": null,
+    "confidence": null,
+    "later_level_information_present": null,
+    "l3_l4_distinguishable": null,
+    "item_findings": [
+      {
+        "item_id": "it-d7338d9cec0b",
+        "finding": null
+      },
+      {
+        "item_id": "it-4fa37171f92d",
+        "finding": null
+      },
+      {
+        "item_id": "it-f1778eacc105",
+        "finding": null
+      },
+      {
+        "item_id": "it-c440ce56e181",
+        "finding": null
+      }
+    ],
+    "initial_decision": null
+  },
+  "phase2": {
+    "suspicious_repair_similarity": null,
+    "implementation_or_patch_disclosed": null,
+    "base_unavailable_identifier_present": null,
+    "evaluator_only_information_present": null,
+    "effectively_solves_task": null,
+    "item_findings": []
+  },
+  "final_decision": null,
+  "decision_options": [
+    "approve",
+    "revise",
+    "reject",
+    "collapse_levels"
+  ],
+  "level_options": [
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5",
+    "L3_L4_indistinguishable",
+    "mixed"
+  ]
+}

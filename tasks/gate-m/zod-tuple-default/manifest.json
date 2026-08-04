@@ -1,0 +1,26 @@
+{
+  "schema_version": "0.1",
+  "id": "zod-tuple-default",
+  "repository": {
+    "organization": "colinhacks",
+    "name": "zod",
+    "base_commit": "ec979ad783a9e9c992d3c9bd4e5f3b56110b1ef8",
+    "fixed_commit": "b6066b3e4730fc8b966d13974b4abae8dce25df4"
+  },
+  "split": "test",
+  "task_statement": "Apply trailing tuple defaults when the corresponding input positions are absent.",
+  "task_family": "regression",
+  "provenance": {
+    "source_url": "https://github.com/colinhacks/zod/issues/5229",
+    "license_spdx": "MIT",
+    "derived_at": "2026-08-02T06:18:56.243Z"
+  },
+  "hashes": {
+    "base_archive_sha256": "db2a94e7fde8db8d3ea244df4dd94b3b8172d801e062384b5efc9dfbd7ffc72c",
+    "hidden_verifier_sha256": "11b21860e83fe0dcbfd09d193d31ef38dffe7a387eedea98c7b46a8336cc6909"
+  },
+  "boundaries": {
+    "agent_visible_paths": ["upstream-base-workspace", "visible/issue.md", "visible/public-test-information.json", "selected-intervention.json"],
+    "hidden_paths": ["control", "interventions/unassigned", "reviews", "freeze"]
+  }
+}

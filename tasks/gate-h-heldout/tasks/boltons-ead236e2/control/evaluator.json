@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "warning": "CONTROLLER ONLY. Names the regression tests that detect the defect.",
+  "task_id": "boltons-ead236e2",
+  "repository": "https://github.com/mahmoud/boltons",
+  "base_commit": "57cb026b7f47cd2765a0d5acdc83849ed5f1f6a3",
+  "corrected_commit": "ead236e278ca0466bf468de746b5960fb12d7e5b",
+  "runner": "pytest",
+  "language": "python",
+  "injected_test_files": [
+    "tests/test_iterutils.py"
+  ],
+  "permitted_paths": [
+    "boltons/iterutils.py"
+  ],
+  "base_exit": 1,
+  "corrected_exit": 0
+}

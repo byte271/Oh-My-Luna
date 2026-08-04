@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "evidence_id": "openai-standard-2026-08-02T00:49:04-04:00",
+  "retrieved_at": "2026-08-02T00:49:04-04:00",
+  "service_tier": "standard",
+  "sources": [
+    {
+      "role": "pricing_table",
+      "url": "https://developers.openai.com/api/docs/pricing",
+      "retrieved_at": "2026-08-02T00:49:04-04:00",
+      "method": "curl -fsSL https://developers.openai.com/api/docs/pricing.md; bounded exact excerpt retained",
+      "content_type": "text/markdown; charset=utf-8",
+      "evidence_path": "data/pricing/evidence/openai-pricing-standard-2026-08-02.md",
+      "evidence_sha256": "35e3f794983e0d47d5816a4de115d5eeb8fa5b35c028c465ffd3309c14d50b3e",
+      "normalization": "Exact selected lines in source order with LF line endings; unrelated model rows omitted."
+    },
+    {
+      "role": "model_rule",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
+      "retrieved_at": "2026-08-02T00:49:04-04:00",
+      "method": "curl -fsSL https://developers.openai.com/api/docs/models/gpt-5.6-luna.md; bounded exact excerpt retained",
+      "content_type": "text/markdown; charset=utf-8",
+      "evidence_path": "data/pricing/evidence/gpt-5.6-luna-model-2026-08-02.md",
+      "evidence_sha256": "5e88a15302a7cbb563afe484172f2e62e9990d1da863a383eefbdb95e7635a69",
+      "normalization": "Exact pricing section with LF line endings."
+    },
+    {
+      "role": "model_rule",
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+      "retrieved_at": "2026-08-02T00:49:04-04:00",
+      "method": "curl -fsSL https://developers.openai.com/api/docs/models/gpt-5.6-sol.md; bounded exact excerpt retained",
+      "content_type": "text/markdown; charset=utf-8",
+      "evidence_path": "data/pricing/evidence/gpt-5.6-sol-model-2026-08-02.md",
+      "evidence_sha256": "aa3f0bfc95375325d6027346e5095661cf514e614e7b7ac210415276d31c5bc7",
+      "normalization": "Exact pricing section with LF line endings."
+    }
+  ],
+  "parser": {
+    "id": "openai-markdown-bounded-excerpt",
+    "version": "1.0.0",
+    "source_path": "src/pricing-evidence.ts",
+    "source_sha256": "2b3aec44b59cd41ee6a3009fdfe08eca33f0de3d5d9b1561d20dac44b5f4d3ed"
+  },
+  "extracted": {
+    "gpt-5.6-luna": {
+      "short_context": { "input": 0.2, "cached_input": 0.02, "cache_write": 0.25, "output": 1.2 },
+      "long_context": { "input": 0.4, "cached_input": 0.04, "cache_write": 0.5, "output": 1.8 }
+    },
+    "gpt-5.6-sol": {
+      "short_context": { "input": 5, "cached_input": 0.5, "cache_write": 6.25, "output": 30 },
+      "long_context": { "input": 10, "cached_input": 1, "cache_write": 12.5, "output": 45 }
+    }
+  },
+  "derived_ratios": {
+    "sol_to_luna_short_input": 25,
+    "sol_to_luna_short_cached_input": 25,
+    "sol_to_luna_short_cache_write": 25,
+    "sol_to_luna_short_output": 25
+  },
+  "rules": { "long_context_threshold_input_tokens": 272000, "cache_write_multiplier": 1.25 },
+  "tool_charges": [
+    { "name": "web_search_all_models", "amount_usd": 0.01, "unit": "per_call" },
+    { "name": "file_search_tool_call", "amount_usd": 0.0025, "unit": "per_call" }
+  ],
+  "omissions": [
+    "Variable container session charges are captured in source evidence but omitted from the scalar charge list.",
+    "Storage, regional uplift, Batch, Flex, Fast, and third-party infrastructure costs require run-specific accounting.",
+    "Search content tokens remain billed at model rates and must be present in provider usage records."
+  ],
+  "limitations": [
+    "The official page is mutable and did not provide a signed or immutable version identifier.",
+    "The repository preserves bounded excerpts rather than the complete page; hashes prove only those committed bytes.",
+    "Capture and excerpt selection were manual; parser tests verify recorded rows and rules but not completeness of the upstream page."
+  ]
+}

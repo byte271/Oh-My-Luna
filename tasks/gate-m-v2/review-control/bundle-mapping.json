@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.0",
+  "warning": "CONTROLLER ONLY. Reveals the packet-to-level mapping. Never include in a reviewer export.",
+  "seed_sha256": "5641e3b982f9d10ec03f6fa208427e7a3560b7688eb993164e3699e30f4a0752",
+  "display_order": [
+    "gm2-84ba97e28b318ee0",
+    "gm2-1556a9ce9c04d4bd",
+    "gm2-35d1a7cdfce9c339",
+    "gm2-cbfbe1ef6d780f66",
+    "gm2-45d116a9ec539d80",
+    "gm2-c72f21c720f32ac5",
+    "gm2-707fd6a36a7c611b",
+    "gm2-4676c34db0147d7a",
+    "gm2-35dd6d69c1389c99",
+    "gm2-56fab98e7718b4be",
+    "gm2-ea222d3ce11c50c4",
+    "gm2-0dcef650a035e6dc",
+    "gm2-1281fc4d1be5e8b6",
+    "gm2-7a860b63d91b1431",
+    "gm2-e2b499bb27c821bc",
+    "gm2-21f402c4934174cb",
+    "gm2-629cc181003ebb6f",
+    "gm2-232bf14c131a44fc",
+    "gm2-8369ca0c809de894",
+    "gm2-a5dda6a319c872c0"
+  ],
+  "mapping": [
+    {
+      "bundle_id": "gm2-0dcef650a035e6dc",
+      "task_id": "zod-tuple-default",
+      "level": "L4",
+      "item_count": 6
+    },
+    {
+      "bundle_id": "gm2-1281fc4d1be5e8b6",
+      "task_id": "zod-tuple-default",
+      "level": "L3",
+      "item_count": 5
+    },
+    {
+      "bundle_id": "gm2-1556a9ce9c04d4bd",
+      "task_id": "zod-absent-catch",
+      "level": "L4",
+      "item_count": 8
+    },
+    {
+      "bundle_id": "gm2-21f402c4934174cb",
+      "task_id": "type-fest-conditional-keys",
+      "level": "L4",
+      "item_count": 6
+    },
+    {
+      "bundle_id": "gm2-232bf14c131a44fc",
+      "task_id": "zod-tuple-default",
+      "level": "L1",
+      "item_count": 1
+    },
+    {
+      "bundle_id": "gm2-35d1a7cdfce9c339",
+      "task_id": "zod-tuple-default",
+      "level": "L2",
+      "item_count": 4
+    },
+    {
+      "bundle_id": "gm2-35dd6d69c1389c99",
+      "task_id": "type-fest-conditional-keys",
+      "level": "L5",
+      "item_count": 14
+    },
+    {
+      "bundle_id": "gm2-45d116a9ec539d80",
+      "task_id": "type-fest-conditional-keys",
+      "level": "L2",
+      "item_count": 4
+    },
+    {
+      "bundle_id": "gm2-4676c34db0147d7a",
+      "task_id": "date-fns-zh-month",
+      "level": "L3",
+      "item_count": 5
+    },
+    {
+      "bundle_id": "gm2-56fab98e7718b4be",
+      "task_id": "date-fns-zh-month",
+      "level": "L5",
+      "item_count": 14
+    },
+    {
+      "bundle_id": "gm2-629cc181003ebb6f",
+      "task_id": "date-fns-zh-month",
+      "level": "L4",
+      "item_count": 6
+    },
+    {
+      "bundle_id": "gm2-707fd6a36a7c611b",
+      "task_id": "type-fest-conditional-keys",
+      "level": "L1",
+      "item_count": 1
+    },
+    {
+      "bundle_id": "gm2-7a860b63d91b1431",
+      "task_id": "zod-tuple-default",
+      "level": "L5",
+      "item_count": 14
+    },
+    {
+      "bundle_id": "gm2-8369ca0c809de894",
+      "task_id": "date-fns-zh-month",
+      "level": "L1",
+      "item_count": 1
+    },
+    {
+      "bundle_id": "gm2-84ba97e28b318ee0",
+      "task_id": "zod-absent-catch",
+      "level": "L1",
+      "item_count": 2
+    },
+    {
+      "bundle_id": "gm2-a5dda6a319c872c0",
+      "task_id": "zod-absent-catch",
+      "level": "L3",
+      "item_count": 7
+    },
+    {
+      "bundle_id": "gm2-c72f21c720f32ac5",
+      "task_id": "date-fns-zh-month",
+      "level": "L2",
+      "item_count": 4
+    },
+    {
+      "bundle_id": "gm2-cbfbe1ef6d780f66",
+      "task_id": "zod-absent-catch",
+      "level": "L2",
+      "item_count": 6
+    },
+    {
+      "bundle_id": "gm2-e2b499bb27c821bc",
+      "task_id": "zod-absent-catch",
+      "level": "L5",
+      "item_count": 14
+    },
+    {
+      "bundle_id": "gm2-ea222d3ce11c50c4",
+      "task_id": "type-fest-conditional-keys",
+      "level": "L3",
+      "item_count": 5
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "schema_version": "0.1",
+  "visible_behavior": "A trailing tuple default should materialize when its input position is absent.",
+  "visible_test_command": null,
+  "notes": "The exact evaluator and its expected values are control-only during an agent run."
+}

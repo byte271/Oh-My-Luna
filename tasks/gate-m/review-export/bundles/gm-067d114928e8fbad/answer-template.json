@@ -1,0 +1,22 @@
+{
+  "schema_version": "0.1",
+  "opaque_packet_id": "gm-067d114928e8fbad",
+  "reviewer_id": null,
+  "reviewer_class": null,
+  "reviewed_at": null,
+  "actual_level": null,
+  "later_level_information_present": null,
+  "implementation_or_patch_disclosed": null,
+  "base_unavailable_identifier_present": null,
+  "suspicious_repair_similarity": null,
+  "allowed_category_sufficient": null,
+  "sentence_level_comments": [],
+  "unnecessary_sentences": [],
+  "decision": null,
+  "decision_options": [
+    "approve",
+    "revise",
+    "reject",
+    "collapse_levels"
+  ]
+}

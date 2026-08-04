@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-h-heldout-v1",
+  "task_id": "ufo-5cd9e676",
+  "treatment_id": "T1",
+  "combined_arm": false,
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "src/utils.ts",
+          "start_line": 310,
+          "end_line": 340
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "src/utils.ts",
+          "name": "withoutBase",
+          "kind": "function"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "withoutBase",
+        "consumer_symbol": "caller",
+        "type": "return"
+      }
+    }
+  },
+  "content_sha256": "a984a8120f11d985c16640a849ed4c6b0f8ffa453c4162e0c9814bf6bcbc2a64"
+}

@@ -1,6 +1,7 @@
 # Evaluation harness
 
-Status: implemented Gate C skeleton; **not a Luna benchmark result**. Retrieval date for referenced model prices: 2026-08-01.
+Status: implemented evaluation kernel; **not a Luna benchmark result**. Pricing
+evidence retrieval: 2026-08-02T00:49:04-04:00.
 
 ## Purpose
 
@@ -31,7 +32,20 @@ This is filesystem copy isolation, not a security sandbox. The runner refuses fi
 
 ## Result semantics
 
-`verified` means only that the fixture's named verifier returned an allowed exit code. It does not promote a model claim into evidence, prove absence of regressions outside the verifier, or make a security claim. Receipts include exact declared model/settings, repository commit, isolation level, token usage, calculated cost, artifacts, claims, errors, and final trace hash.
+Receipt schema 0.3 separates five facts:
+
+- `run_status`: whether orchestration completed, errored, or was cancelled;
+- `adapter_status`: whether the adapter process completed successfully;
+- `configured_verifier.status`: whether the fixture's named verifier returned an accepted exit code;
+- `claim_evaluation.status`: whether individual model or user claims were evaluated;
+- `terminal_evidence_status`: whether the stronger task evidence policy is satisfied.
+
+Gate C implements only the first two. Claim evaluation and terminal evidence are explicitly `not_evaluated`. The CLI exits successfully only when the run completed and the configured verifier passed, but that exit code is not a general correctness claim.
+
+Receipts also include frozen task/intervention hashes, prompt and Skill hashes,
+exact snapshot and environment identity, per-request billing records, cost
+accuracy and omissions, artifacts, raw model claims, errors, and the final
+trace hash.
 
 ## Adding a real adapter
 

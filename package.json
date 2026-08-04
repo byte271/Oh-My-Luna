@@ -8,16 +8,42 @@
     "node": ">=20"
   },
   "bin": {
-    "oh-my-luna-eval": "dist/src/cli.js"
+    "oh-my-luna-eval": "dist/src/cli.js",
+    "oh-my-luna-runtime": "dist/src/runtime-cli.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test dist/tests/*.test.js",
-    "smoke": "npm run build && node dist/src/cli.js run fixtures/smoke/task.json --runs .oml-runs"
+    "runtime:doctor": "npm run build && node dist/src/runtime-cli.js doctor",
+    "runtime:smoke": "npm run build && node dist/src/runtime-cli.js smoke --offline",
+    "smoke": "npm run build && node dist/src/cli.js run fixtures/smoke/task.json --runs .oml-runs",
+    "gate-m:validate": "node scripts/gate-m/validate-real-tasks.mjs",
+    "gate-m:author": "node scripts/gate-m/generate-intervention-drafts.mjs",
+    "gate-m:review-bundles": "node scripts/gate-m/generate-review-bundles.mjs",
+    "gate-m:freeze": "node scripts/gate-m/freeze-study.mjs",
+    "gate-m:provision": "node scripts/gate-m/provision-sources.mjs",
+    "gate-m:setup": "npm run gate-m:provision && npm run gate-m:validate",
+    "gate-m:treatments": "node scripts/gate-m/build-v3-treatments.mjs",
+    "gate-m:leakage": "node scripts/gate-m/check-v3-leakage.mjs",
+    "gate-m:kernel": "npm run build && node scripts/gate-m/validate-kernel.mjs",
+    "gate-m:freeze-v3": "node scripts/gate-m/freeze-v3.mjs",
+    "gate-h:live-smoke": "npm run build && node scripts/gate-h/live-smoke.mjs",
+    "gate-h:forecast": "npm run build && node scripts/gate-h/forecast-cost.mjs",
+    "heldout:provision": "node scripts/gate-h-heldout/provision.mjs",
+    "heldout:verify": "node scripts/gate-h-heldout/freeze.mjs --verify",
+    "heldout:seal": "node scripts/gate-h-heldout/freeze.mjs --seal",
+    "heldout:check-prompt": "npm run build && node scripts/gate-h-heldout/check-prompt-completeness.mjs",
+    "heldout:sufficiency": "npm run build && node scripts/gate-h-heldout/check-sufficiency.mjs",
+    "heldout:sufficiency-v2": "npm run build && node scripts/gate-h-heldout/check-sufficiency.mjs --protocol v2",
+    "heldout:dry-run": "npm run build && node scripts/gate-h-heldout/run-stage-a.mjs --dry-run oracle",
+    "heldout:stage-a": "npm run build && node scripts/gate-h-heldout/run-stage-a.mjs",
+    "heldout:v2:dry-run": "npm run build && node scripts/gate-h-heldout/v2/run-stage-a.mjs --dry-run oracle",
+    "heldout:v2:stubs": "npm run build && node scripts/gate-h-heldout/v2/run-all-stubs.mjs"
   },
   "dependencies": {
-    "ajv": "8.20.0"
+    "ajv": "8.20.0",
+    "openai": "7.3.0"
   },
   "devDependencies": {
     "@types/node": "24.10.1",

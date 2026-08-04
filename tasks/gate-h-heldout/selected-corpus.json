@@ -1,0 +1,203 @@
+{
+  "schema_version": "1.0",
+  "corpus_id": "gate-h-heldout-2026-08-02",
+  "selection_policy": {
+    "applied_before_any_model_run": true,
+    "no_model_result_existed_at_selection_time": true,
+    "max_per_repository": 2,
+    "target_size": 5,
+    "ordering": "insertions ascending, then candidate_id",
+    "language_rule": "python and at least one of typescript/javascript must both appear",
+    "result_dependent_replacement": "prohibited"
+  },
+  "held_out_meaning": "Held out from protocol design, intervention-level design, adapter implementation, output-parser implementation, evaluator-framework design, leakage-detector tuning, baseline prompt tuning, reasoning-effort selection, and all previous Luna or Sol runs. NOT blind to the task and intervention authors, who inspected the known correction to build the evaluator and author T1-T3. This is not a hidden benchmark.",
+  "examined": 16,
+  "accepted_count": 5,
+  "repositories": [
+    "https://github.com/unjs/scule",
+    "https://github.com/unjs/ufo",
+    "https://github.com/sdispater/tomlkit",
+    "https://github.com/mahmoud/boltons"
+  ],
+  "languages": [
+    "typescript",
+    "python"
+  ],
+  "tasks": [
+    {
+      "task_id": "scule-57cfd152",
+      "repository": "https://github.com/unjs/scule",
+      "repository_name": "scule",
+      "language": "typescript",
+      "runner": "vitest",
+      "base_commit": "d2c281f10e12b8e33a2ed6ef3630eeb54de7de7c",
+      "corrected_commit": "57cfd1528a03720392604a2e582782fc481657dd",
+      "source_files": [
+        "src/index.ts"
+      ],
+      "evaluator_test_files": [
+        "test/scule.test.ts"
+      ],
+      "upstream_subject": "fix(isUppercase): assume characters lowercase by default (#71)",
+      "insertions": 2,
+      "base_exit": 1,
+      "corrected_exit": 0,
+      "setup_ms": 0,
+      "evaluator_ms": 1064
+    },
+    {
+      "task_id": "ufo-5cd9e676",
+      "repository": "https://github.com/unjs/ufo",
+      "repository_name": "ufo",
+      "language": "typescript",
+      "runner": "vitest",
+      "base_commit": "a7b94e69ff6159de8ddfd4940c90db4708c0d67e",
+      "corrected_commit": "5cd9e676711af3f4e4b5398ddf6ca8d52c1c7e1f",
+      "source_files": [
+        "src/utils.ts"
+      ],
+      "evaluator_test_files": [
+        "test/base.test.ts"
+      ],
+      "upstream_subject": "fix(withoutBase): collapse leading slashes (#335)",
+      "insertions": 9,
+      "base_exit": 1,
+      "corrected_exit": 0,
+      "setup_ms": 0,
+      "evaluator_ms": 951
+    },
+    {
+      "task_id": "scule-3815767f",
+      "repository": "https://github.com/unjs/scule",
+      "repository_name": "scule",
+      "language": "typescript",
+      "runner": "vitest",
+      "base_commit": "8a7a4b3d26f4cac3cbae3ab08a3338d30899873b",
+      "corrected_commit": "3815767fb33a87bca13370d9c1a86cc211ee3b11",
+      "source_files": [
+        "src/index.ts",
+        "src/types.ts"
+      ],
+      "evaluator_test_files": [
+        "test/scule.test.ts",
+        "test/types.test-d.ts"
+      ],
+      "upstream_subject": "fix(pascalCase, camelCase): lower rest of each segment (#62)",
+      "insertions": 21,
+      "base_exit": 1,
+      "corrected_exit": 0,
+      "setup_ms": 0,
+      "evaluator_ms": 1063
+    },
+    {
+      "task_id": "tomlkit-43668dde",
+      "repository": "https://github.com/sdispater/tomlkit",
+      "repository_name": "tomlkit",
+      "language": "python",
+      "runner": "pytest",
+      "base_commit": "d3c76f0bbe90af4b12a3b83bd8e59bc9061dfe85",
+      "corrected_commit": "43668ddebc3f082bf385d328aceed18d26976897",
+      "source_files": [
+        "tomlkit/container.py"
+      ],
+      "evaluator_test_files": [
+        "tests/test_toml_document.py"
+      ],
+      "upstream_subject": "fix: keep newline after dotted inline table (#533)",
+      "insertions": 22,
+      "base_exit": 1,
+      "corrected_exit": 0,
+      "setup_ms": 1,
+      "evaluator_ms": 455
+    },
+    {
+      "task_id": "boltons-ead236e2",
+      "repository": "https://github.com/mahmoud/boltons",
+      "repository_name": "boltons",
+      "language": "python",
+      "runner": "pytest",
+      "base_commit": "57cb026b7f47cd2765a0d5acdc83849ed5f1f6a3",
+      "corrected_commit": "ead236e278ca0466bf468de746b5960fb12d7e5b",
+      "source_files": [
+        "boltons/iterutils.py"
+      ],
+      "evaluator_test_files": [
+        "tests/test_iterutils.py"
+      ],
+      "upstream_subject": "fix: backoff_iter with factor=1.0 and no count raised ZeroDivisionError",
+      "insertions": 23,
+      "base_exit": 1,
+      "corrected_exit": 0,
+      "setup_ms": 0,
+      "evaluator_ms": 340
+    }
+  ],
+  "not_selected": [
+    {
+      "candidate_id": "tomlkit-67d3e865",
+      "repository_name": "tomlkit",
+      "reason": "target corpus size reached"
+    },
+    {
+      "candidate_id": "boltons-1e61524a",
+      "repository_name": "boltons",
+      "reason": "target corpus size reached"
+    },
+    {
+      "candidate_id": "boltons-ebc7a8f7",
+      "repository_name": "boltons",
+      "reason": "target corpus size reached"
+    },
+    {
+      "candidate_id": "tomlkit-8cd44f58",
+      "repository_name": "tomlkit",
+      "reason": "target corpus size reached"
+    },
+    {
+      "candidate_id": "ufo-eb299454",
+      "repository_name": "ufo",
+      "reason": "target corpus size reached"
+    },
+    {
+      "candidate_id": "boltons-d0a284fc",
+      "repository_name": "boltons",
+      "reason": "target corpus size reached"
+    },
+    {
+      "candidate_id": "boltons-609cabe9",
+      "repository_name": "boltons",
+      "reason": "target corpus size reached"
+    },
+    {
+      "candidate_id": "tomlkit-495a42ec",
+      "repository_name": "tomlkit",
+      "reason": "target corpus size reached"
+    }
+  ],
+  "rejected": [
+    {
+      "candidate_id": "destr-f9c78d40",
+      "repository": "https://github.com/unjs/destr",
+      "language": "typescript",
+      "rejection_reason": "corrected version does not pass (exit 1); likely an environment or dependency problem rather than a task problem",
+      "base_exit": 1,
+      "corrected_exit": 1
+    },
+    {
+      "candidate_id": "destr-d9ba16d7",
+      "repository": "https://github.com/unjs/destr",
+      "language": "typescript",
+      "rejection_reason": "corrected version does not pass (exit 1); likely an environment or dependency problem rather than a task problem",
+      "base_exit": 1,
+      "corrected_exit": 1
+    },
+    {
+      "candidate_id": "node-semver-e583226b",
+      "repository": "https://github.com/npm/node-semver",
+      "language": "javascript",
+      "rejection_reason": "corrected version does not pass (exit 1); likely an environment or dependency problem rather than a task problem",
+      "base_exit": 1,
+      "corrected_exit": 1
+    }
+  ]
+}

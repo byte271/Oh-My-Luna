@@ -1,0 +1,113 @@
+{
+  "schema_version": "0.1",
+  "task_id": "type-fest-conditional-keys",
+  "task_base_commit": "b6d8dd60726a8d7df5a5eea3b3c9d830804d2570",
+  "intervention_level": "L5_plan",
+  "design": "cumulative",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "source/conditional-keys.d.ts",
+          "start_line": 33,
+          "end_line": 47
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "source/conditional-keys.d.ts",
+          "name": "ConditionalKeys",
+          "kind": "type"
+        },
+        {
+          "path": "source/conditional-keys.d.ts",
+          "name": "NonNullable",
+          "kind": "type"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "ConditionalKeys",
+        "consumer_symbol": "NonNullable",
+        "type": "return"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "TypeScript 5.4.2 reports TS2344 ('Type false does not satisfy the constraint true') for an equality assertion comparing ConditionalKeys<Example, string | undefined> with the expected union 'a' | 'c'.",
+          "evidence_refs": [
+            "evidence:base-run"
+          ],
+          "certainty": "observed"
+        }
+      ]
+    },
+    "diagnosis": {
+      "root_cause": "The mapped type preserves optional property modifiers while constructing the intermediate key map; under TypeScript 5.4 this changes the indexed-union result for optional candidate keys before the final non-null filtering step.",
+      "supporting_evidence_refs": [
+        "base:source/conditional-keys.d.ts:33-47",
+        "evidence:base-run"
+      ],
+      "certainty": "confirmed"
+    },
+    "plan": {
+      "behavioral_objective": "ConditionalKeys must select exactly the keys whose value type satisfies the condition, and must select the same keys whether or not those keys are declared optional, on the supported TypeScript version.",
+      "constraints": [
+        "A required key whose value type satisfies the condition must be selected.",
+        "An optional key must be selected when its value type satisfies a condition that admits undefined.",
+        "A key whose value type does not satisfy the condition must not be selected.",
+        "The result must remain a union of the selected key types.",
+        "ConditionalPick must continue to behave consistently with ConditionalKeys."
+      ],
+      "non_goals": [
+        "Do not require a newer TypeScript compiler.",
+        "Do not change unrelated utility types."
+      ]
+    }
+  },
+  "source": {
+    "kind": "model_authored_unreviewed",
+    "evidence_refs": [
+      "visible/issue.md",
+      "control/task-validation.json#base"
+    ],
+    "fixed_commit_accessible_to_agent": false,
+    "facts_visible_from_base": false
+  },
+  "information_boundary": {
+    "allowed_categories": [
+      "context",
+      "localization",
+      "observation",
+      "diagnosis",
+      "plan"
+    ],
+    "forbidden_categories": [
+      "patch_text",
+      "fixed_commit",
+      "hidden_evaluator",
+      "implementation_instruction"
+    ],
+    "contains_diagnosis": true,
+    "contains_plan": true,
+    "contains_code_location": true,
+    "contains_exact_identifier": true,
+    "contains_patch_text": false
+  },
+  "review_status": "pending_independent_review",
+  "provenance": {
+    "author_id": "oml-lead-maintainer-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "created_at": "2026-08-02T12:00:00Z",
+    "rubric_version": "oracle-boundary/2.0.0",
+    "revision": 2,
+    "content_sha256": "a211a8594d35c7108b65101831be7442227f1d396d65542cb32078360f400d3c"
+  },
+  "protocol_version": "gate-m-real-tasks-v2",
+  "derived_from": {
+    "protocol_version": "gate-m-real-tasks-v1",
+    "packet_sha256": "a508bcedfef059ef716ebe5f3766f7da2663589cfb4269a839ac8f5221f33dc4"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-m-treatments-v3",
+  "task_id": "type-fest-conditional-keys",
+  "task_base_commit": "b6d8dd60726a8d7df5a5eea3b3c9d830804d2570",
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "provenance": {
+    "author_id": "oml-lead-maintainer-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "independently_reviewed": false,
+    "created_at": "2026-08-02T18:00:00Z"
+  },
+  "treatment_id": "T3",
+  "treatment_name": "diagnostic_assistance",
+  "combined_arm": true,
+  "combined_arm_note": "Diagnosis and behavioral objective are deliberately combined. No effect may be attributed to one rather than the other.",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "source/conditional-keys.d.ts",
+          "start_line": 33,
+          "end_line": 47
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "source/conditional-keys.d.ts",
+          "name": "ConditionalKeys",
+          "kind": "type"
+        },
+        {
+          "path": "source/conditional-keys.d.ts",
+          "name": "NonNullable",
+          "kind": "type"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "ConditionalKeys",
+        "consumer_symbol": "NonNullable",
+        "type": "return"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "TypeScript 5.4.2 reports TS2344 ('Type false does not satisfy the constraint true') for an equality assertion comparing ConditionalKeys<Example, string | undefined> with the expected union 'a' | 'c'.",
+          "evidence_refs": [
+            "evidence:base-run"
+          ],
+          "certainty": "observed"
+        }
+      ]
+    },
+    "diagnosis": {
+      "root_cause": "The mapped type preserves optional property modifiers while constructing the intermediate key map; under TypeScript 5.4 this changes the indexed-union result for optional candidate keys before the final non-null filtering step.",
+      "supporting_evidence_refs": [
+        "base:source/conditional-keys.d.ts:33-47",
+        "evidence:base-run"
+      ],
+      "certainty": "confirmed"
+    },
+    "behavioral_objective": {
+      "objective": "ConditionalKeys must select exactly the keys whose value type satisfies the condition, and must select the same keys whether or not those keys are declared optional, on the supported TypeScript version.",
+      "constraints": [
+        "A required key whose value type satisfies the condition must be selected.",
+        "An optional key must be selected when its value type satisfies a condition that admits undefined.",
+        "A key whose value type does not satisfy the condition must not be selected.",
+        "The result must remain a union of the selected key types.",
+        "ConditionalPick must continue to behave consistently with ConditionalKeys."
+      ],
+      "non_goals": [
+        "Do not require a newer TypeScript compiler.",
+        "Do not change unrelated utility types."
+      ],
+      "multiple_implementations_possible": true,
+      "multiple_implementations_justification": "The objective names the required key selection and no mechanism. It can be satisfied by changing how the intermediate mapped type treats declared-optional keys, or by reformulating the utility to filter keys without an intermediate mapped object; these are materially different implementations."
+    }
+  },
+  "derived_from": {
+    "protocol_version": "gate-m-real-tasks-v2",
+    "levels": [
+      "L2",
+      "L3",
+      "L4",
+      "L5"
+    ],
+    "packet_sha256": {
+      "L2": "030f2f033e34ba78951eae8afd0e0916a140aac0dddb5d6a861e115e460c231d",
+      "L3": "cebb98aaf22622aa93293c7a2df319cbf85d00652bc9c2696ce94104fd1a86e9",
+      "L4": "cddaa1df2bfb5e65b56b1063b882c554d4143caffdd8e91810ed4a9130235675",
+      "L5": "8f491f6dc41ebcb64c7dcbf0c0948ffde19f950532ab5916d148b3fe032235a8"
+    }
+  },
+  "content_sha256": "18c2f4833b79b6a09500791d3e85c058d356799448391f687d97ad00a4ea0321"
+}

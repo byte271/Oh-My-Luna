@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oh-my-luna.dev/schemas/intervention-review/v0.1",
+  "title": "Control-plane semantic review for an intervention packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "task_id", "intervention_level", "packet_content_sha256", "author_id", "reviews", "disagreement", "revision_history", "final_status", "finalized_at", "review_policy_version"],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "task_id": { "type": "string", "minLength": 1 },
+    "intervention_level": { "$ref": "#/$defs/level" },
+    "packet_content_sha256": { "$ref": "#/$defs/sha256" },
+    "author_id": { "type": "string", "minLength": 1 },
+    "reviews": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["reviewer_id", "decision", "leak_classification", "assigned_level", "reviewed_at"],
+        "properties": {
+          "reviewer_id": { "type": "string", "minLength": 1 },
+          "decision": { "enum": ["approve", "reject", "revision_required"] },
+          "leak_classification": { "enum": ["clean", "possible_leak", "confirmed_leak"] },
+          "assigned_level": { "$ref": "#/$defs/level" },
+          "reviewed_at": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "disagreement": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object", "additionalProperties": false, "required": ["present", "summary", "resolution"],
+          "properties": { "present": { "const": true }, "summary": { "type": "string", "minLength": 1 }, "resolution": { "type": ["string", "null"] } }
+        }
+      ]
+    },
+    "revision_history": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["revision", "content_sha256", "changed_at"],
+        "properties": { "revision": { "type": "integer", "minimum": 1 }, "content_sha256": { "$ref": "#/$defs/sha256" }, "changed_at": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "final_status": { "enum": ["approved", "rejected", "revision_required"] },
+    "finalized_at": { "type": ["string", "null"] },
+    "review_policy_version": { "const": "intervention-review/1.0.0" }
+  },
+  "$defs": {
+    "level": { "enum": ["L1_context", "L2_localization", "L3_observation", "L4_diagnosis", "L5_plan", "verification_gap"] },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

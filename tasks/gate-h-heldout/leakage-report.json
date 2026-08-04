@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.0",
+  "threshold": 0.5,
+  "is_heuristic": true,
+  "not_a_purity_proof": true,
+  "excluded": [],
+  "packets": [
+    {
+      "task_id": "scule-57cfd152",
+      "treatment_id": "T0",
+      "similarity_to_known_repair": 0,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "scule-57cfd152",
+      "treatment_id": "T1",
+      "similarity_to_known_repair": 0.0192,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "scule-57cfd152",
+      "treatment_id": "T2",
+      "similarity_to_known_repair": 0.0145,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "scule-57cfd152",
+      "treatment_id": "T3",
+      "similarity_to_known_repair": 0.0084,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "ufo-5cd9e676",
+      "treatment_id": "T0",
+      "similarity_to_known_repair": 0.1765,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "ufo-5cd9e676",
+      "treatment_id": "T1",
+      "similarity_to_known_repair": 0.1636,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "ufo-5cd9e676",
+      "treatment_id": "T2",
+      "similarity_to_known_repair": 0.1429,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "ufo-5cd9e676",
+      "treatment_id": "T3",
+      "similarity_to_known_repair": 0.1034,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "scule-3815767f",
+      "treatment_id": "T0",
+      "similarity_to_known_repair": 0,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "scule-3815767f",
+      "treatment_id": "T1",
+      "similarity_to_known_repair": 0.0238,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "scule-3815767f",
+      "treatment_id": "T2",
+      "similarity_to_known_repair": 0.0161,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "scule-3815767f",
+      "treatment_id": "T3",
+      "similarity_to_known_repair": 0.0081,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "tomlkit-43668dde",
+      "treatment_id": "T0",
+      "similarity_to_known_repair": 0.0652,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "tomlkit-43668dde",
+      "treatment_id": "T1",
+      "similarity_to_known_repair": 0.0556,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "tomlkit-43668dde",
+      "treatment_id": "T2",
+      "similarity_to_known_repair": 0.04,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "tomlkit-43668dde",
+      "treatment_id": "T3",
+      "similarity_to_known_repair": 0.0288,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "boltons-ead236e2",
+      "treatment_id": "T0",
+      "similarity_to_known_repair": 0.1111,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "boltons-ead236e2",
+      "treatment_id": "T1",
+      "similarity_to_known_repair": 0.1207,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "boltons-ead236e2",
+      "treatment_id": "T2",
+      "similarity_to_known_repair": 0.0946,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "boltons-ead236e2",
+      "treatment_id": "T3",
+      "similarity_to_known_repair": 0.0611,
+      "blocking_count": 0,
+      "findings": []
+    }
+  ],
+  "blocking_total": 0,
+  "summary": "No blocking heuristic finding. This is not evidence of semantic purity."
+}

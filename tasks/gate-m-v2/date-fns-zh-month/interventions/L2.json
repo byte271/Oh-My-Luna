@@ -1,0 +1,79 @@
+{
+  "schema_version": "0.1",
+  "task_id": "date-fns-zh-month",
+  "task_base_commit": "39d1e14200cead9e4be5df88695b5e82082875ed",
+  "intervention_level": "L2_localization",
+  "design": "cumulative",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "pkgs/core/src/locale/zh-CN/_lib/match/index.ts",
+          "start_line": 27,
+          "end_line": 60
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "pkgs/core/src/locale/zh-CN/_lib/match/index.ts",
+          "name": "matchMonthPatterns",
+          "kind": "variable"
+        },
+        {
+          "path": "pkgs/core/src/locale/zh-CN/_lib/match/index.ts",
+          "name": "parseMonthPatterns",
+          "kind": "variable"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "matchMonthPatterns",
+        "consumer_symbol": "parseMonthPatterns",
+        "type": "return"
+      }
+    }
+  },
+  "source": {
+    "kind": "model_authored_unreviewed",
+    "evidence_refs": [
+      "base:pkgs/core/src/locale/zh-CN/_lib/match/index.ts:27-60"
+    ],
+    "fixed_commit_accessible_to_agent": false,
+    "facts_visible_from_base": true
+  },
+  "information_boundary": {
+    "allowed_categories": [
+      "context",
+      "localization"
+    ],
+    "forbidden_categories": [
+      "patch_text",
+      "fixed_commit",
+      "hidden_evaluator",
+      "implementation_instruction",
+      "L3_observation",
+      "L4_diagnosis",
+      "L5_plan"
+    ],
+    "contains_diagnosis": false,
+    "contains_plan": false,
+    "contains_code_location": true,
+    "contains_exact_identifier": true,
+    "contains_patch_text": false
+  },
+  "review_status": "pending_independent_review",
+  "provenance": {
+    "author_id": "oml-lead-maintainer-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "created_at": "2026-08-02T12:00:00Z",
+    "rubric_version": "oracle-boundary/2.0.0",
+    "revision": 2,
+    "content_sha256": "e5b03d0d6d77611cba2473a34aa5cc1efb3e1600b383f907420ad5ec1a4acc50"
+  },
+  "protocol_version": "gate-m-real-tasks-v2",
+  "derived_from": {
+    "protocol_version": "gate-m-real-tasks-v1",
+    "packet_sha256": "ab9df745edd78acfbc24eebc42fd9130d0defdd757010f0e4cfb80fe200484ed"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-m-treatments-v3",
+  "supersedes": [
+    "gate-m-real-tasks-v1",
+    "gate-m-real-tasks-v2"
+  ],
+  "arms": [
+    {
+      "id": "T0",
+      "name": "native",
+      "packet": false,
+      "description": "Original task only."
+    },
+    {
+      "id": "T1",
+      "name": "bounded_context",
+      "packet": true,
+      "description": "Relevant files, bounded regions, base-state symbols."
+    },
+    {
+      "id": "T2",
+      "name": "execution_evidence",
+      "packet": true,
+      "description": "T1 plus raw reproducible observations generated from the base state."
+    },
+    {
+      "id": "T3",
+      "name": "diagnostic_assistance",
+      "packet": true,
+      "combined": true,
+      "description": "T2 plus an author-produced causal diagnosis and behavioral objective, deliberately combined."
+    }
+  ],
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "independently_reviewed": false,
+  "treatment_count": 12,
+  "treatments": [
+    {
+      "task_id": "date-fns-zh-month",
+      "treatment_id": "T1",
+      "content_sha256": "e5b03d0d6d77611cba2473a34aa5cc1efb3e1600b383f907420ad5ec1a4acc50"
+    },
+    {
+      "task_id": "date-fns-zh-month",
+      "treatment_id": "T2",
+      "content_sha256": "3afdcbf1e55500171bb92ef6e7bf3712b73fc3e45564d9206d0010e6b39ff98f"
+    },
+    {
+      "task_id": "date-fns-zh-month",
+      "treatment_id": "T3",
+      "content_sha256": "2c8d4b2f28365c40ad4740236664df8f8d54f97286a6ff8d28603f0247035fda"
+    },
+    {
+      "task_id": "type-fest-conditional-keys",
+      "treatment_id": "T1",
+      "content_sha256": "d497bef46133b90d3b43ca7deff4e5629eb6687ee70cdf11c8e05d45b8e93c41"
+    },
+    {
+      "task_id": "type-fest-conditional-keys",
+      "treatment_id": "T2",
+      "content_sha256": "b7e8a79b995c4d38248d3c910764ebe25b32bb6fdc0bb10b8fef6090ba1183b5"
+    },
+    {
+      "task_id": "type-fest-conditional-keys",
+      "treatment_id": "T3",
+      "content_sha256": "18c2f4833b79b6a09500791d3e85c058d356799448391f687d97ad00a4ea0321"
+    },
+    {
+      "task_id": "zod-absent-catch",
+      "treatment_id": "T1",
+      "content_sha256": "d5e038bce852984a337b1ad2d1e9d8885f1dea10ac92e95ca3a3c35c8d33c542"
+    },
+    {
+      "task_id": "zod-absent-catch",
+      "treatment_id": "T2",
+      "content_sha256": "1ed3fbb76983a175cd8833c942a141f9a2d894edd9aacccd74d058805f929a49"
+    },
+    {
+      "task_id": "zod-absent-catch",
+      "treatment_id": "T3",
+      "content_sha256": "860ddc22c587b1530aa3d00ce93f8e949ff4ca2d9ade4ffdfb866a8413c31aa9"
+    },
+    {
+      "task_id": "zod-tuple-default",
+      "treatment_id": "T1",
+      "content_sha256": "d160f4541c55c0ddda80c77b8e73a2d419987996cfa51909028b2461af54b6c9"
+    },
+    {
+      "task_id": "zod-tuple-default",
+      "treatment_id": "T2",
+      "content_sha256": "f5a4af2efccbaba34ddec18b74e0decbe8529fd5da4a2a2e23e1f34ddf890fd2"
+    },
+    {
+      "task_id": "zod-tuple-default",
+      "treatment_id": "T3",
+      "content_sha256": "d837991d9929196d3a392a15695fcc2cb9c4bc9ca8907c5e548e6306912193f1"
+    }
+  ]
+}

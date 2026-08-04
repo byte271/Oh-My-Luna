@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oh-my-luna.dev/schemas/experiment-plan/v0.2",
+  "title": "Pre-registered method, headroom, or approximation experiment",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "id", "gate", "task_selection_freeze_sha256", "task_ids", "primary_design", "treatments", "controls", "scoring", "analysis"],
+  "properties": {
+    "schema_version": { "const": "0.2" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$" },
+    "gate": { "enum": ["M_method_validation", "H_causal_headroom", "A_approximation_feasibility"] },
+    "task_selection_freeze_sha256": { "$ref": "#/$defs/sha256" },
+    "task_ids": { "$ref": "#/$defs/nonEmptyStrings" },
+    "primary_design": { "enum": ["cumulative_ladder", "approximation_comparison", "mechanics_only"] },
+    "treatments": {
+      "type": "array", "minItems": 2, "uniqueItems": true,
+      "items": { "enum": ["native", "lean_skill", "equal_token", "equal_cost", "L1_context", "L2_localization", "L3_observation", "L4_diagnosis", "L5_plan", "verification_gap", "deterministic_baseline", "training_free_baseline", "learned_component", "oracle_upper_bound", "sol_reference"] }
+    },
+    "controls": {
+      "type": "object", "additionalProperties": false,
+      "required": ["model_snapshot", "reasoning_effort", "max_attempts", "token_budget", "cost_budget_usd", "timeout_ms", "cache_mode", "service_tier", "tool_permissions", "randomization_seed", "repetitions", "retain_all_attempts"],
+      "properties": {
+        "model_snapshot": { "type": "string", "minLength": 1 },
+        "reasoning_effort": { "type": "string", "minLength": 1 },
+        "max_attempts": { "type": "integer", "minimum": 1 },
+        "token_budget": { "type": "integer", "minimum": 1 },
+        "cost_budget_usd": { "type": "number", "minimum": 0 },
+        "timeout_ms": { "type": "integer", "minimum": 1 },
+        "cache_mode": { "enum": ["disabled", "enabled_recorded"] },
+        "service_tier": { "type": "string", "minLength": 1 },
+        "tool_permissions": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "randomization_seed": { "type": "integer" },
+        "repetitions": { "type": "integer", "minimum": 1 },
+        "retain_all_attempts": { "const": true }
+      }
+    },
+    "scoring": {
+      "type": "object", "additionalProperties": false,
+      "required": ["hidden", "treatment_blind", "fixed_patch_inaccessible", "other_arm_traces_inaccessible"],
+      "properties": {
+        "hidden": { "const": true }, "treatment_blind": { "const": true },
+        "fixed_patch_inaccessible": { "const": true }, "other_arm_traces_inaccessible": { "const": true }
+      }
+    },
+    "analysis": {
+      "type": "object", "additionalProperties": false,
+      "required": ["primary_generalization_unit", "minimum_meaningful_effect", "representative_and_high_gap_reported_separately", "repeats_not_counted_as_independent_tasks", "minimum_sufficient_rule"],
+      "properties": {
+        "primary_generalization_unit": { "const": "task" },
+        "minimum_meaningful_effect": { "type": "number", "minimum": 0, "maximum": 1 },
+        "representative_and_high_gap_reported_separately": { "const": true },
+        "repeats_not_counted_as_independent_tasks": { "const": true },
+        "minimum_sufficient_rule": { "type": "string", "minLength": 1 }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "gate": { "const": "H_causal_headroom" } } },
+      "then": {
+        "properties": { "primary_design": { "const": "cumulative_ladder" } },
+        "not": { "properties": { "treatments": { "type": "array", "contains": { "enum": ["deterministic_baseline", "training_free_baseline", "learned_component"] } } } }
+      }
+    },
+    {
+      "if": { "properties": { "gate": { "const": "A_approximation_feasibility" } } },
+      "then": { "properties": { "primary_design": { "const": "approximation_comparison" }, "treatments": { "type": "array", "contains": { "enum": ["deterministic_baseline", "training_free_baseline", "learned_component"] } } } }
+    }
+  ],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "nonEmptyStrings": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+  }
+}

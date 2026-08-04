@@ -1,5 +1,9 @@
 # Architecture
 
+> Superseded candidate, retained as historical design evidence. Most components
+> below were documentary interfaces, not Gate C implementations, and none has
+> demonstrated causal improvement in Luna. See `research/repository-truth-audit.md`.
+
 ## Decision summary
 
 V0 is a local, single-process TypeScript control plane with an append-only event
@@ -136,4 +140,3 @@ The runtime has no claim to general cognition. It is a typed control plane for
 a narrow software-engineering workflow. “Compiler” refers to validated
 transformations between schemas. “Ledger” refers to an append-only hash-linked
 record. No metaphor carries unstated technical meaning.
-

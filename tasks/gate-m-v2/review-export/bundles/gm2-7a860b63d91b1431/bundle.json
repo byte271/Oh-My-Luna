@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "bundle_id": "gm2-7a860b63d91b1431",
+  "protocol_version": "gate-m-real-tasks-v2",
+  "task_material": {
+    "issue": "# Tuple defaults are not applied to omitted trailing items\n\nParsing a tuple with a trailing defaulted item returns an array that omits the defaulted value when the input stops before that position.\n\nReproduce with a two-item tuple whose second string schema has the default `fallback`, then parse `['present']`. The result should preserve `present` and materialize the defaulted second item.\n",
+    "base_version_excerpt": "FILE packages/zod/src/v4/core/schemas.ts\nLINES 2635-2714\n  2635\t    payload.value = [];\n  2636\t    const proms: Promise<any>[] = [];\n  2637\t\n  2638\t    const reversedIndex = [...items].reverse().findIndex((item) => item._zod.optin !== \"optional\");\n  2639\t    const optStart = reversedIndex === -1 ? 0 : items.length - reversedIndex;\n  2640\t\n  2641\t    if (!def.rest) {\n  2642\t      if (input.length < optStart) {\n  2643\t        payload.issues.push({\n  2644\t          code: \"too_small\",\n  2645\t          minimum: optStart,\n  2646\t          inclusive: true,\n  2647\t          input,\n  2648\t          inst,\n  2649\t          origin: \"array\" as const,\n  2650\t        });\n  2651\t        return payload;\n  2652\t      }\n  2653\t      if (input.length > items.length) {\n  2654\t        payload.issues.push({\n  2655\t          code: \"too_big\",\n  2656\t          maximum: items.length,\n  2657\t          inclusive: true,\n  2658\t          input,\n  2659\t          inst,\n  2660\t          origin: \"array\" as const,\n  2661\t        });\n  2662\t      }\n  2663\t    }\n  2664\t\n  2665\t    let i = -1;\n  2666\t    for (const item of items) {\n  2667\t      i++;\n  2668\t      if (i >= input.length) if (i >= optStart) continue;\n  2669\t      const result = item._zod.run(\n  2670\t        {\n  2671\t          value: input[i],\n  2672\t          issues: [],\n  2673\t        },\n  2674\t        ctx\n  2675\t      );\n  2676\t\n  2677\t      if (result instanceof Promise) {\n  2678\t        proms.push(result.then((result) => handleTupleResult(result, payload, i)));\n  2679\t      } else {\n  2680\t        handleTupleResult(result, payload, i);\n  2681\t      }\n  2682\t    }\n  2683\t\n  2684\t    if (def.rest) {\n  2685\t      const rest = input.slice(items.length);\n  2686\t      for (const el of rest) {\n  2687\t        i++;\n  2688\t        const result = def.rest._zod.run(\n  2689\t          {\n  2690\t            value: el,\n  2691\t            issues: [],\n  2692\t          },\n  2693\t          ctx\n  2694\t        );\n  2695\t\n  2696\t        if (result instanceof Promise) {\n  2697\t          proms.push(result.then((result) => handleTupleResult(result, payload, i)));\n  2698\t        } else {\n  2699\t          handleTupleResult(result, payload, i);\n  2700\t        }\n  2701\t      }\n  2702\t    }\n  2703\t\n  2704\t    if (proms.length) return Promise.all(proms).then(() => payload);\n  2705\t    return payload;\n  2706\t  };\n  2707\t});\n  2708\t\n  2709\tfunction handleTupleResult(result: ParsePayload, final: ParsePayload<any[]>, index: number) {\n  2710\t  if (result.issues.length) {\n  2711\t    final.issues.push(...util.prefixIssues(index, result.issues));\n  2712\t  }\n  2713\t  final.value[index] = result.value;\n  2714\t}"
+  },
+  "candidate_information": [
+    {
+      "item_id": "it-93c79edca607",
+      "kind": "statement",
+      "text": "Do not change tuple declaration syntax."
+    },
+    {
+      "item_id": "it-3a4444dab53f",
+      "kind": "statement",
+      "text": "A declared position carrying a default must receive that default when the input omits it."
+    },
+    {
+      "item_id": "it-468762b7c29a",
+      "kind": "statement",
+      "text": "The base version defines `$ZodTuple` (variable) in `packages/zod/src/v4/core/schemas.ts`."
+    },
+    {
+      "item_id": "it-7a7a74d6e645",
+      "kind": "statement",
+      "text": "The tuple parser classifies every absent position at or beyond its optional-input boundary as skippable, including schemas that produce a defined output from absent input."
+    },
+    {
+      "item_id": "it-0d3fd56ad50f",
+      "kind": "statement",
+      "text": "An undefined supplied explicitly in the input must be preserved as an explicit undefined."
+    },
+    {
+      "item_id": "it-b2c85351a422",
+      "kind": "statement",
+      "text": "Behavior relied on by the existing test suite must continue to hold."
+    },
+    {
+      "item_id": "it-163db04fbbf6",
+      "kind": "statement",
+      "text": "Rest elements must keep their current behavior and issue ordering."
+    },
+    {
+      "item_id": "it-aa728838a465",
+      "kind": "statement",
+      "text": "In the base version, `$ZodTuple` supplies a value that `handleTupleResult` receives (call)."
+    },
+    {
+      "item_id": "it-e6e65bb737e8",
+      "kind": "statement",
+      "text": "Trailing positions whose schema yields no value for absent input must not be appended to the result."
+    },
+    {
+      "item_id": "it-204aa8ac51af",
+      "kind": "statement",
+      "text": "The base version of `packages/zod/src/v4/core/schemas.ts` between lines 2635 and 2714 is relevant to this task."
+    },
+    {
+      "item_id": "it-065b50191a44",
+      "kind": "statement",
+      "text": "Parsing a tuple must produce a value at every declared position whose schema yields a defined result for absent input, while positions that yield nothing for absent input stay absent."
+    },
+    {
+      "item_id": "it-998033ac82d7",
+      "kind": "statement",
+      "text": "The base version defines `handleTupleResult` (function) in `packages/zod/src/v4/core/schemas.ts`."
+    },
+    {
+      "item_id": "it-98260984e6be",
+      "kind": "statement",
+      "text": "Synchronous and asynchronous parsing must produce the same result."
+    },
+    {
+      "item_id": "it-5c5e71f359eb",
+      "kind": "statement",
+      "text": "Parsing the two-item tuple [string, string.default('fallback')] with the one-item input ['present'] returns the one-item output ['present'] with length 1."
+    }
+  ],
+  "reviewer_material": {
+    "comparison_file": "repair-comparison.patch",
+    "answer_file": "answer-template.json",
+    "comparison_is_phase_two_only": true
+  },
+  "target_level_disclosed": false,
+  "previous_reviews_included": false
+}

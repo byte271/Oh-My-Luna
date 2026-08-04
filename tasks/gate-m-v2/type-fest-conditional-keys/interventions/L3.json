@@ -1,0 +1,90 @@
+{
+  "schema_version": "0.1",
+  "task_id": "type-fest-conditional-keys",
+  "task_base_commit": "b6d8dd60726a8d7df5a5eea3b3c9d830804d2570",
+  "intervention_level": "L3_observation",
+  "design": "cumulative",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "source/conditional-keys.d.ts",
+          "start_line": 33,
+          "end_line": 47
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "source/conditional-keys.d.ts",
+          "name": "ConditionalKeys",
+          "kind": "type"
+        },
+        {
+          "path": "source/conditional-keys.d.ts",
+          "name": "NonNullable",
+          "kind": "type"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "ConditionalKeys",
+        "consumer_symbol": "NonNullable",
+        "type": "return"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "TypeScript 5.4.2 reports TS2344 ('Type false does not satisfy the constraint true') for an equality assertion comparing ConditionalKeys<Example, string | undefined> with the expected union 'a' | 'c'.",
+          "evidence_refs": [
+            "evidence:base-run"
+          ],
+          "certainty": "observed"
+        }
+      ]
+    }
+  },
+  "source": {
+    "kind": "model_authored_unreviewed",
+    "evidence_refs": [
+      "control/task-validation.json#base"
+    ],
+    "fixed_commit_accessible_to_agent": false,
+    "facts_visible_from_base": true
+  },
+  "information_boundary": {
+    "allowed_categories": [
+      "context",
+      "localization",
+      "observation"
+    ],
+    "forbidden_categories": [
+      "patch_text",
+      "fixed_commit",
+      "hidden_evaluator",
+      "implementation_instruction",
+      "L4_diagnosis",
+      "L5_plan"
+    ],
+    "contains_diagnosis": false,
+    "contains_plan": false,
+    "contains_code_location": true,
+    "contains_exact_identifier": true,
+    "contains_patch_text": false
+  },
+  "review_status": "pending_independent_review",
+  "provenance": {
+    "author_id": "oml-lead-maintainer-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "created_at": "2026-08-02T12:00:00Z",
+    "rubric_version": "oracle-boundary/2.0.0",
+    "revision": 2,
+    "content_sha256": "b7e8a79b995c4d38248d3c910764ebe25b32bb6fdc0bb10b8fef6090ba1183b5"
+  },
+  "protocol_version": "gate-m-real-tasks-v2",
+  "derived_from": {
+    "protocol_version": "gate-m-real-tasks-v1",
+    "packet_sha256": "b895a755c5c457d3dcb29bdc650de9c236c9c567a304b9d42def1b699c109e3e"
+  }
+}

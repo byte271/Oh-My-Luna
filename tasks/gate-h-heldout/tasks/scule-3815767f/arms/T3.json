@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "gate-h-heldout-v1",
+  "task_id": "scule-3815767f",
+  "treatment_id": "T3",
+  "combined_arm": true,
+  "combined_arm_note": "Diagnosis and behavioral objective are deliberately combined. No effect may be attributed to one rather than the other.",
+  "semantic_review_status": "author_reviewed_semantic_separation_unverified",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "src/index.ts",
+          "start_line": 80,
+          "end_line": 110
+        },
+        {
+          "path": "src/types.ts",
+          "start_line": 10,
+          "end_line": 30
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "src/index.ts",
+          "name": "pascalCase",
+          "kind": "function"
+        },
+        {
+          "path": "src/index.ts",
+          "name": "camelCase",
+          "kind": "function"
+        },
+        {
+          "path": "src/index.ts",
+          "name": "upperFirst",
+          "kind": "function"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "splitByCase",
+        "consumer_symbol": "pascalCase",
+        "type": "call"
+      }
+    },
+    "observation": {
+      "facts": [
+        {
+          "statement": "Running the package test suite against the base commit reports: expected \"FOOBAR\" to match \"FooBar\"; expected \"fOOBAR\" to match \"fooBar\"; expected \"FooBARb\" to match \"FooBaRb\". Characters after the first in each segment retain their original case.",
+          "command": "npx vitest run test",
+          "certainty": "observed"
+        }
+      ]
+    },
+    "diagnosis": {
+      "root_cause": "Each segment produced by the splitter is passed through a helper that upper-cases only its first character and returns the remainder untouched. Nothing in the conversion normalizes the tail of a segment, so any capitals the input already contained survive into the output. The type-level implementation mirrors the runtime one, so the declared result type carries the same unnormalized tail.",
+      "certainty": "confirmed"
+    },
+    "behavioral_objective": {
+      "objective": "Converting to pascal or camel case must normalize every segment so that only the intended leading character of each segment is capitalized and the rest is lower case, for both the runtime result and the declared type.",
+      "constraints": [
+        "The first segment of a camel-case result must remain lower case.",
+        "Segment boundaries must continue to be decided by the existing splitter.",
+        "Array inputs must behave the same as split string inputs.",
+        "The declared return type must agree with the runtime result.",
+        "Behaviour relied on by the existing test suite must continue to hold."
+      ],
+      "non_goals": [
+        "Do not change the splitter.",
+        "Do not change unrelated case helpers."
+      ]
+    }
+  },
+  "content_sha256": "342ec1e4dcc19ad17c534c6867125aae8c4d11e857f239193b5edc363cb6a4a5"
+}

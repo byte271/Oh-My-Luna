@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "fixture_id": "gate-h-four-task-48-attempt-fixture",
+  "classification": "contaminated_pipeline_fixture",
+  "execution_enabled": false,
+  "execution_enabled_by_default": false,
+  "capability_evidence": false,
+  "benchmark": false,
+  "why_contaminated": [
+    "The four tasks were used while developing the intervention method.",
+    "They were used while authoring diagnostic packet wording.",
+    "They were used while building the evaluators.",
+    "They were used while tuning the leakage checks.",
+    "They were used while building and validating Gate M mechanics."
+  ],
+  "not_held_out_from": [
+    "protocol design",
+    "packet authoring",
+    "evaluator construction",
+    "leakage-detector tuning",
+    "Gate M mechanical validation"
+  ],
+  "permitted_use": [
+    "verifying orchestration and pipeline behaviour",
+    "confirming treatment materialization and receipt plumbing end to end"
+  ],
+  "forbidden_use": [
+    "a benchmark",
+    "a capability pilot",
+    "evidence that T1, T2 or T3 improves Luna",
+    "evidence about the Luna-Sol gap",
+    "any generalization beyond pipeline mechanics"
+  ],
+  "design_history_preserved": {
+    "design_document": "research/gate-h/PILOT-DESIGN.md",
+    "freeze": "tasks/gate-m-v3/freeze/identity.json",
+    "note": "Neither the design nor the freeze is deleted. The fixture remains reproducible; only its use as capability evidence is disabled."
+  },
+  "to_enable": "Requires an explicit project-owner decision recorded in this file, and even then results may only be reported as pipeline behaviour."
+}

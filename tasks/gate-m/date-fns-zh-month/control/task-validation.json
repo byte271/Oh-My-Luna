@@ -1,0 +1,7 @@
+{
+  "schema_version": "0.1", "observed_at": "2026-08-02T06:18:56.243Z", "accepted": true,
+  "environment": { "platform": "linux", "architecture": "x64", "node_version": "v24.14.0", "dependency_setup": "none; Node type stripping executes repository TypeScript" },
+  "base": { "exit_code": 17, "duration_ms": 183, "stdout": "[\"Invalid\",\"Invalid\",1,1]\n", "stdout_sha256": "473fe2da269f114ac2abd70ea4967ec1da02377e653772d47d1d73d15864de4a", "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" },
+  "corrected": { "exit_code": 0, "duration_ms": 207, "stdout": "[10,10,11,12]\n", "stdout_sha256": "b5ec9ea48f85ff9f449d6b41bcc406713d55474e1404fe28143a763de6be580d", "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" },
+  "reproduction_command": "npm run gate-m:validate", "network_during_evaluator": false
+}

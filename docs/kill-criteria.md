@@ -1,5 +1,36 @@
 # Kill criteria
 
+Status: superseded on 2026-08-02 by `kill-criteria-v3.md` for the reset research
+direction. Retained as a historical decision record.
+
+## Reset criteria for the trainable-scaffold hypothesis
+
+These criteria supersede any implication below that the original broad runtime
+must survive. They are pre-registered before live oracle or learned-component
+runs:
+
+1. Do not build a retriever if oracle context/localization produces no material
+   paired end-to-end lift over native Luna.
+2. Do not build a diagnostic specialist if oracle diagnosis does not materially
+   outperform context/localization arms.
+3. Kill a learned component if it does not beat the strongest deterministic or
+   training-free baseline on repository-disjoint requested-behavior success.
+4. Kill it if gains disappear on held-out repositories, if assisted losses
+   offset more than 25% of assisted wins, or if equal-total-cost native Luna is
+   non-inferior.
+5. Kill or make hybrid operation explicit if total cost exceeds 50% of Sol while
+   success remains materially below 95% of Sol.
+6. Kill it if snapshot adaptation requires near-complete retraining, if outputs
+   cannot be calibrated/abstained safely, or if task generation cannot produce
+   trustworthy licensed executable data.
+7. A retrieval-metric improvement without end-to-end repair improvement is a
+   failed component result.
+
+A learned specialist continues only after a statistically credible held-out
+end-to-end gain over the strongest deterministic baseline and an economically
+meaningful advantage over Sol. Report both absolute points and fraction of the
+observed Luna–Sol gap closed.
+
 Criteria are fixed before live Gate E runs. “Development cycle” means no more
 than two iterations against the development split after the initial baseline.
 
@@ -54,4 +85,3 @@ would be impossible or evidence of benchmark leakage.
 No performance claim ships unless the exact model snapshot, effort, prompt,
 tool permissions, repository commits, task split, retries, timeouts, cache mode,
 scorer, full per-task outcomes, costs, and sanitized traces are published.
-

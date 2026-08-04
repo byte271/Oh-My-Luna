@@ -1,5 +1,8 @@
 # Evaluation plan
 
+> Superseded by the causal-intervention evaluation plan. Retained to preserve
+> the original preregistration history.
+
 ## Primary question
 
 Can a small external mechanism convert a repeated Luna failure caused by
@@ -111,4 +114,3 @@ No live model experiment was possible in the current environment:
 Gate C therefore tests schema, trace, scoring, artifact, and runner mechanics
 with a deterministic external-command fixture. It does not report model
 performance.
-

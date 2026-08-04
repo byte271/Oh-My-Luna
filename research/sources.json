@@ -6,7 +6,7 @@
       "id": "openai-luna-model",
       "type": "official-documentation",
       "url": "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
-      "version": "live page retrieved 2026-08-01",
+      "version": "live Markdown page retrieved 2026-08-02T00:49:04-04:00; bounded excerpt SHA-256 5e88a15302a7cbb563afe484172f2e62e9990d1da863a383eefbdb95e7635a69",
       "supports": ["Luna positioning", "context and output limits", "tool support", "standard token pricing"],
       "limitations": "Contains no Luna benchmark table and does not describe failure modes on repository tasks."
     },
@@ -14,7 +14,7 @@
       "id": "openai-sol-model",
       "type": "official-documentation",
       "url": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
-      "version": "live page retrieved 2026-08-01",
+      "version": "live Markdown page retrieved 2026-08-02T00:49:04-04:00; bounded excerpt SHA-256 aa3f0bfc95375325d6027346e5095661cf514e614e7b7ac210415276d31c5bc7",
       "supports": ["Sol positioning", "context and output limits", "standard token pricing"],
       "limitations": "Contains no directly comparable Luna-versus-Sol benchmark table."
     },
@@ -22,9 +22,9 @@
       "id": "openai-pricing",
       "type": "official-documentation",
       "url": "https://developers.openai.com/api/docs/pricing",
-      "version": "live page after 2026-07-30 Luna price change",
-      "supports": ["Luna and Sol input, cache, and output prices"],
-      "limitations": "Token price alone does not predict agent-run cost; tool charges and retry behavior matter."
+      "version": "live Markdown page retrieved 2026-08-02T00:49:04-04:00; bounded excerpt SHA-256 35e3f794983e0d47d5816a4de115d5eeb8fa5b35c028c465ffd3309c14d50b3e",
+      "supports": ["Luna and Sol Standard short- and long-context input, cached-input, cache-write, and output prices", "selected tool-call and container charges", "regional processing and Fast-mode caveats"],
+      "limitations": "Mutable unsigned page; bounded excerpt was manually selected. Token price alone does not predict agent-run cost; variable containers, storage, tiers, tool charges, and retries require run-specific accounting."
     },
     {
       "id": "openai-codex-models",
@@ -329,7 +329,86 @@
       "version": "2025-08-25, updated 2026-07-06",
       "supports": ["repository and issue text can drive indirect prompt injection", "possible token, file, and code-execution impact"],
       "limitations": "VS Code/Copilot-specific exploits; Oh-My-Luna needs its own red-team tests."
+    },
+    {
+      "id": "fastcontext",
+      "type": "paper-and-repository",
+      "title": "FastContext: Training Efficient Repository Explorer for Coding Agents",
+      "authors": ["Shaoqiu Zhang", "Maoquan Wang", "Yuling Shi", "Yuhang Wang", "Xiaodong Gu", "Yongqiang Yao", "Rao Fu", "Shengyu Fu"],
+      "url": "https://arxiv.org/html/2606.14066v1",
+      "version": "arXiv v1, 2026-06-12; microsoft/fastcontext main retrieved 2026-08-01",
+      "supports": ["narrow trained repository exploration", "reported end-to-end gain up to 5.5%", "reported main-agent token reduction up to 60%"],
+      "limitations": "No Luna evaluation; results are stated as maxima across settings; training scripts and data were not available in the inspected repository state; training and inference cost are not an equal-cost Oh-My-Luna comparison."
+    },
+    {
+      "id": "sherloc",
+      "type": "paper",
+      "title": "SHERLOC: Structured Diagnostic Localization for Code Repair Agents",
+      "authors": ["Hovhannes Tamoyan", "Sean Narenthiran", "Erik Arakelyan", "Mira Mezini", "Boris Ginsburg"],
+      "url": "https://arxiv.org/html/2606.24820v1",
+      "version": "arXiv v1, 2026",
+      "supports": ["training-free structured diagnostic localization", "84.33% file accuracy@1 on SWE-bench Lite", "81.27% file recall@1 on SWE-bench Verified", "reported mean 5.95 percentage-point repair gain over ten model/framework pairs"],
+      "limitations": "No Luna evaluation; judge or quality-filter dependence must be costed; published benchmark tasks may be contaminated; it challenges rather than validates training-first LunaGuide."
+    },
+    {
+      "id": "agent-retrieval-bench",
+      "type": "paper-and-repository",
+      "title": "Agent Retrieval Bench: Evaluating Repository Context Retrieval for Coding Agents",
+      "authors": ["Bowen Qin", "Yi Xie"],
+      "url": "https://arxiv.org/html/2607.24882",
+      "version": "2026-07; eyuansu62/agent-retrieval-bench retrieved 2026-08-01",
+      "supports": ["427 samples across 25 repositories and six languages", "comparisons of lexical, RepoMap, embedding, abstention, and trace-based retrieval", "no single retrieval family dominates all metrics"],
+      "limitations": "Diagnostic retrieval benchmark without end-to-end repair validation; relevant-context labels may be incomplete."
+    },
+    {
+      "id": "loc2repair",
+      "type": "paper-and-repository",
+      "title": "Loc2Repair: A Framework for Evaluating the Impact of File-Level Issue Localization in Repo-Level LLM Repair",
+      "authors": ["Mohammad Nour Al Awad", "Sergey Ivanov"],
+      "url": "https://arxiv.org/html/2606.30963v1",
+      "version": "arXiv v1, 2026; official repository retrieved 2026-08-01",
+      "supports": ["full 500-task SWE-bench Verified oracle-localization comparison", "pooled baseline 44.7%", "predicted-localization 48.9% and 49.1%", "gold modified files 52.4%"],
+      "limitations": "No Luna; one realized outcome per arm; public benchmark; gold modified files are an imperfect context oracle; most failures remain after gold localization."
+    },
+    {
+      "id": "swe-skills-bench",
+      "type": "paper-and-repository",
+      "title": "SWE-Skills-Bench: Do Agent Skills Actually Help in Real-World Software Engineering?",
+      "authors": ["Tingxu Han", "Yi Zhang", "Wei Song", "Chunrong Fang", "Zhenyu Chen", "Youcheng Sun", "Lijie Hu"],
+      "url": "https://arxiv.org/abs/2603.15401",
+      "version": "2026-03; GeniusHTX/SWE-Skills-Bench retrieved 2026-08-01",
+      "supports": ["49 public skills across about 565 task instances", "39 skills with zero measured gain", "mean gain 1.2%", "specialized gains and regressions", "token overhead up to 451% on an unchanged pass"],
+      "limitations": "Selected public skills and agents; does not directly evaluate one Luna-specific fixed Skill."
+    },
+    {
+      "id": "tool-verifier",
+      "type": "peer-reviewed-paper",
+      "title": "Training Verifier to Assessing Complex Real-World Tool-Use Trajectories",
+      "authors": ["Linzhuang Sun", "Mingyang Chen", "Hao Liang", "Tianpeng Li", "Zhou Yijie", "Chenzheng Zhu", "Tianyu Guo", "Huanyao Zhang", "Jingxuan Wei", "Bihui Yu", "Fan Yang", "Wentao Zhang"],
+      "url": "https://aclanthology.org/2026.findings-acl.1647/",
+      "version": "Findings of ACL 2026, pages 32922-32936",
+      "supports": ["Tool-Verifier-7B", "3,295 curated samples", "165 human-validated tool-use trajectories", "reported improvement over Qwen2.5-72B-Instruct on Tool-V-Bench"],
+      "limitations": "General human-agent tool-use trajectories, not repository patches, claim satisfaction, or adversarial hidden-verifier gaming."
+    },
+    {
+      "id": "smartad",
+      "type": "peer-reviewed-paper",
+      "title": "SmartAD: Capacity-Aligned Agent Distillation for Small Language Models",
+      "authors": ["Guokai Tang", "Feng Zhao"],
+      "url": "https://aclanthology.org/2026.findings-acl.1349/",
+      "version": "Findings of ACL 2026, pages 27045-27057",
+      "supports": ["student-friendly teacher-trajectory selection", "segment-weighted supervision", "experiments with 1.5B and 3B students"],
+      "limitations": "Evaluated multi-hop QA and math, not repository repair or Luna snapshot adaptation; abstract does not establish cross-repository generalization."
+    },
+    {
+      "id": "change2task",
+      "type": "paper",
+      "title": "Change2Task: From Repository Changes to Executable Coding Agent Tasks and Environments",
+      "authors": ["Haomin Qi", "Xingliang Wang", "Xuanqi Gao", "Baihui Sang", "Xin Zhang", "Minghua Ma", "Pengfei Gao", "Yu Kang", "Qingwei Lin", "Saravan Rajmohan", "Dongmei Zhang", "Qi Zhang"],
+      "url": "https://arxiv.org/abs/2607.28591",
+      "version": "2026-07-30, retrieved 2026-08-01",
+      "supports": ["deriving executable coding-agent tasks and environments from repository changes", "1,130 eligible source changes and 79.6% reported verified task-construction success", "29.2% more verified tasks than the matched pull-request baseline", "multiple task families including bug, feature, migration, and security work"],
+      "limitations": "Extremely recent; reproduction and semantic-faithfulness evidence were not independently verified in this audit; task construction can leak the fixed change."
     }
   ]
 }
-

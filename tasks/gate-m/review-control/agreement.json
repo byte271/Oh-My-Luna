@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1",
+  "status": "pending_external_independent_review",
+  "reviewer_count": 0,
+  "reviewer_classes": [],
+  "exact_level_agreement": null,
+  "adjacent_level_disagreements": null,
+  "leak_agreement": null,
+  "approval_agreement": null,
+  "cohens_kappa": null,
+  "l3_l4_collapse_decision": "pending",
+  "limitations": ["No independent reviewer completed a bundle in this development session; agreement must not be inferred from automated checks or the author's self-inspection."]
+}

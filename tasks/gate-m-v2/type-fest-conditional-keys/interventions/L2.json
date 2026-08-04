@@ -1,0 +1,79 @@
+{
+  "schema_version": "0.1",
+  "task_id": "type-fest-conditional-keys",
+  "task_base_commit": "b6d8dd60726a8d7df5a5eea3b3c9d830804d2570",
+  "intervention_level": "L2_localization",
+  "design": "cumulative",
+  "payload": {
+    "context": {
+      "regions": [
+        {
+          "path": "source/conditional-keys.d.ts",
+          "start_line": 33,
+          "end_line": 47
+        }
+      ]
+    },
+    "localization": {
+      "symbols": [
+        {
+          "path": "source/conditional-keys.d.ts",
+          "name": "ConditionalKeys",
+          "kind": "type"
+        },
+        {
+          "path": "source/conditional-keys.d.ts",
+          "name": "NonNullable",
+          "kind": "type"
+        }
+      ],
+      "failing_boundary": {
+        "producer_symbol": "ConditionalKeys",
+        "consumer_symbol": "NonNullable",
+        "type": "return"
+      }
+    }
+  },
+  "source": {
+    "kind": "model_authored_unreviewed",
+    "evidence_refs": [
+      "base:source/conditional-keys.d.ts:33-47"
+    ],
+    "fixed_commit_accessible_to_agent": false,
+    "facts_visible_from_base": true
+  },
+  "information_boundary": {
+    "allowed_categories": [
+      "context",
+      "localization"
+    ],
+    "forbidden_categories": [
+      "patch_text",
+      "fixed_commit",
+      "hidden_evaluator",
+      "implementation_instruction",
+      "L3_observation",
+      "L4_diagnosis",
+      "L5_plan"
+    ],
+    "contains_diagnosis": false,
+    "contains_plan": false,
+    "contains_code_location": true,
+    "contains_exact_identifier": true,
+    "contains_patch_text": false
+  },
+  "review_status": "pending_independent_review",
+  "provenance": {
+    "author_id": "oml-lead-maintainer-2026-08-02",
+    "author_class": "model_assisted_primary_author",
+    "created_at": "2026-08-02T12:00:00Z",
+    "rubric_version": "oracle-boundary/2.0.0",
+    "revision": 2,
+    "content_sha256": "d497bef46133b90d3b43ca7deff4e5629eb6687ee70cdf11c8e05d45b8e93c41"
+  },
+  "protocol_version": "gate-m-real-tasks-v2",
+  "derived_from": {
+    "protocol_version": "gate-m-real-tasks-v1",
+    "packet_sha256": "617316b6b76fc578a3b7f4b375924a1032c25ba55b65d0bdc68300728c0a326a"
+  }
+}

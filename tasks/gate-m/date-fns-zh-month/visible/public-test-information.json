@@ -1,0 +1,6 @@
+{
+  "schema_version": "0.1",
+  "visible_behavior": "Chinese month parsing must distinguish October, November, and December in numeric and wide forms.",
+  "visible_test_command": null,
+  "notes": "The exact strings and evaluator expectations are withheld from the agent workspace."
+}

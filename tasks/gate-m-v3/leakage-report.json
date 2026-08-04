@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "threshold": 0.5,
+  "is_heuristic": true,
+  "not_a_purity_proof": true,
+  "findings": [],
+  "excluded_from_t3": [],
+  "packets": [
+    {
+      "task_id": "zod-tuple-default",
+      "treatment_id": "T1",
+      "similarity_to_known_repair": 0.018,
+      "finding_count": 0,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "zod-tuple-default",
+      "treatment_id": "T2",
+      "similarity_to_known_repair": 0.0678,
+      "finding_count": 0,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "zod-tuple-default",
+      "treatment_id": "T3",
+      "similarity_to_known_repair": 0.1702,
+      "finding_count": 0,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "zod-absent-catch",
+      "treatment_id": "T1",
+      "similarity_to_known_repair": 0.0857,
+      "finding_count": 0,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "zod-absent-catch",
+      "treatment_id": "T2",
+      "similarity_to_known_repair": 0.0678,
+      "finding_count": 0,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "zod-absent-catch",
+      "treatment_id": "T3",
+      "similarity_to_known_repair": 0.0827,
+      "finding_count": 0,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "date-fns-zh-month",
+      "treatment_id": "T1",
+      "similarity_to_known_repair": 0,
+      "finding_count": 0,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "date-fns-zh-month",
+      "treatment_id": "T2",
+      "similarity_to_known_repair": 0.0286,
+      "finding_count": 0,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "date-fns-zh-month",
+      "treatment_id": "T3",
+      "similarity_to_known_repair": 0.02,
+      "finding_count": 0,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "type-fest-conditional-keys",
+      "treatment_id": "T1",
+      "similarity_to_known_repair": 0.1667,
+      "finding_count": 0,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "type-fest-conditional-keys",
+      "treatment_id": "T2",
+      "similarity_to_known_repair": 0.0857,
+      "finding_count": 0,
+      "blocking_count": 0,
+      "findings": []
+    },
+    {
+      "task_id": "type-fest-conditional-keys",
+      "treatment_id": "T3",
+      "similarity_to_known_repair": 0.0472,
+      "finding_count": 0,
+      "blocking_count": 0,
+      "findings": []
+    }
+  ],
+  "blocking_total": 0,
+  "summary": "No blocking heuristic finding. This is not evidence of semantic purity."
+}

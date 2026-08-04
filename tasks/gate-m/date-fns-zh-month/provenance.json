@@ -1,0 +1,7 @@
+{
+  "schema_version": "0.1", "repository_url": "https://github.com/date-fns/date-fns", "issue_url": "https://github.com/date-fns/date-fns/issues/3256", "correcting_pull_request_url": "https://github.com/date-fns/date-fns/pull/4194",
+  "license": { "spdx": "MIT", "path": "pkgs/core/LICENSE.md", "sha256": "8d3951c38967b964b1fe259bfd200c2647cc04c858b55a4414e3122a60f1ef4b" },
+  "base_archive_sha256": "2521606bb70dd781849cc7a5f120ba09a89a3f9b0ab98ddfa984427ddd3ff00a", "corrected_archive_sha256": "1fb62cb08a98addb864d5e37c63e7469f7f5b05fd66d80e842dc35835a1e2dbd", "known_repair_sha256": "486708ccc895b9b87a90c8fb582abd546441f4404f6e741b38de6fef899ba55c",
+  "contamination_risk": "high", "contamination_notes": "The public issue and merged fix predate the study; this task validates method mechanics and is not a held-out capability claim.",
+  "redactions": ["fixed commit identity", "fix commit message", "known repair", "control evaluator", "unassigned packets", "review notes"]
+}

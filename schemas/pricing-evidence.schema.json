@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://oh-my-luna.dev/schemas/pricing-evidence/v1.0",
+  "title": "Captured and parsed pricing evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "evidence_id", "retrieved_at", "service_tier", "sources", "parser", "extracted", "derived_ratios", "rules", "tool_charges", "omissions", "limitations"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "evidence_id": { "type": "string", "minLength": 1 },
+    "retrieved_at": { "type": "string", "minLength": 1 },
+    "service_tier": { "const": "standard" },
+    "sources": {
+      "type": "array", "minItems": 3,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["role", "url", "retrieved_at", "method", "content_type", "evidence_path", "evidence_sha256", "normalization"],
+        "properties": {
+          "role": { "enum": ["pricing_table", "model_rule"] },
+          "url": { "type": "string", "pattern": "^https://developers\\.openai\\.com/" },
+          "retrieved_at": { "type": "string", "minLength": 1 },
+          "method": { "type": "string", "minLength": 1 },
+          "content_type": { "type": "string", "minLength": 1 },
+          "evidence_path": { "type": "string", "minLength": 1 },
+          "evidence_sha256": { "$ref": "#/$defs/sha256" },
+          "normalization": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "parser": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "version", "source_path", "source_sha256"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 }, "version": { "type": "string", "minLength": 1 },
+        "source_path": { "type": "string", "minLength": 1 }, "source_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "extracted": {
+      "type": "object", "minProperties": 2,
+      "additionalProperties": {
+        "type": "object", "additionalProperties": false, "required": ["short_context", "long_context"],
+        "properties": {
+          "short_context": { "$ref": "#/$defs/rates" }, "long_context": { "$ref": "#/$defs/rates" }
+        }
+      }
+    },
+    "derived_ratios": { "type": "object", "minProperties": 1, "additionalProperties": { "type": "number", "exclusiveMinimum": 0 } },
+    "rules": {
+      "type": "object", "additionalProperties": false,
+      "required": ["long_context_threshold_input_tokens", "cache_write_multiplier"],
+      "properties": { "long_context_threshold_input_tokens": { "type": "integer", "minimum": 1 }, "cache_write_multiplier": { "type": "number", "exclusiveMinimum": 0 } }
+    },
+    "tool_charges": {
+      "type": "array", "items": {
+        "type": "object", "additionalProperties": false, "required": ["name", "amount_usd", "unit"],
+        "properties": { "name": { "type": "string", "minLength": 1 }, "amount_usd": { "type": "number", "minimum": 0 }, "unit": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "omissions": { "$ref": "#/$defs/strings" },
+    "limitations": { "$ref": "#/$defs/strings" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "strings": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "rates": {
+      "type": "object", "additionalProperties": false, "required": ["input", "cached_input", "cache_write", "output"],
+      "properties": { "input": { "type": "number", "minimum": 0 }, "cached_input": { "type": "number", "minimum": 0 }, "cache_write": { "type": "number", "minimum": 0 }, "output": { "type": "number", "minimum": 0 } }
+    }
+  }
+}
