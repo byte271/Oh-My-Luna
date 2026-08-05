@@ -1,0 +1,25 @@
+{
+  "name": "globmatch",
+  "version": "1.0.0",
+  "description": "Dependency-free glob matching for path strings",
+  "type": "module",
+  "bin": {
+    "globmatch": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "node scripts/typecheck.mjs",
+    "test": "node scripts/test.mjs",
+    "check": "node scripts/typecheck.mjs && node scripts/build.mjs && node scripts/test.mjs"
+  }
+}

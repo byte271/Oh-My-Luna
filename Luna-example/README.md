@@ -14,7 +14,7 @@ them.
 | # | Compares | Arms | Status |
 | --- | --- | --- | --- |
 | [01](01-framevault-skill-ab/) | a skill, across one model | `Luna-a` (skill) · `Luna-b` (no skill) | output collected, analyzed |
-| [02](02-globmatch-luna-skill-vs-opus5/) | **substitution**: cheap model + skill vs expensive model bare | `luna-skill` · `opus5-baseline` | designed, **no output** |
+| [02](02-globmatch-luna-skill-vs-opus5/) | **substitution**: cheap model + skill vs expensive model bare | `luna-skill` · `opus5-baseline` | output collected, scored |
 
 Each comparison directory holds:
 
@@ -43,6 +43,28 @@ Defect taxonomy drawn from it: [`research/failure-mode-taxonomy.md`](../research
 effort, timestamp, or transcript. That the sample came from Luna is an owner
 assertion, and so is which arm used a skill. Every finding above inherits that
 caveat.
+
+## What comparison 02 established
+
+Scored 2026-08-04 against scoring registered before the output existed.
+[`RESULTS.md`](02-globmatch-luna-skill-vs-opus5/RESULTS.md).
+
+**The pre-registered scoring does not separate the arms.** Both passed the growth
+probe with every sample below the noise floor — neither reproduced the asymptotic
+defect measured in comparison 01, on a task chosen because it admits one. Both
+comply with the no-regex requirement and pass their own suites.
+
+The one dimension that would have separated them rested on **an ambiguity in the
+prompt I wrote** — whether `**` inside a segment is a star run or two literal
+characters. Both arms resolved it defensibly, self-consistently, and documented
+which reading they took. That dimension is unscoreable and neither arm is marked
+down for it; the fix is to disambiguate the prompt for any future run, not to
+pick a winner now.
+
+**Neither arm has provenance.** No `RUN.json` arrived, the requirement having
+been written before the output; the `luna-skill` upload's `.git` had zero
+commits. Stubs are committed with every unknown marked `null`. So this comparison
+inherits comparison 01's binding limit in full.
 
 ## Adding a comparison
 

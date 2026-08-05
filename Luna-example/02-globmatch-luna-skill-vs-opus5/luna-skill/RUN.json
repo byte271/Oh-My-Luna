@@ -1,0 +1,24 @@
+{
+  "arm": "luna-skill",
+  "provenance_recorded": false,
+  "provenance_note": "Every null below is genuinely unknown. The output arrived as a zip with no run record; the luna-skill upload carried a .git with zero commits. Filling these in after the fact from memory would look like a record and would be worse than leaving them empty.",
+
+  "model_identifier_asserted": "gpt-5.6-luna",
+  "model_identifier_verified": false,
+  "model_alias_is_mutable": true,
+  "reasoning_effort": null,
+  "skill_attached_asserted": "arms/oh-my-luna-skill/model-facing-skill.md",
+  "skill_payload_sha256": null,
+  "skill_delivery_verified": false,
+
+  "harness": null,
+  "tools_available": null,
+  "tools_note": "Unrecorded. COMPARISON.md singles this out: if one arm could run its own tests and the other could not, the comparison is between harnesses rather than models and is uninterpretable.",
+
+  "started_at": null,
+  "completed_at": null,
+  "turns": null,
+  "prompt_sha256": "2b4dbe60a6efb2557537eacf471d0aae6170b2ac112b650660ae23242c6c18aa",
+  "prompt_sha256_note": "Hash of Prompt.md in this repository. Whether the arm received these exact bytes is not recorded.",
+  "transcript_available": false
+}

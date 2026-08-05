@@ -1,0 +1,31 @@
+{
+  "name": "globmatch",
+  "version": "1.0.0",
+  "description": "Dependency-free glob matching for path strings, implemented without regular expressions and with matching time bounded by the input sizes.",
+  "keywords": ["glob", "match", "pattern", "path", "globstar", "no-regex", "redos"],
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "globmatch": "./dist/cli.js"
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node --input-type=module -e \"import{chmodSync}from'node:fs';chmodSync('dist/cli.js',0o755)\"",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "cli": "node src/cli.ts",
+    "clean": "node --input-type=module -e \"import{rmSync}from'node:fs';rmSync('dist',{recursive:true,force:true})\"",
+    "verify": "npm run typecheck && npm run build && npm test"
+  }
+}

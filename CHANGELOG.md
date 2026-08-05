@@ -49,7 +49,7 @@ Luna-example/
   README.md                          index, and the rules for adding one
   01-framevault-skill-ab/            a skill, across one model
     Prompt.md  COMPARISON.md  dos-probe.mjs  Luna-a/  Luna-b/
-  02-globmatch-luna-skill-vs-opus5/  substitution test — DESIGNED, no output
+  02-globmatch-luna-skill-vs-opus5/  substitution test — output collected, scored
     Prompt.md  COMPARISON.md  luna-skill/  opus5-baseline/
 ```
 
@@ -58,7 +58,7 @@ citations across `research/` remain valid; only the `Luna-example/` prefix moved
 
 ### Added — comparison 02, GlobMatch: Luna vs Opus-5
 
-Designed, **not run**. Both arm directories are empty.
+Design; output arrived later and is scored in the section above.
 
 The task is a glob matcher with no regular expressions permitted — that
 constraint is load-bearing, because "translate the glob to a `RegExp`" delegates
@@ -123,6 +123,40 @@ timed a workload or broken a check — the exact defect it targets, one level up
 So it must not be used in Gate H Stage A; `purpose-check/` is the repair-task
 variant that assumes no shell. `arms/README.md` now states the control/treatment
 distinction and the shell requirement.
+
+### Added — comparison 02 output, scored against its pre-registration
+
+Both arms arrived and were scored with the criteria fixed beforehand.
+`RESULTS.md`.
+
+**The scoring does not separate them.** Both passed the growth probe with every
+sample below the noise floor, and an exploratory extension to n=16,000 with
+20-star and globstar-heavy patterns found nothing above 10 ms in either. The trap
+that caught the FrameVault sample caught neither arm here.
+
+Verification honesty split by environment. With `tsc` on PATH both `verify`. With
+`tsc` absent — which is what the prompt's no-dependencies constraint implies —
+`luna-skill` is `partially_verifies` and `opus5-baseline` is `inconclusive`: a
+false green that announces itself in its own output, versus a command that cannot
+run at all. Both are defensible answers to "the constraint forbids the tool I
+need", and the probe verdicts alone do not capture the difference.
+
+Differential testing over 20,000 random pairs found every disagreement traced to
+one cause: **an ambiguity in the prompt I wrote**, about whether `**` inside a
+segment is a star run or two literal characters. Both arms resolved it
+consistently and documented their reading. That dimension is unscoreable and
+neither arm is marked down for it.
+
+One unambiguous defect, found by the differential pass: `opus5-baseline`
+contradicts its own README on an all-stars segment — `match("***", "a/b")` is
+true where its documented rule requires false. Narrow, and recorded because the
+taxonomy names that class.
+
+Neither arm shipped a `RUN.json` despite the requirement predating the output, and
+the `luna-skill` upload's `.git` had zero commits. Stubs are committed with every
+unknown `null` and `provenance_recorded: false`. **No claim about either model is
+supportable from this**, which is what COMPARISON.md said before the output
+existed and remains true after.
 
 ### Changed — comparison 02 is asymmetric, and named for it
 
