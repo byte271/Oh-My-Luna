@@ -1,9 +1,10 @@
 # Comparison 02 — GlobMatch, Luna + skill vs Opus-5 baseline
 
 ```
-status:       DESIGNED. No output collected. Both arm directories are empty.
-arms:         luna-skill/      gpt-5.6-luna  WITH arms/oh-my-luna-skill/
-              opus5-baseline/  claude-opus-5 WITH NO SKILL
+status:       output collected for 2 of 3 arms; scored. See RESULTS.md.
+arms:         luna-skill/      gpt-5.6-luna  WITH arms/oh-my-luna-skill/   collected
+              opus5-baseline/  claude-opus-5 WITH NO SKILL                 collected
+              luna-baseline/   gpt-5.6-luna  WITH NO SKILL                 NOT RUN
 prompt:       Prompt.md — byte-identical for both arms
 asymmetric:   YES, deliberately. Read the next section before anything else.
 scoring:      pre-registered below, before any output exists
@@ -41,8 +42,9 @@ otherwise pay 25× for Sol or reach for Opus-5.
 **To decompose the result, add a third arm: `luna-baseline/`** — Luna, same
 prompt, no skill. Three arms answer both questions at once (does the skill help
 Luna? does Luna+skill reach bare Opus-5?) and cost one more run. It is not in the
-current design because the owner specified two; it is the obvious next step and
-is recorded here so the option is not lost.
+current design because the owner specified two. **The procedure for producing it
+is the next section**, and `npm run compare:02` already lists it as an absent arm,
+so no code change is needed to add it.
 
 ### Why the skill is not also given to Opus-5
 
@@ -51,6 +53,88 @@ clean model comparison — but it would answer a question nobody is asking, sinc
 the deployment being considered is Luna-plus-scaffolding replacing bare Opus-5.
 Two designs, two questions; this one is chosen on purpose and its limits are
 stated rather than glossed.
+
+## Producing the `luna-baseline` arm
+
+This is the arm that decomposes the comparison. Without it, a `luna-skill`
+result cannot be attributed to the model or to the skill.
+
+### The problem you have to decide about first
+
+A baseline is only a baseline if it differs from `luna-skill` in **exactly one
+thing**: the skill's absence. Everything else — model, reasoning effort, harness,
+whether the model could run commands — must match.
+
+**We do not know what those were.** `luna-skill` shipped without a `RUN.json`,
+and its `.git` had zero commits. So a `luna-baseline` produced now cannot be
+shown to match it, and any difference could be the skill or could be a setting
+nobody wrote down.
+
+Two ways out:
+
+| Option | Cost | What you get |
+| --- | --- | --- |
+| **A. Re-run both arms together**, same session, same settings, both with `RUN.json` | 2 runs | A clean paired comparison. The existing `luna-skill` stays as a sample but is superseded for the skill question. **Recommended.** |
+| **B. Run `luna-baseline` alone**, reconstructing the settings from memory | 1 run | A comparison with an unverifiable premise. Usable, but every finding carries "the arms may not have matched". |
+
+Option A costs one extra run and removes the confound permanently. Option B saves
+that run and keeps a caveat forever on every number produced. I would take A.
+
+### Procedure
+
+1. **Deliver `Prompt.md` byte-identical.** Do not retype it, do not reformat it,
+   do not paste it through anything that rewrites whitespace.
+
+   ```
+   sha256(Prompt.md) = 2b4dbe60a6efb2557537eacf471d0aae6170b2ac112b650660ae23242c6c18aa
+   ```
+
+2. **Attach no skill.** No system prompt, no preamble, no "be careful" wrapper —
+   nothing beyond the prompt itself. If the harness injects anything of its own,
+   record that in `RUN.json` under `harness`, because it is then part of the arm.
+
+3. **Match the `luna-skill` conditions** — same model, same reasoning effort, same
+   harness, same tool access. Under option A you are setting both, so just use
+   the same settings for each and record them.
+
+4. **Record `RUN.json` before analysis**, not after. A template is in each
+   existing arm directory. The fields that decide whether the comparison is
+   interpretable at all:
+
+   - `tools_available` — if one arm could run its own tests and another could
+     not, this compares harnesses, not models;
+   - `reasoning_effort`;
+   - `skill_attached_asserted: null` for this arm, and for `luna-skill` the
+     payload hash below, so "which skill text" is never an assertion again.
+
+   ```
+   sha256(oh-my-luna-skill payload) = b389d840b657c3e082d3060d2cc63e0e7dfcb10d57ea9612b1c0dafcff6559b2
+   ```
+
+5. **Drop the output in `luna-baseline/`** and run:
+
+   ```sh
+   npm run compare:02
+   ```
+
+   The scorer picks up any arm directory that exists. No code changes are needed
+   to add the third arm — it is already listed and currently reports as absent.
+
+### What the third arm will and will not settle
+
+**Will:** whether the skill changed anything for this model on this task, by
+comparing `luna-skill` against `luna-baseline` — one variable, one difference.
+
+**Will not:** anything statistical. Three arms at n=1 each is still three
+samples. A difference on one task is a lead to design a study around, not a
+finding. If both Luna arms behave identically, that is weak evidence the skill
+did nothing *here* and says nothing about other tasks.
+
+**Watch for the failure mode the skill's own `DESIGN.md` names in advance:** if
+`luna-skill` scores *worse* functionally than `luna-baseline`, the suspect is the
+"where not to spend effort" section, which tells the model to stop doing things
+it may have been doing usefully. Report functional outcomes and probe outcomes
+together, or neither.
 
 ## The skill arm has a prerequisite
 

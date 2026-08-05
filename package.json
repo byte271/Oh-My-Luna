@@ -39,7 +39,9 @@
     "heldout:dry-run": "npm run build && node scripts/gate-h-heldout/run-stage-a.mjs --dry-run oracle",
     "heldout:stage-a": "npm run build && node scripts/gate-h-heldout/run-stage-a.mjs",
     "heldout:v2:dry-run": "npm run build && node scripts/gate-h-heldout/v2/run-stage-a.mjs --dry-run oracle",
-    "heldout:v2:stubs": "npm run build && node scripts/gate-h-heldout/v2/run-all-stubs.mjs"
+    "heldout:v2:stubs": "npm run build && node scripts/gate-h-heldout/v2/run-all-stubs.mjs",
+    "compare:02": "npm run build && node --experimental-strip-types scripts/probes/score-comparison-02.mjs",
+    "probes:validate": "npm run build && node --experimental-strip-types scripts/probes/validate-against-sample.mjs"
   },
   "dependencies": {
     "ajv": "8.20.0",
