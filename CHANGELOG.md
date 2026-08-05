@@ -84,6 +84,47 @@ Standing limit, stated in the file itself: n = 1 per arm cannot establish that
 either model is better, and nothing produced there may be quoted as parity or
 superiority.
 
+### Added — the acceptance gate (`src/probes/gate.ts`)
+
+**Changing the prompt is never enough**, and this repository's own evidence says
+so: the arm given a skill in comparison 01 shipped a quadratic DoS while passing
+15/15 of its own tests; skill v1's three obligations left **zero traces** in the
+arm that received it. The taxonomy's finding is that the output *already looks
+careful*, which is exactly why asking for more care cannot reach it.
+
+Skill v2 tightened the self-report — "paste the two timings" rather than
+"consider the cost". That is still a self-report, and plausible numbers satisfy
+it.
+
+The gate does the other thing: **it measures the deliverable and refuses it.**
+The signal is a timing this process took and an exit code this process observed,
+not a sentence the model wrote. A claim cannot pass a gate; only the artifact
+can. Every blocking finding carries the failing measurement *and a remedy*,
+because a gate that only says "rejected" makes the next attempt a guess — and
+guessing is what produced the defect.
+
+Run against the three real arms plus the positive control:
+
+```
+positive-control  REJECTED  exceeded_budget, 64,246 ms at n=128
+luna-skill        passed
+luna-baseline     REJECTED  typecheck inconclusive on its own unmodified code
+opus5-baseline    passed
+```
+
+The positive control runs first and the gate is **required** to reject it; if it
+does not, the script says so and every verdict below is void.
+
+Two limits, in the module and in its output: the gate checks only what has been
+mechanized — two of three known defect modes, correctness not among them — and
+its workload is *authored*, so a workload that misses the real hot path passes
+bad work. `formatFeedback` says "not a statement that the code is correct" on
+every pass.
+
+Skill compliance is deliberately **advisory, never blocking**. Failing a
+deliverable on missing paperwork while passing it on substance is the inversion
+this project keeps finding.
+
 ### Added — research
 
 - `research/failure-mode-taxonomy.md`. Three measured defect modes, and the
