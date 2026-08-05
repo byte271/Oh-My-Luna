@@ -143,8 +143,20 @@ policy changes ordering and nothing else**, so a policy A/B varies position with
 content held constant. `recommendPolicy` returns "change nothing" whenever the
 measurement does not support moving anything.
 
-Not claimed: that any policy helps a real model, or that Luna degrades at all.
-Both need live calls this repository has never made. `docs/context-v030.md`.
+`src/probes/policy-ab.ts` then checks the recommendation was right, which nothing
+did before. Against a responder with a **known** mid-context blind spot, over 20
+documents, `edge_loaded` reaches rank 6 where `as_ranked` reaches rank 3 — and
+every policy recalls the same *number* of ranks, because the count of edge slots
+belongs to the context, not the policy. What differs is who spends them:
+"most relevant first" also means "least relevant last, at the other edge", so
+`as_ranked` gives three of its six edge slots to the three least relevant
+documents in the corpus. Beyond rank 6 no reordering helps, and the probe says
+so rather than reporting a smaller effect.
+
+Not claimed: that any real model has this weakness — the responder above is
+synthetic, its blind spot defined rather than discovered — or that Luna degrades
+at all. Both need live calls this repository has never made.
+`docs/context-v030.md`.
 
 ## Protocol v2 — implemented, gated, not frozen
 

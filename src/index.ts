@@ -30,6 +30,17 @@ export {
   type DegradationShape,
   type Responder
 } from "./probes/context-degradation.js";
+export {
+  buildPolicyCorpus,
+  comparePolicies,
+  formatPolicyComparison,
+  formatRankReach,
+  sweepNeedleRank,
+  type PolicyComparison,
+  type PolicyCorpus,
+  type PolicyVerdict,
+  type RankReach
+} from "./probes/policy-ab.js";
 export { assertFrozenFile, assertRunMatchesExperimentFreeze, loadExperimentFreeze, loadTaskSelection } from "./freezes.js";
 export { loadAndVerifyPricingEvidence, parseModelRow, PRICING_PARSER_ID, PRICING_PARSER_VERSION } from "./pricing-evidence.js";
 export { buildRandomizedSchedule } from "./schedule.js";

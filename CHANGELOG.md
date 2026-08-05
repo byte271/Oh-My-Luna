@@ -51,6 +51,40 @@ runs would stop being comparable.
 `degrades_with_size`, where the honest advice is "the fix is fewer tokens, not
 different tokens".
 
+### Added — `src/probes/policy-ab.ts`
+
+`recommendPolicy` recommended and nothing checked the recommendation was right,
+leaving the mechanism where the skill was before comparison 02 was scored:
+plausible, deployed, unverified. `comparePolicies` runs the same question against
+the same documents under each policy; `sweepNeedleRank` walks the needed document
+down the ranking and reports how far each policy reaches.
+
+Against a responder with a known mid-context blind spot, over 20 equal-sized
+documents:
+
+```
+perfect:     as_ranked 20   edge_loaded 20   tail_loaded 20
+mid_blind:   as_ranked  3   edge_loaded  6   tail_loaded  3
+```
+
+Not circular: the compiler knows nothing about the responder, it reorders by
+rank, and whether that rescues a positional weakness depends on where the ranker
+put the document — a mechanical fact that could have come out either way.
+
+Two readings. The perfect responder is unaffected by policy, which is the
+integration-level form of the compiler's membership guarantee; had it moved, the
+arms would differ in content and every row would be unreadable. And every policy
+recalls the same *number* of ranks — six — because the count of edge slots
+belongs to the context, not the policy. What differs is who spends them: "most
+relevant first" also means "least relevant last, at the other edge", so
+`as_ranked` gives three of its six to the three least relevant documents in the
+corpus. The mechanism's honest statement is therefore a number and a limit:
+reach 3 → 6, and beyond rank 6 no reordering helps at all.
+
+Reach is counted contiguously from rank 1. `as_ranked` does recall rank 20,
+because that document sits at the tail; counting it would report a reach of 20
+and overstate the mechanism sixfold.
+
 ### Fixed — found by the new tests, in the new code
 
 - The context builder summed **per-line** token counts, each rounded up, and
@@ -68,10 +102,13 @@ different tokens".
 
 ### Not claimed
 
-That `edge_loaded` helps Luna or any model; that Luna degrades with context at
-all; that any of this exceeds Sol or Opus-5. No policy has been run against a
-real model — this repository has made zero live calls. `docs/context-v030.md`
-records what would settle it.
+That `edge_loaded` helps Luna or any model — the reach 3 → 6 result is measured
+against a synthetic responder whose blind spot was *defined*, not discovered, and
+shows only that the mechanism does what it claims when the weakness is present.
+That Luna degrades with context at all. That the reach number transfers off
+equal-sized documents. That any of this exceeds Sol or Opus-5. No policy has been
+run against a real model — this repository has made zero live calls.
+`docs/context-v030.md` records what would settle it.
 
 ## v0.2.0 — in progress, not released
 

@@ -422,3 +422,10 @@ A new freeze needs a new `freeze_id` and `protocol_version`. Never reuse
   `excluded`, output is byte-deterministic, and changing the position policy
   changes ordering and nothing else. Report those; do not report the rest.
   `docs/context-v030.md`.
+  - The one comparative number that *is* measured: against a responder whose
+    mid-context blind spot was **defined rather than discovered**,
+    `edge_loaded` reaches rank 6 of 20 where `as_ranked` reaches rank 3. State
+    the synthetic provenance whenever you quote it. It shows the mechanism does
+    what it claims when the weakness is present; it is not evidence the weakness
+    exists in any model, and it was measured on equal-sized documents, which
+    real corpora are not.

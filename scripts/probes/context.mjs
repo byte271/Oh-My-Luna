@@ -21,6 +21,7 @@ import {
   runSelfCheck,
   syntheticResponder
 } from "../../dist/src/probes/context-degradation.js";
+import { sweepNeedleRank } from "../../dist/src/probes/policy-ab.js";
 import { compileRepositoryContext, formatManifest, recommendPolicy } from "../../dist/src/index.js";
 
 const out = (s) => process.stdout.write(`${s}\n`);
@@ -70,5 +71,35 @@ out(
     `${compiled.total_tokens}/${compiled.budget_tokens} tokens used.`
 );
 
-out("\nWhat this does NOT show: that any of these policies helps a real model.");
-out("That needs live calls this repository has never made. See docs/context-v030.md.");
+out("\n=== does the recommended policy actually help? ===\n");
+out("  How deep into the ranking each policy keeps material out of mid-context,");
+out("  for a responder with a KNOWN mid-context blind spot. 20 documents.\n");
+
+for (const behaviour of ["perfect", "mid_blind"]) {
+  const reaches = await sweepNeedleRank(syntheticResponder(behaviour), {
+    documentCount: 20,
+    budgetTokens: 100_000
+  });
+  out(`  ${behaviour}:`);
+  for (const r of reaches) {
+    out(
+      `    ${r.policy.padEnd(12)} reaches rank ${String(r.deepest_contiguous_rank).padStart(2)}` +
+        `   recalled: ${r.recalled_ranks.join(",")}`
+    );
+  }
+  out("");
+}
+
+out("  A perfect responder must be UNAFFECTED by policy — if it is not, the arms");
+out("  differ in content and every row above is unreadable.");
+out("");
+out("  For the mid-blind responder every policy recalls the same NUMBER of ranks:");
+out("  the count of edge slots belongs to the context, not to the policy. What");
+out("  differs is who spends them. as_ranked gives three of its six to the three");
+out("  LEAST relevant documents in the corpus; edge_loaded gives all six to the");
+out("  top six. That is the mechanism, stated as a number: reach 3 -> 6, and");
+out("  beyond rank 6 no reordering helps at all.");
+
+out("\nWhat this does NOT show: that any real model has this weakness. The");
+out("responders above are synthetic. Pointing the probe at Luna needs live calls");
+out("this repository has never made. See docs/context-v030.md.");

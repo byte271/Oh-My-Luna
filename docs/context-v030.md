@@ -132,10 +132,75 @@ different tokens." For `fails_everywhere` it says to fix the probe before
 changing the mechanism. A recommender that always suggested rearranging would be
 presenting a hypothesis as a finding.
 
+## Does the recommended policy help? — `src/probes/policy-ab.ts`
+
+`recommendPolicy` recommended; nothing checked the recommendation was right.
+That left the mechanism where the skill was before comparison 02 was scored:
+plausible, deployed, unverified.
+
+`comparePolicies` runs the same question against the same documents compiled
+under each policy. `sweepNeedleRank` walks the needed document down the ranking
+and reports how far each policy reaches. For a responder with a **known**
+mid-context blind spot, over 20 documents:
+
+```
+perfect:
+  as_ranked    reaches rank 20   recalled: 1..20
+  edge_loaded  reaches rank 20   recalled: 1..20
+  tail_loaded  reaches rank 20   recalled: 1..20
+
+mid_blind:
+  as_ranked    reaches rank  3   recalled: 1,2,3,18,19,20
+  edge_loaded  reaches rank  6   recalled: 1,2,3,4,5,6
+  tail_loaded  reaches rank  3   recalled: 1,2,3,18,19,20
+```
+
+**This is not circular.** The compiler knows nothing about the responder; it
+reorders by rank. Whether that rescues a positional weakness depends on where
+the ranker put the needed document — a mechanical fact that could have come out
+either way, and comes out differently for the three policies.
+
+Two things to read off it:
+
+1. **The perfect responder must be unaffected by policy.** It is. If it were
+   not, the arms would differ in *content*, not just order, and every row would
+   be unreadable. This is the integration-level form of the compiler's
+   membership test.
+2. **Every policy recalls the same *number* of ranks — six.** The count of edge
+   slots is a property of the context, not of the policy. What differs is who
+   spends them: `as_ranked` gives three of its six to the three *least* relevant
+   documents in the corpus, because "most relevant first" also means "least
+   relevant last, at the other edge". `edge_loaded` gives all six to the top six.
+
+So the mechanism's honest statement is a number and a limit: **reach 3 → 6, and
+beyond rank 6 no reordering helps at all.** Past that, `comparePolicies` returns
+`recalled_nowhere` and says so — "this is the limit of the mechanism, not a
+tuning problem."
+
+Reach is counted **contiguously from rank 1**. `as_ranked` does recall rank 20,
+because that document sits at the tail; counting it would report a reach of 20
+and overstate the mechanism sixfold.
+
+### What this makes measurable that was not
+
+The joint quantity: **ranker quality × policy**. `edge_loaded` can only pull a
+document to an edge if the ranker scored it in the top few. A better ranker and
+a better policy are substitutes over this range, and the sweep prices them in
+the same unit.
+
 ## What is NOT claimed
 
-- **Not claimed: `edge_loaded` helps Luna, or any model.** No policy has been
-  run against a real model. The repository has made zero live calls.
+- **Not claimed: `edge_loaded` helps Luna, or any model.** The reach 3 → 6
+  result is measured against a *synthetic* responder whose blind spot was
+  defined, not discovered. It shows the mechanism does what it claims when the
+  weakness is present; it says nothing about whether any real model has it.
+  No policy has been run against a real model. The repository has made zero
+  live calls.
+- **Not claimed: the reach number transfers.** It was measured on 20
+  equal-sized documents. Equal sizes are deliberate — with mixed lengths a
+  document's depth *in lines* stops tracking its position in the ordering, and
+  the comparison would confound placement with file size. Real corpora are not
+  equal-sized.
 - **Not claimed: Luna degrades with context.** The premise remains an owner
   assertion. The instrument that could settle it now exists and can falsify it.
 - **Not claimed: this exceeds Sol or Opus-5.** Nothing here measures either.
