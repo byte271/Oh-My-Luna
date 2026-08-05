@@ -8,6 +8,12 @@
 // that accepts a deliberately broken implementation accepts anything, and the
 // first scoring run of this comparison was exactly that situation.
 //
+// Exit codes — a gate whose exit code does not reflect its verdict is not a
+// gate, which is the defect this file itself had until 2026-08-05:
+//   0  the control was rejected AND every present arm passed
+//   1  the control was ACCEPTED — the gate accepts anything, verdicts are void
+//   2  at least one arm was rejected
+//
 // Run: npm run gate:globmatch
 
 import { resolve } from "node:path";
@@ -78,3 +84,6 @@ for (const arm of ["luna-skill", "luna-baseline", "opus5-baseline"]) {
 }
 
 process.stdout.write(`${rejected} arm(s) rejected by the gate.\n`);
+// Exit 2 rather than 0: a rejected arm is the finding, and a caller that checks
+// only the exit code must not be told everything is fine.
+process.exit(rejected > 0 ? 2 : 0);
