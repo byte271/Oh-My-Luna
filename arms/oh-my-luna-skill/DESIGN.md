@@ -90,6 +90,77 @@ That last risk is real and is not solved here. It is the reason obligation 1 say
 *time it*, not *state the cost class*: a number produced by a stopwatch is harder
 to fabricate than an adjective.
 
+## What v2 changes and why
+
+v1 is frozen — it is the text that produced comparison 02's `luna-skill` arm.
+v2 is `model-facing-skill.v2.md`.
+
+**The line I will not cross:** comparison 02 is n=1 per arm, and editing a skill
+to fit a single result is the same failure as adding an arm after seeing results.
+So v2 changes nothing *because the skill arm scored a certain way*. Every change
+below fixes a defect in the skill that is visible without any run.
+
+### 1. Every obligation must leave an artifact — the defect that matters
+
+Grep the arm that received v1 for evidence that any obligation fired:
+
+```
+worst case / adversarial / cost class    skill=0 hits   baseline=1
+break / inject / confirm it fails        skill=0 hits   baseline=0
+gave up / limitation / tradeoff          skill=0 hits   baseline=1
+```
+
+**Zero traces, all three.** So it is not known whether v1 was followed, whether
+it was delivered, or whether it did nothing — and those are indistinguishable in
+the result. A null effect from v1 is uninterpretable by construction.
+
+That is this project's recurring defect, committed by the skill: v1 asked for
+three things and produced no way to check that any happened. *A check that cannot
+fail is not a check*, one level up. This would be worth fixing if comparison 02
+had never run.
+
+v2 requires a `VERIFICATION.md` with three named sections, and
+`src/probes/skill-compliance.ts` reads it. "Did the skill fire?" becomes a
+measurement instead of an assumption.
+
+**Compliance is not quality, and the probe says so in its own output.** Two
+fabricated timings satisfy it and fail `growth.ts`. Reporting compliance alone
+would be a true statement about the letter offered as evidence about the purpose
+— the thing this whole taxonomy is about.
+
+### 2. "Where not to spend effort" is removed
+
+The only section not traced to a measured defect: a bet that output budget spent
+on commentary is budget not spent on code. This file already named it in advance
+as the first suspect if the skill reduced quality.
+
+Two facts, neither of which proves it backfired, both of which remove its
+justification:
+
+- it was **speculative to begin with**, unlike the three obligations;
+- the arm that received v1 wrote fewer tests than the arm that did not (12 vs 18)
+  and shipped no limitations section, which is at least consistent with
+  suppression.
+
+The honest statement is that its benefit was never demonstrated and its cost is
+plausible. A section carrying that balance does not belong in a skill whose
+design rule is "every rule traces to a measured defect".
+
+### 3. Obligation 3 is given somewhere to go
+
+v1 told the model to state what it gave up, while the task's output was a
+codebase. `purpose-check/candidate.md` records exactly this tension for the
+repair setting and I did not carry the lesson across. v2 names the file and the
+heading, so the obligation has a destination and a checkable form.
+
+### What v2 still cannot fix
+
+Nothing here addresses the reason comparison 02 cannot answer whether the skill
+helps: **n=1 per arm, and `tools_available` unrecorded.** v2 makes a future
+result interpretable; it does not make the existing one so. Repetitions at fixed,
+recorded settings are the prerequisite, and no amount of skill editing substitutes
+for them.
+
 ## What it cannot show
 
 No Opus-5 or Sol output exists in this repository. This skill cannot demonstrate

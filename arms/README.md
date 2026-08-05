@@ -16,7 +16,7 @@ documentation.
 | --- | --- | --- | --- | --- |
 | [`skill-control/`](skill-control/) | **control** | repair | no | candidate |
 | [`purpose-check/`](purpose-check/) | treatment | repair | no | candidate |
-| [`oh-my-luna-skill/`](oh-my-luna-skill/) | treatment | greenfield build | **yes** | candidate |
+| [`oh-my-luna-skill/`](oh-my-luna-skill/) | treatment | greenfield build | **yes** | v1 frozen (was run); **v2 candidate** |
 
 None has ever been delivered to a model. `live_calls_made: 0`.
 
