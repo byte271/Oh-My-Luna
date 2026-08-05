@@ -163,6 +163,16 @@ cannot be trusted.
   with recorded provenance — which is what the harness exists to do and has not
   yet done.
 
+## What was built from this
+
+- `src/probes/` — detectors for modes 1 and 2, validated against this sample.
+- `arms/oh-my-luna-skill/` — a model-facing skill whose every obligation traces
+  to a row in this document, and which requires each to be **executed rather than
+  considered**, because the section above is the reason instructions to be careful
+  cannot reach these modes.
+- `Luna-example/02-globmatch-luna-skill-vs-opus5/` — a second task chosen because
+  it admits modes 1 and 2 naturally, so the probes have something to measure.
+
 The honest summary: **two defect classes that a pass/fail criterion cannot see
 are now mechanically detectable, and they were found in real generated code.**
 Everything past that needs live runs.

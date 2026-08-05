@@ -49,8 +49,8 @@ Luna-example/
   README.md                          index, and the rules for adding one
   01-framevault-skill-ab/            a skill, across one model
     Prompt.md  COMPARISON.md  dos-probe.mjs  Luna-a/  Luna-b/
-  02-globmatch-luna-vs-opus5/        two models, same prompt — DESIGNED, no output
-    Prompt.md  COMPARISON.md  luna/  opus5/
+  02-globmatch-luna-skill-vs-opus5/  substitution test — DESIGNED, no output
+    Prompt.md  COMPARISON.md  luna-skill/  opus5-baseline/
 ```
 
 Arm directory names are unchanged, so the ~40 `Luna-a/src/decoder.ts:NNN`
@@ -91,6 +91,58 @@ superiority.
   check that is true about the letter offered as evidence about the purpose.**
   Three of those four are harness code; the fourth was produced by a model, in a
   different language, unprompted.
+
+### Added — `arms/oh-my-luna-skill/`, the skill proper
+
+Model-facing. Three obligations, and the design rule is that **each traces to a
+defect measured in real generated code** — nothing from prompt-engineering
+folklore, nothing included because it sounded rigorous. There are three because
+three modes were measured; a fourth would need a fourth measurement.
+
+Each is **executed, not considered**:
+
+| Obligation | Targets | Why executed |
+| --- | --- | --- |
+| time it at n and 2n | decoder at exponent 1.96 | the author's reasoning was *correct* — it genuinely never preallocates. Only two timings catch it |
+| break the check, confirm it fails | `typecheck` missed a type error | the printed claim was literally true; only attempted falsification separates a checker from a parser |
+| report only what you ran | README claimed benefit, omitted cost | disclosure is checkable against behaviour; "be honest" is not |
+
+"Be careful" was rejected as a design and the reason is recorded: the arm that
+shipped the quadratic DoS also shipped 15 passing tests, the only CLI integration
+test, the only byte-exact wire vector, and an accurate README. **The output
+already looks careful.**
+
+`DESIGN.md` records what each choice costs, including that the "where not to
+spend effort" section is a real bet that could backfire — comparison 01's skill
+arm was *better* on breadth, and suppressing that may cost more than the
+obligations gain. If the skill reduces functional success, that section is named
+as the first suspect.
+
+**It requires a shell.** Under `tools: []` the model can only *claim* to have
+timed a workload or broken a check — the exact defect it targets, one level up.
+So it must not be used in Gate H Stage A; `purpose-check/` is the repair-task
+variant that assumes no shell. `arms/README.md` now states the control/treatment
+distinction and the shell requirement.
+
+### Changed — comparison 02 is asymmetric, and named for it
+
+Renamed `02-globmatch-luna-vs-opus5` → `02-globmatch-luna-skill-vs-opus5`, arms
+`luna`/`opus5` → `luna-skill`/`opus5-baseline`. **Luna receives the skill;
+Opus-5 receives nothing but the prompt.**
+
+This makes it a **substitution test**, not a model comparison: can the cheap
+model plus scaffolding take the expensive model's place? That is the question
+this project actually cares about, and it is how each would really be deployed.
+
+What it therefore cannot do, recorded in the file so it travels with any result:
+the arms differ in two variables at once, so **nothing can be attributed to
+either**. A `luna-skill` win is not "Luna matches Opus-5" — it is "Luna with this
+skill produced output comparable to bare Opus-5 on one task." Adding a
+`luna-baseline` third arm decomposes it and costs one run; recorded as the
+obvious next step.
+
+`RUN.json` now also requires the attached skill's payload hash. An arm that does
+not record which skill text it received repeats comparison 01's binding weakness.
 
 ### Added — a treatment arm (`arms/purpose-check/`)
 

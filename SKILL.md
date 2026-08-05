@@ -8,10 +8,17 @@ description: Operate the Oh-My-Luna evaluation kernel — provision the held-out
 This skill drives the `oh-my-luna` CLI and the Gate H pipeline. It is **operator
 tooling**. It is read by an agent harness, never by `gpt-5.6-luna`.
 
-> **This file is not an experimental arm.** The Gate H "lean fixed Skill" control
-> named in `docs/evaluation-plan-v3.md:22` is model-facing prompt text and lives
-> at `arms/skill-control/candidate.md`. Do not conflate the two. Editing this
-> file does not change any measured result; editing that one invalidates a freeze.
+> **This file is not an experimental arm.** All model-facing text lives in
+> `arms/`, which now holds three: `skill-control/` (the control named in
+> `docs/evaluation-plan-v3.md:22`), `purpose-check/` (treatment, repair tasks),
+> and `oh-my-luna-skill/` (treatment, greenfield builds, **requires a shell**).
+> Do not conflate them with this file. Editing this one changes no measured
+> result; editing one of those can invalidate a freeze. See `arms/README.md`.
+>
+> `oh-my-luna-skill/` must **not** be used in Gate H Stage A. Its obligations are
+> executed — time a workload at two sizes, break a check and confirm it fails —
+> and Stage A sends `tools: []`, so the model could only claim to have done them.
+> That is precisely the defect the skill targets, reintroduced one level up.
 
 ## STOP — do not run Stage A live (2026-08-03, measured 2026-08-04)
 

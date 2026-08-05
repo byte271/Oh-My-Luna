@@ -1,29 +1,74 @@
-# Comparison 02 — GlobMatch, Luna vs Opus-5
+# Comparison 02 — GlobMatch, Luna + skill vs Opus-5 baseline
 
 ```
 status:       DESIGNED. No output collected. Both arm directories are empty.
-arms:         luna/   gpt-5.6-luna
-              opus5/  claude-opus-5
+arms:         luna-skill/      gpt-5.6-luna  WITH arms/oh-my-luna-skill/
+              opus5-baseline/  claude-opus-5 WITH NO SKILL
 prompt:       Prompt.md — byte-identical for both arms
+asymmetric:   YES, deliberately. Read the next section before anything else.
 scoring:      pre-registered below, before any output exists
 live calls:   0
 ```
 
-## What this compares, and what it cannot
+## This is a substitution test, not a model comparison
 
-Comparison 01 varied a *skill* across one model. This varies the *model* with
-everything else held fixed.
+**The arms are deliberately asymmetric.** Luna receives
+`arms/oh-my-luna-skill/`; Opus-5 receives nothing but the prompt.
 
-**It cannot establish that either model is better.** n = 1 per arm, one task, one
-prompt. A single sample from each of two models is an anecdote about two runs,
-not a capability measurement — the same bound `docs/kill-criteria-v3.md` already
-places on 12–20-task pilots, only far worse. Nothing produced here may be quoted
-as "Luna matches Opus-5" or "Opus-5 beats Luna."
+That is a legitimate question, and it is the one this project actually cares
+about:
 
-What it can do is narrower and worth having: **exercise the v0.2.0 probes on a
-second task and a second model, and see whether the defect classes measured in
-comparison 01 recur.** A defect that appears in one sample is an anecdote; a
-defect shape that recurs across tasks and models is a lead.
+> Can the cheap model, plus scaffolding, produce work good enough to take the
+> expensive model's place?
+
+That is a **product** question — about the deliverable system, not about the
+models. It is answered by exactly this design, because it is how each would
+really be used: nobody deploys a bare cheap model against a task where they would
+otherwise pay 25× for Sol or reach for Opus-5.
+
+**What it therefore cannot do, and this must travel with every result:**
+
+- It **cannot** say Luna is as good as Opus-5. The arms differ in two variables
+  at once — model and skill — so nothing can be attributed to either. If
+  `luna-skill` wins, the skill may have carried it. If it loses, the skill may
+  have hurt.
+- It **cannot** measure the skill's effect. That needs the same model with and
+  without it, which is comparison 01's shape, not this one.
+- Reporting a `luna-skill` win as "Luna matches Opus-5" would be a category
+  error. The honest sentence is "Luna with this skill produced output comparable
+  to bare Opus-5 on one task."
+
+**To decompose the result, add a third arm: `luna-baseline/`** — Luna, same
+prompt, no skill. Three arms answer both questions at once (does the skill help
+Luna? does Luna+skill reach bare Opus-5?) and cost one more run. It is not in the
+current design because the owner specified two; it is the obvious next step and
+is recorded here so the option is not lost.
+
+### Why the skill is not also given to Opus-5
+
+Stated because a reader will ask. Giving both arms the skill would make it a
+clean model comparison — but it would answer a question nobody is asking, since
+the deployment being considered is Luna-plus-scaffolding replacing bare Opus-5.
+Two designs, two questions; this one is chosen on purpose and its limits are
+stated rather than glossed.
+
+## The skill arm has a prerequisite
+
+`arms/oh-my-luna-skill/` requires the model to **execute** its obligations — time
+a workload at two sizes, break a check and confirm it fails. If the Luna arm is
+run without a shell, it can only *claim* to have done those things, which is the
+exact defect the skill targets, reintroduced one level up.
+
+**Record `tools_available` in both arms' `RUN.json` before analyzing anything.**
+If the arms differ there, the comparison is between harnesses and the result is
+uninterpretable regardless of what the probes say.
+
+## What both arms can still tell us
+
+Narrower than a comparison, and worth having: **exercise the v0.2.0 probes on a
+second task, and see whether the defect classes measured in comparison 01 recur.**
+A defect that appears in one sample is an anecdote; a defect shape that recurs
+across tasks, models and scaffolds is a lead worth designing a real study around.
 
 ## Why glob matching
 
@@ -130,8 +175,10 @@ This comparison does not repeat the mistake. Each arm directory must contain a
 
 ```json
 {
-  "arm": "luna",
+  "arm": "luna-skill",
   "model_identifier": "gpt-5.6-luna",
+  "skill_attached": "arms/oh-my-luna-skill/model-facing-skill.md",
+  "skill_payload_sha256": "sha256 of the text between the PAYLOAD markers",
   "model_alias_is_mutable": true,
   "reasoning_effort": "max",
   "harness": "how the prompt was delivered — chat UI, API, agent, with version",
@@ -156,7 +203,7 @@ finding rather than being dropped in summary.
 
 ## Blinding
 
-The arm directories are named for their models, which makes blind analysis
+The arm directories are named for their model and scaffold, which makes blind analysis
 impossible once output lands. If a blinded read matters, copy both arms to
 neutral names, analyze, then unblind. Recorded as a known weakness rather than
 solved: this repository has no independent reviewer, and a self-blinded analysis
@@ -165,6 +212,6 @@ is worth less than an independently blinded one
 
 ## Status
 
-Nothing has been run. Both arm directories are empty and carry a `.gitkeep`. The
+Nothing has been run. Both arm directories are empty and carry a `.gitkeep`. The Luna arm additionally requires the skill payload hash in its `RUN.json`; an arm that does not record which skill text it received repeats comparison 01's binding weakness. The
 prompt is fixed; changing it after collecting one arm's output invalidates the
 comparison.

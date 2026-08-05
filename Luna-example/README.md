@@ -14,7 +14,7 @@ them.
 | # | Compares | Arms | Status |
 | --- | --- | --- | --- |
 | [01](01-framevault-skill-ab/) | a skill, across one model | `Luna-a` (skill) · `Luna-b` (no skill) | output collected, analyzed |
-| [02](02-globmatch-luna-vs-opus5/) | two models, same prompt | `luna` · `opus5` | designed, **no output** |
+| [02](02-globmatch-luna-skill-vs-opus5/) | **substitution**: cheap model + skill vs expensive model bare | `luna-skill` · `opus5-baseline` | designed, **no output** |
 
 Each comparison directory holds:
 
@@ -46,12 +46,17 @@ caveat.
 
 ## Adding a comparison
 
+0. **Say what varies, in the directory name.** Comparison 02 is asymmetric —
+   Luna gets a skill, Opus-5 does not — so it is named
+   `02-globmatch-luna-skill-vs-opus5`, not `luna-vs-opus5`. A name that hides an
+   asymmetry invites the result to be quoted as something it is not.
 1. **Write the prompt first, and freeze it.** Byte-identical across arms.
    Changing it after collecting one arm's output invalidates the comparison.
 2. **State the scoring before any output exists.** Which probes, which workloads,
    which thresholds. Scoring chosen after seeing results is not scoring.
 3. **Require a `RUN.json` per arm** — model identifier, reasoning effort, harness,
-   tools available, timestamps, prompt hash. Comparison 01 lacks this and is
+   tools available, timestamps, prompt hash, and the payload hash of any skill
+   attached. Comparison 01 lacks this and is
    permanently weaker for it. `tools_available` especially: if one arm could run
    its own tests and the other could not, the comparison is between harnesses.
 4. **Pick a task the probes can actually score**, or say plainly that they cannot.

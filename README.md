@@ -28,8 +28,10 @@ Current status:
 - Gate H held-out pilot: corpus frozen (`gate-h-heldout-2026-08-02`, 5 tasks, 4
   repositories), runner validated offline against four deterministic stubs.
   **Not executable as frozen** — see below. 0 live calls, $0.00 spent.
-- First model output examined: `Luna-example/` (untracked sample, outside the
-  harness, n=1 per arm, provenance unverified). Not a result; see below.
+- First model output examined: `Luna-example/01-framevault-skill-ab/` (sample,
+  outside the harness, n=1 per arm, provenance unverified). Not a result; see
+  below. `Luna-example/` is now a directory of comparisons, each with a frozen
+  prompt and pre-registered scoring.
 - Protocol v2: implemented and passing its sufficiency gates, **deliberately not
   frozen** — two owner decisions are open. See below and
   `docs/status-2026-08-04.md`.
@@ -86,6 +88,25 @@ That pattern recurred twice more, and both instances are now fixed:
 - **The stubs were better informed than the model.** In v2 an unprivileged stub's
   type gives it the prompt and nothing else, so the rule is enforced by the
   signature rather than by a convention nobody checked.
+
+## Model-facing text lives in `arms/`
+
+`arms/` holds text delivered **to a model**; the root `SKILL.md` is operator
+tooling an agent harness reads and a model never sees. Editing an arm can
+invalidate a freeze; editing `SKILL.md` cannot change any measured result.
+
+| Arm | Kind | Task | Needs a shell |
+| --- | --- | --- | --- |
+| `skill-control/` | **control** — blandness is a design constraint | repair | no |
+| `purpose-check/` | treatment | repair | no |
+| `oh-my-luna-skill/` | treatment | greenfield build | **yes** |
+
+Every obligation in `oh-my-luna-skill/` traces to a defect measured in real
+generated code (`research/failure-mode-taxonomy.md`), and each is **executed
+rather than considered** — time a workload at two sizes, break a check and
+confirm it fails. Under `tools: []` the model can only claim to have done that,
+which is the failure it targets one level up, so it must not be used in Gate H
+Stage A. None has ever been delivered to a model.
 
 ## Protocol v2 — implemented, gated, not frozen
 
