@@ -6,9 +6,10 @@ model-specific external mechanism can improve GPT-5.6 Luna on repository tasks.
 The repository does **not** yet contain a demonstrated intelligence amplifier.
 It has no live Luna result, trained specialist, real provider adapter, or
 attested sandbox. Its implemented value is controlled execution, scoring,
-tracing, and negative safety checks. Context compilation, capability
-composition, and learned guidance remain hypotheses until causal intervention
-tests identify Luna's actual bottleneck.
+tracing, and negative safety checks. Context compilation is now implemented and
+tested as a *mechanism* (`src/context/compile.ts`); whether it helps any model
+is still a hypothesis. Capability composition and learned guidance remain
+hypotheses until causal intervention tests identify Luna's actual bottleneck.
 
 Current status:
 
@@ -35,6 +36,11 @@ Current status:
 - Protocol v2: implemented and passing its sufficiency gates, **deliberately not
   frozen** — two owner decisions are open. See below and
   `docs/status-2026-08-04.md`.
+- v0.3.0 long context: the degradation probe and the context compiler are
+  implemented, tested, and wired together behind `npm run probe:context`. The
+  premise they exist to test — that Luna degrades as context fills — is still an
+  owner assertion; the probe can falsify it, and has not been pointed at a real
+  model. See `docs/context-v030.md`.
 
 ## Known blocking defect in v1 (2026-08-03, measured 2026-08-04)
 
@@ -107,6 +113,38 @@ rather than considered** — time a workload at two sizes, break a check and
 confirm it fails. Under `tools: []` the model can only claim to have done that,
 which is the failure it targets one level up, so it must not be used in Gate H
 Stage A. None has ever been delivered to a model.
+
+## v0.3.0 — long context, measured before it is fixed
+
+The premise: Luna's window is very large, but quality falls as the context
+fills. That is an assertion, so the order is instrument first.
+
+```sh
+npm run probe:context      # controls, then measurement, then mechanism
+```
+
+`src/probes/context-degradation.ts` places an unguessable needle at a controlled
+depth in filler and scores recall across a **size × depth** grid, so a capacity
+failure (`degrades_with_size`) is separable from a positional one
+(`degrades_in_middle`) — different defects needing different fixes, which a
+size-only measurement reports identically as "generally worse". Distractors are
+a third axis, because confusion with near-identical filler is a different cause
+from distance.
+
+The controls ship inside the module. `runSelfCheck()` classifies five known
+responders, and `npm run probe:context` **exits 1 without printing any
+measurement** if they do not separate — the growth probe's lesson applied before
+rather than after.
+
+`src/context/compile.ts` is the mechanism the measured shape selects. It fits
+scored documents to a token budget under a position policy and returns a
+manifest of what was dropped and why. Its load-bearing property: **changing the
+policy changes ordering and nothing else**, so a policy A/B varies position with
+content held constant. `recommendPolicy` returns "change nothing" whenever the
+measurement does not support moving anything.
+
+Not claimed: that any policy helps a real model, or that Luna degrades at all.
+Both need live calls this repository has never made. `docs/context-v030.md`.
 
 ## Protocol v2 — implemented, gated, not frozen
 

@@ -98,6 +98,32 @@ npm run heldout:sufficiency-v2   # v2 candidate: 4 of 4 PASS, exit 0
 A 20/20 v1 dry run plus exit 6 here is the defect's signature: orchestration is
 sound, the prompt is not. Treat exit 6 as blocking, never as advisory.
 
+### Probes and the acceptance gate
+
+These measure *artifacts*, not models, so they run with no credential and no
+money. They are the only things here that produce numbers about code quality.
+
+```sh
+npm run compare:02        # scores the three arms of comparison 02
+npm run gate:globmatch    # acceptance gate; 0 = all passed, 2 = an arm rejected
+npm run probe:context     # long-context instrument; 1 = controls did not separate
+```
+
+**Every one of these runs a control first, and the control's failure is fatal,
+not advisory.** `gate:globmatch` exits 1 if the gate *accepts* the deliberately
+broken implementation — a gate that accepts anything makes every verdict below
+it meaningless. `probe:context` prints no measurement at all if its five
+synthetic responders do not classify distinctly. If you see either, report that
+the instrument is broken; do not report the numbers that follow.
+
+Exit codes matter here and have been wrong before: `gate:globmatch` once
+rejected an arm and exited 0. If you check only the exit code, check that the
+exit code was tested.
+
+The probes are **diagnostic**. None of them changes `evaluator_exit === 0`,
+because adding an outcome measure after results exist is the same failure as
+adding an arm after results exist.
+
 **Read `document=` on the verify line, not just `aggregate=`.** `aggregate_sha256`
 covers six fields — corpus, prompts, model settings, schedule, artifacts,
 freeze id. It does **not** cover the analysis plan, the forbidden-claims list, or
@@ -384,3 +410,15 @@ A new freeze needs a new `freeze_id` and `protocol_version`. Never reuse
   `duration_ms` against the 300s timeout. v2 returns 18 for its own timeout and 19
   for a foreign signal, marks both `attributable_to_model: false`, and writes a
   JSON receipt carrying `signal` and `duration_ms`.
+- **Long-context degradation is an owner assertion, not a measurement.** v0.3.0
+  builds the instrument (`npm run probe:context`) and the mechanism
+  (`src/context/compile.ts`), and neither has been pointed at a model. When
+  asked whether Luna degrades as context fills, the answer is that it has not
+  been measured here and the probe is capable of returning "no degradation
+  detected". When asked whether `edge_loaded` helps, the answer is that no
+  policy has been run against a real model. What the compiler *does*
+  demonstrably guarantee is narrower and mechanical: the budget is never
+  exceeded, every input document is accounted for in either `included` or
+  `excluded`, output is byte-deterministic, and changing the position policy
+  changes ordering and nothing else. Report those; do not report the rest.
+  `docs/context-v030.md`.

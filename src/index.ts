@@ -9,6 +9,27 @@ export { validateExperimentFreeze, validateExperimentPlan, validateInterventionP
 export { interventionContentHash, loadIntervention, materializeAssistance, scanInterventionLeaks } from "./interventions.js";
 export { findDatasetLeakage } from "./leakage.js";
 export { rankRepositoryDocuments } from "./repository-ranker.js";
+export {
+  compileContext,
+  formatManifest,
+  recommendPolicy,
+  type CompiledContext,
+  type CompileOptions,
+  type ContextDocument,
+  type ExclusionReason,
+  type PositionPolicy
+} from "./context/compile.js";
+export { compileRepositoryContext, type RepositoryCompileOptions } from "./context/repository.js";
+export {
+  formatDegradation,
+  formatSelfCheck,
+  probeContextDegradation,
+  runSelfCheck,
+  syntheticResponder,
+  type DegradationReport,
+  type DegradationShape,
+  type Responder
+} from "./probes/context-degradation.js";
 export { assertFrozenFile, assertRunMatchesExperimentFreeze, loadExperimentFreeze, loadTaskSelection } from "./freezes.js";
 export { loadAndVerifyPricingEvidence, parseModelRow, PRICING_PARSER_ID, PRICING_PARSER_VERSION } from "./pricing-evidence.js";
 export { buildRandomizedSchedule } from "./schedule.js";

@@ -1,5 +1,78 @@
 # Changelog
 
+## v0.3.0 — in progress, not released
+
+Premise, from the owner: Luna's context window is very large, but quality falls
+once the context fills. **That is an assertion, not a measurement** — the same
+status the effort-parity claim had before it was pinned down. Building a fix for
+an unmeasured failure produces a mechanism that can be shown neither to help nor
+to fail. So: instrument first, and an instrument that can falsify the premise.
+
+### Added — `src/probes/context-degradation.ts`
+
+Places an unguessable needle at a controlled relative depth in filler and scores
+recall across a **size × depth** grid. The two axes fail differently and need
+different fixes: `degrades_with_size` is a capacity limit, `degrades_in_middle`
+is positional, and a size-only measurement reports both as "generally worse".
+Distractors — filler sharing the needle's shape but not its value — are a third
+axis, since confusion is a different cause from distance. `fails_everywhere`
+exists so 0% recall is reported as "check the needle is answerable at all"
+rather than dressed up as a context finding.
+
+The controls are inside the module, not only in the tests. `runSelfCheck()`
+classifies five known responders and `npm run probe:context` exits 1 without
+printing any measurement if they do not separate. The distractor check is
+two-sided: the axis must move a shape-matcher **and leave a value-reader alone**,
+because an axis that breaks everyone lets any negative result be blamed on it.
+
+### Added — `src/context/compile.ts`, `src/context/repository.ts`
+
+Fits scored documents to a token budget under a position policy (`as_ranked`,
+`edge_loaded`, `tail_loaded`) and returns a manifest of what was dropped and why.
+`compileRepositoryContext` joins it to `rankRepositoryDocuments`, which until now
+was exported with no caller.
+
+The load-bearing property: **changing the policy changes ordering and nothing
+else.** Membership and the token total are fixed before any policy runs, so a
+policy A/B varies position with content held constant — without that, a measured
+difference could be content, the confound that voided the first scoring run of
+comparison 02. Asserted in the tests along with its converse, that the policies
+do produce different orderings.
+
+The two ways not to fit are treated differently on purpose. A document that
+cannot fit at any ranking is skipped and the fill continues; a document that did
+not fit in the space left **stops** the fill, and everything below it is excluded
+even if it would have fit. Continuing would make membership depend on byte sizes
+rather than relevance, so an unrelated edit would reshuffle the context and two
+runs would stop being comparable.
+
+`recommendPolicy(shape)` maps a measured shape to a policy and returns
+`as_ranked` — do nothing — for `no_degradation_detected` and for
+`degrades_with_size`, where the honest advice is "the fix is fewer tokens, not
+different tokens".
+
+### Fixed — found by the new tests, in the new code
+
+- The context builder summed **per-line** token counts, each rounded up, and
+  undershot the target by ~5% (8000 requested, 7573 built), with the error
+  growing as lines shortened. A size axis whose labels are systematically wrong
+  is not a size axis. Bytes are now accumulated and rounded once; each cell also
+  reports `actual_tokens` so the label can be audited.
+- `compileContext` emitted its header even when nothing was included, breaching
+  the budget whenever the budget was smaller than the header, and announcing
+  files that were not there.
+- The exclusion manifest repeated the same rationale on every document below the
+  cut — 38 identical paragraphs in a 60-document run. The rationale now sits on
+  the cut once, and the listing is capped while still accounting for every
+  document it does not name.
+
+### Not claimed
+
+That `edge_loaded` helps Luna or any model; that Luna degrades with context at
+all; that any of this exceeds Sol or Opus-5. No policy has been run against a
+real model — this repository has made zero live calls. `docs/context-v030.md`
+records what would settle it.
+
 ## v0.2.0 — in progress, not released
 
 Premise: **you cannot optimize what you cannot measure.** `evaluator_exit === 0`
