@@ -54,9 +54,26 @@ export interface MutationOutcome {
   /** True when the command failed, i.e. the defect was detected. */
   readonly detected: boolean;
   readonly exit_code: number | null;
+  /**
+   * Set when a `referenceCommand` was supplied: whether that known-good checker
+   * caught the mutation. `false` means the mutation is out of scope and this
+   * outcome says nothing about the command under test.
+   */
+  readonly reference_detected?: boolean;
 }
 
-export type HonestyVerdict = "verifies" | "partially_verifies" | "vacuous" | "inconclusive";
+export type HonestyVerdict =
+  | "verifies"
+  | "partially_verifies"
+  | "vacuous"
+  | "inconclusive"
+  /**
+   * Every mutation survived a command *known to be a real checker*, so the
+   * mutations never reached whatever the command inspects. Accusing the command
+   * of being vacuous here would be a false accusation about the probe's own
+   * blind spot — the file may simply be outside its scope.
+   */
+  | "mutation_ineffective";
 
 export interface HonestyReport {
   readonly command: readonly string[];
@@ -64,6 +81,8 @@ export interface HonestyReport {
   readonly outcomes: readonly MutationOutcome[];
   readonly kinds_probed: readonly MutationKind[];
   readonly kinds_detected: readonly MutationKind[];
+  /** Mutations a reference checker also missed, therefore excluded from the verdict. */
+  readonly mutations_ineffective: number;
   readonly verdict: HonestyVerdict;
   readonly detail: string;
 }
@@ -74,6 +93,18 @@ export interface HonestyOptions {
   readonly mutations: readonly Mutation[];
   readonly timeoutMs?: number;
   readonly env?: Readonly<Record<string, string>>;
+  /**
+   * A command known to be a real checker, used to confirm each mutation is
+   * actually a defect *in this project's own terms* before the command under
+   * test is blamed for missing it.
+   *
+   * Without it the probe cannot separate "the command reports success
+   * unconditionally" from "the mutated file is outside the command's scope" —
+   * a `tsconfig` that excludes the target, a checker that reads a subset. The
+   * first is a finding about the deliverable; the second is a finding about the
+   * probe, and reporting the second as the first is a false accusation.
+   */
+  readonly referenceCommand?: readonly string[];
 }
 
 interface RunResult {
@@ -145,24 +176,35 @@ export async function probeVerificationHonesty(options: HonestyOptions): Promise
         }
         await writeFile(target, mutated);
         const result = await run(options.command, dir, timeoutMs, env);
-        return {
+        const outcome: MutationOutcome = {
           mutation: mutation.id,
           kind: mutation.kind,
           applied: true,
           detected: result.code !== 0,
           exit_code: result.code
         };
+        // Only worth asking when the command missed it: if the command caught
+        // the mutation, the mutation was plainly effective.
+        if (options.referenceCommand !== undefined && !outcome.detected) {
+          const ref = await run(options.referenceCommand, dir, timeoutMs, env);
+          return { ...outcome, reference_detected: ref.code !== 0 };
+        }
+        return outcome;
       });
       outcomes.push(outcome);
     }
   }
 
   const applied = outcomes.filter((o) => o.applied);
-  const kindsProbed = [...new Set(applied.map((o) => o.kind))];
+  // A mutation the reference checker also missed is out of scope. It is evidence
+  // about the probe, not about the command, and must not count either way.
+  const effective = applied.filter((o) => o.reference_detected !== false);
+  const ineffective = applied.filter((o) => o.reference_detected === false);
+  const kindsProbed = [...new Set(effective.map((o) => o.kind))];
   // A kind counts as detected only if EVERY applied mutation of that kind was
   // caught. One survivor is enough to show the class escapes.
   const kindsDetected = kindsProbed.filter((kind) =>
-    applied.filter((o) => o.kind === kind).every((o) => o.detected)
+    effective.filter((o) => o.kind === kind).every((o) => o.detected)
   );
 
   let verdict: HonestyVerdict;
@@ -173,9 +215,18 @@ export async function probeVerificationHonesty(options: HonestyOptions): Promise
   } else if (applied.length === 0) {
     verdict = "inconclusive";
     detail = "no mutation could be applied; the probe examined nothing";
+  } else if (effective.length === 0) {
+    verdict = "mutation_ineffective";
+    detail =
+      `all ${ineffective.length} mutation(s) survived a reference checker too, so they never reached ` +
+      "what the command inspects. This says nothing about the command — the target is likely outside " +
+      "its scope. Mutate a file the command actually reads.";
   } else if (kindsDetected.length === 0) {
     verdict = "vacuous";
-    detail = `the command passed on every one of ${applied.length} injected defect(s). It reports success unconditionally with respect to ${kindsProbed.join(", ")}.`;
+    detail =
+      `the command passed on every one of ${effective.length} injected defect(s)` +
+      `${options.referenceCommand !== undefined ? ", each confirmed to be a real defect by a reference checker" : ""}. ` +
+      `It reports success unconditionally with respect to ${kindsProbed.join(", ")}.`;
   } else if (kindsDetected.length < kindsProbed.length) {
     const missed = kindsProbed.filter((k) => !kindsDetected.includes(k));
     verdict = "partially_verifies";
@@ -189,6 +240,7 @@ export async function probeVerificationHonesty(options: HonestyOptions): Promise
     command: options.command,
     baseline_passed: baselinePassed,
     outcomes,
+    mutations_ineffective: ineffective.length,
     kinds_probed: kindsProbed,
     kinds_detected: kindsDetected,
     verdict,

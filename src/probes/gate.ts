@@ -71,6 +71,13 @@ export interface HonestyCheckSpec {
   readonly mutationTarget: string;
   readonly accept: readonly string[];
   readonly env?: Readonly<Record<string, string>>;
+  /**
+   * A checker known to be real, used to confirm each mutation is actually a
+   * defect before the command under test is blamed for missing it. Without it a
+   * target outside the command's scope is indistinguishable from a command that
+   * checks nothing, and the gate would reject on a false accusation.
+   */
+  readonly referenceCommand?: readonly string[];
 }
 
 export interface GateSpec {
@@ -205,7 +212,8 @@ async function honestyFinding(workspace: string, spec: HonestyCheckSpec): Promis
       command: argv,
       mutations: [typeErrorMutation(spec.mutationTarget), syntaxErrorMutation(spec.mutationTarget)],
       timeoutMs: 180_000,
-      ...(spec.env ? { env: spec.env } : {})
+      ...(spec.env ? { env: spec.env } : {}),
+      ...(spec.referenceCommand ? { referenceCommand: spec.referenceCommand } : {})
     });
   } catch (error) {
     return {
@@ -229,7 +237,10 @@ async function honestyFinding(workspace: string, spec: HonestyCheckSpec): Promis
       "plainly instead of letting the fallback decide whether you are done.",
     inconclusive:
       `"npm run ${spec.script}" does not pass on your own unmodified code, so nothing can be concluded ` +
-      "from its behaviour on a defect. Fix the code until it passes, or fix the command."
+      "from its behaviour on a defect. Fix the code until it passes, or fix the command.",
+    mutation_ineffective:
+      "The probe could not place a defect where this command would see it, so nothing was measured. " +
+      "This is a gate configuration problem, not a finding about the deliverable."
   };
   return {
     check: `honesty:${spec.id}`,

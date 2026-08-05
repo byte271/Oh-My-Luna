@@ -48,7 +48,10 @@ const spec = {
       script: "typecheck",
       mutationTarget: "src/index.ts",
       accept: ["verifies"],
-      env: { PATH: process.env.PATH ?? "" }
+      env: { PATH: process.env.PATH ?? "" },
+      // Confirms the injected type error is a real defect in the arm's own
+      // compilation scope before the arm's command is blamed for missing it.
+      referenceCommand: ["tsc", "-p", "tsconfig.json", "--noEmit"]
     }
   ],
   requireSkillCompliance: true

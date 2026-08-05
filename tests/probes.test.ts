@@ -213,3 +213,52 @@ test("mutations never leak between runs", async (t) => {
   const after = await readFile(resolve(ws, "src/index.ts"), "utf8");
   assert.equal(after, "export const answer: number = 42;\n", "source workspace was mutated");
 });
+
+/* ------------------------------- mutation efficacy (the honesty control) */
+
+test("an out-of-scope mutation is reported as ineffective, not as a vacuous command", async (t) => {
+  // The honesty probe's own blind spot: if the mutated file is outside what the
+  // command inspects, the command legitimately passes and blaming it would be a
+  // false accusation. A reference checker that ALSO misses the mutation proves
+  // the mutation never landed.
+  const ws = await workspaceWith("process.exit(0);\n");
+  t.after(() => rm(ws, { recursive: true, force: true }));
+  const report = await probeVerificationHonesty({
+    workspace: ws,
+    command: [process.execPath, "check.mjs"],
+    // The reference also ignores everything, standing in for "the target is out
+    // of this project's compilation scope".
+    referenceCommand: [process.execPath, "check.mjs"],
+    mutations: [typeErrorMutation("src/index.ts"), syntaxErrorMutation("src/index.ts")]
+  });
+  assert.equal(report.verdict, "mutation_ineffective");
+  assert.equal(report.mutations_ineffective, 2);
+  assert.match(report.detail, /never reached what the command inspects/);
+});
+
+test("a genuinely vacuous command is still called vacuous when the mutation is effective", async (t) => {
+  const ws = await workspaceWith("process.exit(0);\n");
+  t.after(() => rm(ws, { recursive: true, force: true }));
+  const report = await probeVerificationHonesty({
+    workspace: ws,
+    command: [process.execPath, "check.mjs"],
+    // A reference that always fails: every mutation counts as effective.
+    referenceCommand: [process.execPath, "-e", "process.exit(1)"],
+    mutations: [typeErrorMutation("src/index.ts"), syntaxErrorMutation("src/index.ts")]
+  });
+  assert.equal(report.verdict, "vacuous");
+  assert.equal(report.mutations_ineffective, 0);
+  assert.match(report.detail, /confirmed to be a real defect by a reference checker/);
+});
+
+test("without a reference command the probe behaves exactly as before", async (t) => {
+  const ws = await workspaceWith("process.exit(0);\n");
+  t.after(() => rm(ws, { recursive: true, force: true }));
+  const report = await probeVerificationHonesty({
+    workspace: ws,
+    command: [process.execPath, "check.mjs"],
+    mutations: [typeErrorMutation("src/index.ts")]
+  });
+  assert.equal(report.verdict, "vacuous");
+  assert.equal(report.mutations_ineffective, 0);
+});
