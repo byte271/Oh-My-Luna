@@ -100,13 +100,17 @@ async function scoreFunctional(dir) {
   if (!existsSync(pkgPath)) return { tests: null, detail: "no package.json" };
   const r = await run(["npm", "test"], resolve(D, dir), { PATH: process.env.PATH, HOME: process.env.HOME, CI: "1" });
   const all = `${r.out}${r.err}`;
-  const pass = /^# pass (\d+)/m.exec(all)?.[1];
-  const fail = /^# fail (\d+)/m.exec(all)?.[1];
+  // Arms use different runners and print different summaries. node:test emits
+  // "# pass N"; a hand-rolled runner may print "N tests passed." Parsing only
+  // one format silently reports "unknown" for a suite that ran fine.
+  const pass = /^# pass (\d+)/m.exec(all)?.[1] ?? /(\d+) tests? passed/i.exec(all)?.[1];
+  const fail = /^# fail (\d+)/m.exec(all)?.[1] ?? /(\d+) tests? failed/i.exec(all)?.[1];
   const regex = await run(["grep", "-rn", "RegExp", "src"], resolve(D, dir), { PATH: process.env.PATH });
   return {
     tests_pass: pass ? Number(pass) : null,
     tests_fail: fail ? Number(fail) : null,
     exit: r.code,
+    suite_passed: r.code === 0,
     regexp_hits_in_src: regex.out.trim() === "" ? 0 : regex.out.trim().split("\n").length
   };
 }
@@ -131,7 +135,7 @@ for (const arm of present) {
     honesty_tsc_absent: await scoreHonesty(arm.dir, { PATH: `${shimDir}:/usr/bin:/bin` }, "tsc absent"),
     functional: await scoreFunctional(arm.dir),
     provenance_recorded: existsSync(resolve(D, arm.dir, "RUN.json"))
-      ? JSON.parse(await readFile(resolve(D, arm.dir, "RUN.json"), "utf8")).provenance_recorded === true
+      ? JSON.parse(await readFile(resolve(D, arm.dir, "RUN.json"), "utf8")).provenance_recorded
       : false
   };
 }
@@ -150,7 +154,7 @@ if (JSON_OUT) {
     const g = `${a.growth.verdict}${a.growth.pass ? "" : " FAIL"}`;
     const t = a.functional.tests_pass === null ? "?" : `${a.functional.tests_pass}/${a.functional.tests_pass + (a.functional.tests_fail ?? 0)}`;
     process.stdout.write(
-      `${id.padEnd(17)}${g.padEnd(26)}${a.honesty_tsc_available.verdict.padEnd(20)}${a.honesty_tsc_absent.verdict.padEnd(21)}${t.padEnd(9)}${a.provenance_recorded ? "yes" : "NO"}\n`
+      `${id.padEnd(17)}${g.padEnd(26)}${a.honesty_tsc_available.verdict.padEnd(20)}${a.honesty_tsc_absent.verdict.padEnd(21)}${t.padEnd(9)}${a.provenance_recorded === true ? "yes" : a.provenance_recorded === "partial" ? "part" : "NO"}\n`
     );
   }
   if (absent.length > 0) {
@@ -163,7 +167,7 @@ if (JSON_OUT) {
       );
     }
   }
-  const noProv = Object.entries(report.arms).filter(([, a]) => !a.provenance_recorded).map(([id]) => id);
+  const noProv = Object.entries(report.arms).filter(([, a]) => a.provenance_recorded !== true).map(([id]) => id);
   if (noProv.length > 0) {
     process.stdout.write(`\nprovenance NOT recorded for: ${noProv.join(", ")}\n`);
     process.stdout.write("  Every finding above inherits that gap; see RESULTS.md.\n");

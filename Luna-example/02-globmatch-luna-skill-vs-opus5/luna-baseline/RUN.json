@@ -1,11 +1,10 @@
 {
   "arm": "luna-baseline",
-  "provenance_recorded": false,
-  "provenance_note": "TEMPLATE for an arm that has not been run. Fill this in BEFORE analysing the output, not after. See COMPARISON.md, 'Producing the luna-baseline arm'.",
+  "provenance_recorded": "partial",
+  "provenance_note": "Model and reasoning effort supplied by the owner on 2026-08-05, after the output existed. Recorded as ASSERTED, not verified: no file in any arm carries a model identity, and no transcript exists. Better than comparison 01, which had nothing; short of a record made before the run. tools_available and timestamps remain unknown.",
   "model_identifier_asserted": "gpt-5.6-luna",
   "model_identifier_verified": false,
   "model_alias_is_mutable": true,
-  "reasoning_effort": null,
   "skill_attached_asserted": null,
   "skill_payload_sha256": null,
   "skill_delivery_verified": false,
@@ -18,5 +17,5 @@
   "prompt_sha256": "2b4dbe60a6efb2557537eacf471d0aae6170b2ac112b650660ae23242c6c18aa",
   "prompt_sha256_note": "Hash of Prompt.md in this repository. Whether the arm received these exact bytes is not recorded.",
   "transcript_available": false,
-  "status": "not_run"
+  "reasoning_effort_asserted": "max"
 }

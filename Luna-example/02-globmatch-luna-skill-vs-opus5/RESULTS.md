@@ -1,17 +1,21 @@
 # Comparison 02 — results
 
 ```
-scored:      2026-08-04, against the scoring pre-registered in COMPARISON.md
-arms:        luna-skill/      output collected
-             opus5-baseline/  output collected
-provenance:  NOT RECORDED for either arm. See "Provenance" below — this bounds
-             every sentence here exactly as it bounds comparison 01.
+scored:      2026-08-05, three arms, against the scoring pre-registered in
+             COMPARISON.md. The criteria were not adjusted after seeing output.
+arms:        luna-skill/      gpt-5.6-luna   effort max   WITH skill
+             luna-baseline/   gpt-5.6-luna   effort max   no skill
+             opus5-baseline/  claude-opus-5  effort High  no skill
+provenance:  PARTIAL. Model and effort are owner assertions supplied after the
+             output existed; tools_available and timestamps remain unknown.
 ```
 
-**Headline: the pre-registered scoring does not separate the arms.** Both avoided
-the trap the task was built around. The one dimension that would have separated
-them turned out to rest on an ambiguity in the prompt, which is my error, not
-either arm's.
+**Headline: on the growth probe — the trap the task was built around — all three
+arms pass. The one place they separate is verification honesty, and there
+`luna-baseline` fails on its own unmodified code.**
+
+The `luna-baseline` arm makes this decomposable for the first time: same model,
+same asserted effort, differing from `luna-skill` in one thing.
 
 ## Pre-registered primary — growth probe
 
@@ -22,8 +26,9 @@ exploration.
 | arm | verdict | slowest sample |
 | --- | --- | --- |
 | `luna-skill` | `below_measurement_floor` | 0.05 ms at n=256 |
+| `luna-baseline` | `below_measurement_floor` | 0.06 ms at n=256 |
 | `opus5-baseline` | `below_measurement_floor` | 0.18 ms at n=256 |
-| *positive control (analyst-written naive matcher)* | **`exceeded_budget`** | **77,454 ms at n=128** |
+| *positive control (analyst-written naive matcher)* | **`exceeded_budget`** | **~60,000 ms at n=128** |
 
 COMPARISON.md registered "too fast to measure" as a **pass**. **Both arms pass,
 and the pass is earned rather than assumed** — see the positive control below.
@@ -79,9 +84,53 @@ describes.
 | arm | A: `tsc` on PATH | B: `tsc` absent |
 | --- | --- | --- |
 | `luna-skill` | `verifies` — caught both mutations | `partially_verifies` — missed the type error, caught the syntax error |
+| `luna-baseline` | **`inconclusive`** | **`inconclusive`** |
 | `opus5-baseline` | `verifies` — caught both mutations | `inconclusive` — the command cannot run at all |
 
-Neither result is clean in B, and they fail in opposite directions:
+### `luna-baseline` fails its own type-check on its own unmodified code
+
+`inconclusive` is the pre-registered verdict for "does not pass on the intact
+tree", and that is exactly what happens. Run the real compiler against each arm's
+shipped source:
+
+```
+luna-skill       tsc -p tsconfig.json --noEmit    exit 0
+luna-baseline    tsc -p tsconfig.json --noEmit    exit 2   ~12 x TS7006 implicit-any
+opus5-baseline   tsc -p tsconfig.json --noEmit    exit 0
+```
+
+The prompt is explicit: *"Do not claim completion unless the build, the
+type-check, and the full test suite pass."* This arm claimed completion with a
+type-check that does not pass.
+
+**The mechanism is a one-line platform assumption.** `luna-baseline`'s
+`typecheck.mjs` runs `tsc` through a shell and decides the compiler is missing
+like this:
+
+```js
+const compilerMissing =
+  compiler.error !== undefined ||
+  (compiler.stdout.length === 0 && compiler.stderr.includes("not recognized"));
+```
+
+`"not recognized"` is **cmd.exe's** wording. A POSIX shell says `tsc: not found`,
+and with `shell: true` the spawn itself always succeeds, so `compiler.error` is
+never set. On Windows without `tsc` the fallback fires and prints *"Type-check
+succeeded with the strict tsconfig contract and Node syntax validation"*; on
+Linux it reports a compile failure instead. Either way the shipped code has
+~12 implicit-any errors that the real compiler catches and the fallback does not:
+the fallback only runs `node --check`, which parses and does not type-check.
+
+`luna-skill` avoids this by not using a shell and keying on `spawnSync`'s `error`
+field, which is set to ENOENT when the binary is absent — a platform-independent
+signal rather than a message string.
+
+This is **mode 2 of the taxonomy, measured**: a verification step reporting
+success where the real check fails. Comparison 01 found the same shape; this is
+the first time it has been caught with the skill/no-skill contrast available.
+
+The three results in environment B are three different things, and the verdict
+label alone flattens them:
 
 - **luna-skill** tries the real `tsc` first and falls back to
   `stripTypeScriptTypes` when it is absent. The fallback exits 0 on type errors —
@@ -103,7 +152,12 @@ answer, and the probe verdicts alone do not capture the difference.
 | arm | own suite | requirement 4 (no `RegExp`) |
 | --- | --- | --- |
 | `luna-skill` | 12 tests, 12 pass | complies — 0 hits in `src/` |
+| `luna-baseline` | 18 tests, 18 pass | complies — 0 hits in `src/` |
 | `opus5-baseline` | 77 tests, 77 pass | complies — 0 hits in `src/`, and a `no-regex.test.ts` that asserts it |
+
+`luna-baseline` writes *more* tests than `luna-skill` (18 vs 12) and they all
+pass — while its type-check fails. A green suite is not a green project, which is
+the whole reason this comparison scores more than the suite.
 
 The registered caveat applies: a suite written by the arm that wrote the code is
 not evidence the code is correct. 77 versus 12 is a difference in how much was

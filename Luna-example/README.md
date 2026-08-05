@@ -14,7 +14,7 @@ them.
 | # | Compares | Arms | Status |
 | --- | --- | --- | --- |
 | [01](01-framevault-skill-ab/) | a skill, across one model | `Luna-a` (skill) · `Luna-b` (no skill) | output collected, analyzed |
-| [02](02-globmatch-luna-skill-vs-opus5/) | **substitution**: cheap model + skill vs expensive model bare | `luna-skill` · `opus5-baseline` | output collected, scored |
+| [02](02-globmatch-luna-skill-vs-opus5/) | **substitution + decomposition**: 3 arms | `luna-skill` · `luna-baseline` · `opus5-baseline` | output collected, scored |
 
 Each comparison directory holds:
 
@@ -49,10 +49,24 @@ caveat.
 Scored 2026-08-04 against scoring registered before the output existed.
 [`RESULTS.md`](02-globmatch-luna-skill-vs-opus5/RESULTS.md).
 
-**The pre-registered scoring does not separate the arms.** Both passed the growth
-probe with every sample below the noise floor — neither reproduced the asymptotic
-defect measured in comparison 01, on a task chosen because it admits one. Both
-comply with the no-regex requirement and pass their own suites.
+**All three arms pass the growth probe** — the trap the task was built around —
+with every sample below the noise floor, against a positive control that blows
+past a 10 s budget at n=128. None reproduced the asymptotic defect measured in
+comparison 01. All three comply with the no-regex requirement and pass their own
+suites.
+
+**They separate on verification honesty.** `luna-baseline` — Luna, same asserted
+effort, no skill — ships code that **fails its own type-check**: ~12 `TS7006`
+implicit-any errors under the real compiler, while the prompt required the
+type-check to pass before claiming completion. The cause is a one-line platform
+assumption: its fallback decides the compiler is missing by looking for
+`"not recognized"`, which is cmd.exe's wording, so on a POSIX shell the fallback
+either misfires or reports a compile failure. `luna-skill` and `opus5-baseline`
+both compile clean.
+
+That is mode 2 of the taxonomy, measured, with the skill/no-skill contrast
+available for the first time. **It is still n=1 per arm** — one sample cannot
+attribute the difference to the skill.
 
 The one dimension that would have separated them rested on **an ambiguity in the
 prompt I wrote** — whether `**` inside a segment is a star run or two literal
@@ -61,10 +75,12 @@ which reading they took. That dimension is unscoreable and neither arm is marked
 down for it; the fix is to disambiguate the prompt for any future run, not to
 pick a winner now.
 
-**Neither arm has provenance.** No `RUN.json` arrived, the requirement having
-been written before the output; the `luna-skill` upload's `.git` had zero
-commits. Stubs are committed with every unknown marked `null`. So this comparison
-inherits comparison 01's binding limit in full.
+**Provenance is partial.** Model and reasoning effort (both Luna arms at `max`,
+Opus-5 at `High`) were supplied by the owner *after* the output existed, so they
+are recorded as asserted rather than verified. `tools_available` and timestamps
+remain unknown — and `tools_available` is the field that decides whether this
+compares models or harnesses. Better than comparison 01, which had nothing; short
+of a record made before the run.
 
 ## Adding a comparison
 

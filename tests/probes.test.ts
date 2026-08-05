@@ -105,16 +105,21 @@ test("classification boundaries are explicit", () => {
 });
 
 test("measureGrowth detects real quadratic work end to end", async () => {
-  // Genuine nested loop, timed on this machine.
+  // Genuine nested loop, timed on this machine. Sizes are chosen so the SMALLEST
+  // clears the floor on a fast host: an earlier version used [1500,3000,6000]
+  // with a 2 ms floor and went flaky when the machine was quick enough that only
+  // two samples cleared it. A probe test whose verdict depends on host speed is
+  // testing the host.
   const v = await measureGrowth(
     (n) => {
       let acc = 0;
       for (let i = 0; i < n; i += 1) for (let j = 0; j < n; j += 1) acc += j & 1;
       if (acc < 0) throw new Error("unreachable");
     },
-    [1500, 3000, 6000],
-    { floorMs: 2, warmup: 1, repeats: 3, minRSquared: 0.8 }
+    [4000, 8000, 16000],
+    { floorMs: 1, warmup: 1, repeats: 2, minRSquared: 0.8, budgetMs: 120_000 }
   );
+  assert.equal(v.samples.filter((s) => s.used).length, 3, `host too fast for these sizes: ${v.detail}`);
   assert.ok(["quadratic_or_worse", "superlinear"].includes(v.classification), `got ${v.classification} (${v.detail})`);
 });
 
