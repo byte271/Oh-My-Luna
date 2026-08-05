@@ -1,9 +1,9 @@
 # FrameVault A/B — the first Luna output in this project
 
 ```
-sample:        Luna-example/ (untracked; not committed, not frozen, not a corpus task)
+sample:        Luna-example/01-framevault-skill-ab/ (tracked since 4bb4226; not frozen, not a corpus task)
 arms:          Luna-a (owner states: with the Oh-My-Luna skill) vs Luna-b (without)
-task:          greenfield build from Luna-example/Prompt.md, not a Gate H repair task
+task:          greenfield build from Luna-example/01-framevault-skill-ab/Prompt.md, not a Gate H repair task
 n:             1 per arm
 established:   code reading only. Neither test suite was executed here.
 capability:    none. This is not a result and must not be cited as one.
@@ -21,7 +21,7 @@ weakness the frozen instrument cannot see.
 
 ## The task
 
-`Luna-example/Prompt.md` asks for a dependency-free TypeScript library and CLI
+`Luna-example/01-framevault-skill-ab/Prompt.md` asks for a dependency-free TypeScript library and CLI
 implementing a binary frame format: 4-byte magic `FVLT`, version, flags,
 big-endian `uint32` payload length, payload, CRC-32 over everything preceding.
 
@@ -260,8 +260,8 @@ the DoS was not demonstrated. It is an argument from reading `appendByte` and
 relied on:
 
 ```sh
-cd Luna-example/Luna-a && npm test        # confirm the suite passes at all
-cd Luna-example/Luna-b && npm test
+cd Luna-example/01-framevault-skill-ab/Luna-a && npm test        # confirm the suite passes at all
+cd Luna-example/01-framevault-skill-ab/Luna-b && npm test
 ```
 
 A direct DoS demonstration needs a crafted input: one frame declaring a legal
@@ -269,7 +269,7 @@ A direct DoS demonstration needs a crafted input: one frame declaring a legal
 declaring a legal length. Feed it to both decoders and compare wall time. That
 test does not exist in either arm.
 
-A runnable probe now exists at `Luna-example/dos-probe.mjs`. It does not run the
+A runnable probe now exists at `Luna-example/01-framevault-skill-ab/dos-probe.mjs`. It does not run the
 full 16 MiB attack — that is ~1.2M candidates and ~10¹³ iterations, which would
 hang — but feeds identical, increasingly large candidate-packed frames to both
 decoders and reports wall time per doubling. The prediction, if the reading is
@@ -277,7 +277,7 @@ correct: Luna-a trends toward **~4× per doubling** (quadratic), Luna-b toward
 **~2×** (linear). The doubling ratio, not the absolute time, is the evidence.
 
 ```sh
-node --experimental-strip-types Luna-example/dos-probe.mjs
+node --experimental-strip-types Luna-example/01-framevault-skill-ab/dos-probe.mjs
 ```
 
 **Not yet executed.** The shell classifier was intermittently unavailable across
@@ -290,7 +290,7 @@ DoS as demonstrated rather than reasoned.
 ## Executed 2026-08-04 — the asymptotic claim holds
 
 Everything above about the quadratic blowup was established by reading
-`Luna-a/src/decoder.ts`. `Luna-example/dos-probe.mjs` was written to test it and
+`Luna-a/src/decoder.ts`. `Luna-example/01-framevault-skill-ab/dos-probe.mjs` was written to test it and
 could not be run in that session. It has now been run.
 
 Both suites first, since "tests pass" was self-reported by both arms:

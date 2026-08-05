@@ -6,7 +6,7 @@
 // reading only, and a claim about asymptotic cost should be executed before it is
 // relied on.
 //
-// Run:  node --experimental-strip-types Luna-example/dos-probe.mjs
+// Run:  node --experimental-strip-types Luna-example/01-framevault-skill-ab/dos-probe.mjs
 //
 // It does NOT run the full 16 MiB attack (~1.2M candidates, ~10^13 iterations),
 // which would hang. It runs a doubling series at modest sizes and reports the

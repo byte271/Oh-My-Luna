@@ -30,7 +30,7 @@ import {
 } from "../../dist/src/probes/verification-honesty.js";
 
 const root = resolve(fileURLToPath(new URL("../..", import.meta.url)));
-const sample = resolve(root, "Luna-example");
+const sample = resolve(root, "Luna-example/01-framevault-skill-ab");
 
 if (!existsSync(sample)) {
   process.stderr.write("Luna-example/ is absent; nothing to validate against.\n");

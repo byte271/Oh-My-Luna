@@ -38,6 +38,52 @@ Both probes are **diagnostic**. Neither changes `evaluator_exit === 0`, because
 adding an outcome measure is the owner's decision (plan §8) and doing it after
 results exist is the same failure as adding an arm after results exist.
 
+### Changed — `Luna-example/` is now a directory of comparisons
+
+It held one A/B at the top level. It now holds one directory per comparison, each
+with its own frozen prompt, a `COMPARISON.md` stating what it varies and how it
+is scored, and one directory per arm.
+
+```
+Luna-example/
+  README.md                          index, and the rules for adding one
+  01-framevault-skill-ab/            a skill, across one model
+    Prompt.md  COMPARISON.md  dos-probe.mjs  Luna-a/  Luna-b/
+  02-globmatch-luna-vs-opus5/        two models, same prompt — DESIGNED, no output
+    Prompt.md  COMPARISON.md  luna/  opus5/
+```
+
+Arm directory names are unchanged, so the ~40 `Luna-a/src/decoder.ts:NNN`
+citations across `research/` remain valid; only the `Luna-example/` prefix moved.
+
+### Added — comparison 02, GlobMatch: Luna vs Opus-5
+
+Designed, **not run**. Both arm directories are empty.
+
+The task is a glob matcher with no regular expressions permitted — that
+constraint is load-bearing, because "translate the glob to a `RegExp`" delegates
+the whole algorithmic decision to V8 and both arms would produce near-identical
+wrappers. Forbidding it forces the matching algorithm to be written, which is the
+thing being compared.
+
+The prompt states the cost requirement at the **purpose** level ("a caller must
+not be able to choose inputs that make matching take unreasonably long"), the
+same shape as FrameVault's anti-allocation clause — deliberately *not* "avoid
+exponential backtracking". Naming the trap would test instruction-following; the
+question is whether it is recognized unprompted.
+
+Scoring is pre-registered before any output exists, including the exact
+adversarial workload (`a*a*a*a*a*a*b` against `"a".repeat(n)`, n ∈ 16…256).
+
+It also fixes comparison 01's binding weakness: each arm must carry a `RUN.json`
+recording model identifier, reasoning effort, harness, **tools available**, and
+timestamps. If one arm could run its own tests and the other could not, the
+comparison is between harnesses rather than models.
+
+Standing limit, stated in the file itself: n = 1 per arm cannot establish that
+either model is better, and nothing produced there may be quoted as parity or
+superiority.
+
 ### Added — research
 
 - `research/failure-mode-taxonomy.md`. Three measured defect modes, and the
