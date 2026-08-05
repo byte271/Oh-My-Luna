@@ -134,6 +134,24 @@ sample below the noise floor, and an exploratory extension to n=16,000 with
 20-star and globstar-heavy patterns found nothing above 10 ms in either. The trap
 that caught the FrameVault sample caught neither arm here.
 
+**A positive control was required before that pass meant anything**, and it found
+two defects in the probe. A probe that passes everything has established nothing;
+a deliberately naive backtracking matcher, run through the same pre-registered
+workload, separates "both arms are good" from "the probe is blind here". It
+fails at 77,454 ms for n=128 against 0.05 ms for `luna-skill` at n=256 — about
+10⁶ — so the probe does discriminate and the arms earned their pass. But:
+
+- `measureGrowth` had **no time budget**. At the registered n=256 it did not
+  return at all, so the registered "does not terminate within 60 s is a failure"
+  criterion was unenforceable. It now takes `budgetMs`, stops the series at the
+  first overrun rather than escalating, and reports `exceeded_budget`.
+- `indeterminate` meant **two opposite things** — "everything was too fast to
+  measure" (a pass) and "not enough usable points". At n≤40 the naive matcher
+  received the same verdict as both good arms. That is this project's own
+  recurring defect reproduced inside my instrument: a result true about the letter
+  offered as evidence about the purpose. Split into `below_measurement_floor`,
+  `exceeded_budget`, `insufficient_points` and `unfittable`.
+
 Verification honesty split by environment. With `tsc` on PATH both `verify`. With
 `tsc` absent — which is what the prompt's no-dependencies constraint implies —
 `luna-skill` is `partially_verifies` and `opus5-baseline` is `inconclusive`: a

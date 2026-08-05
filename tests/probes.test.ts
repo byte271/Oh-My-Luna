@@ -39,22 +39,54 @@ test("samples below the noise floor are excluded, not fitted", () => {
   // the measurement is JIT warm-up. Fitting it produces a confident wrong number.
   const noisy = [sample(1000, 0.9, false), sample(2000, 0.6, false), sample(4000, 6.2, true), sample(8000, 1.7, false)];
   const v = fitGrowth(noisy);
-  assert.equal(v.classification, "indeterminate");
+  // The largest size finished below the floor, so nothing is slow: a pass.
+  assert.equal(v.classification, "below_measurement_floor");
   assert.equal(v.used_sample_count, 1);
-  assert.match(v.detail, /above the noise floor/);
+  assert.match(v.detail, /Too fast to characterize is not slow/);
 });
 
-test("a poor fit is reported as indeterminate rather than as a growth rate", () => {
+test("a poor fit is reported as unfittable rather than as a growth rate", () => {
   const scattered = [sample(1000, 50), sample(2000, 10), sample(4000, 400), sample(8000, 20)];
   const v = fitGrowth(scattered);
-  assert.equal(v.classification, "indeterminate");
+  assert.equal(v.classification, "unfittable");
   assert.match(v.detail, /not on a line/);
 });
 
 test("too few usable points yields no exponent at all", () => {
   const v = fitGrowth([sample(1000, 10), sample(2000, 20)]);
   assert.equal(v.exponent, null);
-  assert.equal(v.classification, "indeterminate");
+  assert.equal(v.classification, "insufficient_points");
+});
+
+test("fast-everywhere and too-slow-to-measure are OPPOSITE verdicts", () => {
+  // These once shared "indeterminate". Collapsing them is how a catastrophic
+  // implementation received the same verdict as two bounded ones, on the real
+  // comparison-02 data. The positive control found it.
+  const fast = fitGrowth([sample(16, 0.01, false), sample(256, 0.05, false)]);
+  const slow = fitGrowth([
+    sample(16, 0.26, false),
+    sample(32, 17.8, true),
+    { n: 128, ms: 77_454, used: false, over_budget: true }
+  ]);
+  assert.equal(fast.classification, "below_measurement_floor");
+  assert.equal(slow.classification, "exceeded_budget");
+  assert.notEqual(fast.classification, slow.classification);
+});
+
+test("a budget overrun stops the series instead of escalating into a hang", async () => {
+  const seen: number[] = [];
+  const v = await measureGrowth(
+    (n) => {
+      seen.push(n);
+      const until = Date.now() + (n >= 64 ? 60 : 1);
+      while (Date.now() < until) { /* burn */ }
+    },
+    [16, 32, 64, 128, 256],
+    { floorMs: 5, warmup: 0, repeats: 1, budgetMs: 40 }
+  );
+  assert.equal(v.classification, "exceeded_budget");
+  assert.ok(!seen.includes(256), "must not escalate past the overrun");
+  assert.ok(!seen.includes(128), "must not escalate past the overrun");
 });
 
 test("a perfectly flat curve is a clean fit of slope zero, not a divide-by-zero", () => {

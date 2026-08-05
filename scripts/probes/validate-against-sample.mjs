@@ -93,9 +93,9 @@ process.stdout.write("Growth probe — Luna-b (three-state machine)\n");
 const growthB = await measureGrowth(decodeWorkload(armB), SIZES, { floorMs: 5, warmup: 1, repeats: 3 });
 process.stdout.write(`${formatGrowth(growthB)}\n`);
 // Luna-b is fast enough that every sample can fall below the floor. That is
-// itself the finding — it never gets slow enough to measure — so an
-// indeterminate verdict here is a pass, and a quadratic one is not.
-check("Luna-b growth", growthB.classification, ["constant_or_linear", "indeterminate"]);
+// itself the finding — it never gets slow enough to measure — so
+// below_measurement_floor is a pass here, and a quadratic verdict is not.
+check("Luna-b growth", growthB.classification, ["constant_or_linear", "below_measurement_floor"]);
 
 process.stdout.write("Verification-honesty probe — Luna-a `npm run typecheck`\n");
 const honesty = await probeVerificationHonesty({

@@ -42,13 +42,29 @@ export interface GrowthSample {
   readonly ms: number;
   /** False when the sample fell below the noise floor and was not fitted. */
   readonly used: boolean;
+  /** True when this sample exceeded the per-sample time budget. */
+  readonly over_budget?: boolean;
 }
 
 export type GrowthClass =
   | "constant_or_linear"
   | "superlinear"
   | "quadratic_or_worse"
-  | "indeterminate";
+  /**
+   * Every sample finished below the noise floor at the largest size tried. The
+   * implementation never got slow enough to measure, which is a **pass**.
+   */
+  | "below_measurement_floor"
+  /**
+   * A sample exceeded the time budget. The workload is too expensive to
+   * characterize at these sizes, which is a **failure** — the opposite finding
+   * from `below_measurement_floor`.
+   */
+  | "exceeded_budget"
+  /** Not enough usable points, and not because everything was fast. */
+  | "insufficient_points"
+  /** Points exist but do not lie on a line. */
+  | "unfittable";
 
 export interface GrowthVerdict {
   /** Fitted slope of log(ms) against log(n). ~1 linear, ~2 quadratic. */
@@ -72,6 +88,13 @@ export interface GrowthOptions {
   readonly minPoints?: number;
   /** Minimum r² required before a slope is trusted. */
   readonly minRSquared?: number;
+  /**
+   * Per-sample wall-clock budget. A workload that exceeds it stops the series
+   * rather than escalating into a hang, and the verdict becomes
+   * `exceeded_budget`. Without this the probe cannot enforce a "does not
+   * terminate" criterion at all — it simply never returns.
+   */
+  readonly budgetMs?: number;
 }
 
 const DEFAULTS = {
@@ -79,7 +102,8 @@ const DEFAULTS = {
   warmup: 1,
   repeats: 3,
   minPoints: 3,
-  minRSquared: 0.9
+  minRSquared: 0.9,
+  budgetMs: 10_000
 } as const;
 
 function median(values: number[]): number {
@@ -124,14 +148,45 @@ export function fitGrowth(samples: readonly GrowthSample[], options: GrowthOptio
   const minR2 = options.minRSquared ?? DEFAULTS.minRSquared;
   const used = samples.filter((s) => s.used);
 
-  if (used.length < minPoints) {
+  // A budget overrun is a finding, not a missing measurement, and it is checked
+  // first because such a sample is also "unusable" and would otherwise be
+  // reported as though nothing had been observed.
+  const overBudget = samples.filter((s) => s.over_budget === true);
+  if (overBudget.length > 0) {
+    const first = overBudget[0];
     return {
       exponent: null,
       r_squared: null,
-      classification: "indeterminate",
+      classification: "exceeded_budget",
       samples,
       used_sample_count: used.length,
-      detail: `only ${used.length} sample(s) above the noise floor; need ${minPoints}. Raise the sizes rather than lowering the floor.`
+      detail: `n=${first?.n} took ${first?.ms.toFixed(0)} ms, over the per-sample budget. The series was stopped rather than escalated. This is a cost finding, not a failed measurement.`
+    };
+  }
+
+  if (used.length < minPoints) {
+    // Two opposite situations share "not enough usable points", and collapsing
+    // them is how a catastrophic implementation once received the same verdict
+    // as two bounded ones. If the LARGEST size tried still finished below the
+    // floor, nothing is slow and that is a pass.
+    const largest = samples.reduce<GrowthSample | null>((a, b) => (a === null || b.n > a.n ? b : a), null);
+    if (largest !== null && !largest.used) {
+      return {
+        exponent: null,
+        r_squared: null,
+        classification: "below_measurement_floor",
+        samples,
+        used_sample_count: used.length,
+        detail: `every sample finished below the noise floor, including the largest (n=${largest.n} at ${largest.ms.toFixed(2)} ms). Too fast to characterize is not slow.`
+      };
+    }
+    return {
+      exponent: null,
+      r_squared: null,
+      classification: "insufficient_points",
+      samples,
+      used_sample_count: used.length,
+      detail: `only ${used.length} sample(s) above the noise floor while the largest is above it; the series is too short to fit. Extend the sizes.`
     };
   }
 
@@ -140,7 +195,7 @@ export function fitGrowth(samples: readonly GrowthSample[], options: GrowthOptio
     return {
       exponent: null,
       r_squared: null,
-      classification: "indeterminate",
+      classification: "insufficient_points",
       samples,
       used_sample_count: used.length,
       detail: "sizes do not vary; a slope cannot be fitted"
@@ -150,7 +205,7 @@ export function fitGrowth(samples: readonly GrowthSample[], options: GrowthOptio
     return {
       exponent: fit.slope,
       r_squared: fit.r2,
-      classification: "indeterminate",
+      classification: "unfittable",
       samples,
       used_sample_count: used.length,
       detail: `fit is too poor to read a growth rate from (r²=${fit.r2.toFixed(3)} < ${minR2}); the timings are not on a line`
@@ -185,8 +240,23 @@ export async function measureGrowth(
   const warmup = options.warmup ?? DEFAULTS.warmup;
   const repeats = options.repeats ?? DEFAULTS.repeats;
 
+  const budgetMs = options.budgetMs ?? DEFAULTS.budgetMs;
+  // Ascending, so the budget check stops the series before the next size — which
+  // would be worse — rather than after a hang has already happened.
+  const ordered = [...sizes].sort((a, b) => a - b);
+
   const samples: GrowthSample[] = [];
-  for (const n of sizes) {
+  for (const n of ordered) {
+    // One timed run first. If it already blows the budget, do not spend the
+    // warm-up and repeat runs on it, and do not escalate to a larger size.
+    const probeStart = process.hrtime.bigint();
+    await workload(n);
+    const first = Number(process.hrtime.bigint() - probeStart) / 1e6;
+    if (first > budgetMs) {
+      samples.push({ n, ms: first, used: false, over_budget: true });
+      break;
+    }
+
     for (let i = 0; i < warmup; i += 1) await workload(n);
     const timings: number[] = [];
     for (let i = 0; i < repeats; i += 1) {
@@ -196,13 +266,17 @@ export async function measureGrowth(
     }
     const ms = median(timings);
     samples.push({ n, ms, used: ms >= floorMs });
+    if (ms > budgetMs) break;
   }
   return fitGrowth(samples, options);
 }
 
 export function formatGrowth(verdict: GrowthVerdict): string {
   const rows = verdict.samples
-    .map((s) => `  n=${String(s.n).padStart(8)}  ${s.ms.toFixed(2).padStart(10)} ms${s.used ? "" : "   (below floor, not fitted)"}`)
+    .map((s) =>
+      `  n=${String(s.n).padStart(8)}  ${s.ms.toFixed(2).padStart(10)} ms` +
+      (s.over_budget === true ? "   (OVER BUDGET — series stopped)" : s.used ? "" : "   (below floor, not fitted)")
+    )
     .join("\n");
   return `${rows}\n  → ${verdict.classification}: ${verdict.detail}`;
 }

@@ -21,11 +21,46 @@ exploration.
 
 | arm | verdict | slowest sample |
 | --- | --- | --- |
-| `luna-skill` | `indeterminate` — every sample below the 5 ms floor | 0.05 ms at n=256 |
-| `opus5-baseline` | `indeterminate` — every sample below the 5 ms floor | 0.33 ms at n=256 |
+| `luna-skill` | `below_measurement_floor` | 0.05 ms at n=256 |
+| `opus5-baseline` | `below_measurement_floor` | 0.18 ms at n=256 |
+| *positive control (analyst-written naive matcher)* | **`exceeded_budget`** | **77,454 ms at n=128** |
 
-COMPARISON.md registered `indeterminate`-by-floor as a **pass**: an
-implementation too fast to time is not a slow one. **Both pass.**
+COMPARISON.md registered "too fast to measure" as a **pass**. **Both arms pass,
+and the pass is earned rather than assumed** — see the positive control below.
+
+### The pass had to be earned: a positive control
+
+A probe that passes everything has established nothing. The first scoring run
+gave both arms `indeterminate`, which had two readings the scoring could not
+separate: the arms are genuinely bounded, or the probe is blind on this task.
+
+`positive-control/naive.mjs` settles it — a deliberately naive recursive
+backtracking matcher, written by the analyst, put through the **same
+pre-registered workload**. It fails catastrophically: 0.26 ms at n=16, 17.8 ms at
+n=32, 1,206 ms at n=64, **77,454 ms at n=128**. Against 0.05 ms for `luna-skill`
+at twice that size — a separation of roughly 10⁶.
+
+So the probe does discriminate on this task, and both arms genuinely avoided the
+trap.
+
+**The control also found two real defects in the probe itself**, and both are now
+fixed:
+
+1. **No time budget.** At the registered n=256 the naive matcher simply never
+   returned. COMPARISON.md registered "does not terminate within 60 s is a
+   failure", and `growth.ts` could not enforce it — it hung. `measureGrowth` now
+   takes `budgetMs`, stops the series at the first overrun instead of escalating,
+   and reports `exceeded_budget`.
+2. **One verdict for two opposite findings.** `indeterminate` meant both "every
+   sample was too fast to measure" (a pass) and "not enough usable points" — and
+   at n≤40 the naive matcher received **the same verdict as both good arms**.
+   That is this project's own recurring defect, in my instrument: a result that is
+   true about the letter offered as evidence about the purpose. Split into
+   `below_measurement_floor`, `exceeded_budget`, `insufficient_points` and
+   `unfittable`.
+
+The conclusion below did not change. The evidence for it did: it now rests on a
+verdict that distinguishes good from bad, rather than on one that could not.
 
 Exploratory extension, beyond the registered sizes and labelled as post-hoc:
 20 stars, globstar-heavy patterns, n to 16,000. Slowest observation across every
