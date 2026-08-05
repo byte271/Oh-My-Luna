@@ -209,6 +209,84 @@ behaviour does not honour.
 `luna-skill` was internally consistent with its stated reading on every case
 tested.
 
+## Did the skill help? No, that is not supportable — and the fuller picture cuts against it
+
+The one difference in the pre-registered scoring runs in the skill's predicted
+direction, so the question is fair. Three things answer it, and they point the
+other way.
+
+### 1. Run-to-run variance is larger than the effect
+
+The two Luna arms are the same model at the same asserted effort, differing in
+one thing. On the `**`-inside-a-segment cases they **disagree with each other on
+5 of 7**, while `luna-baseline` agrees with `opus5-baseline` on 6 of 7:
+
+```
+pattern      path       luna-skill  luna-base   opus5
+"**.ts"      "a.ts"     false       true        true
+"a**b"       "axxb"     false       true        true
+"***"        "b"        false       true        true
+"?**"        "bc"       false       true        true
+"[^b]**"     "c"        false       true        true
+```
+
+The same model, same settings, produced two **semantically different** readings
+of the specification. A model whose spec interpretation flips between runs can
+equally flip between code that type-checks and code that does not. **One
+observation of a type-check difference sits inside the variance already
+demonstrated on the same pair of runs.**
+
+### 2. A sufficient alternative explanation, unrelated to the skill
+
+Every `luna-baseline` error is `TS7006` implicit-any — what `tsc` reports on the
+first invocation. If its authoring environment had no compiler, it could not have
+known. Its own fallback keys on cmd.exe wording, which suggests it expected a
+Windows host without `tsc`.
+
+`tools_available` is unrecorded for every arm. **If the two authoring
+environments differed in whether `tsc` was reachable, that alone produces this
+result with no contribution from the skill**, and no number of repetitions fixes
+it. COMPARISON.md flagged this field before any output existed, for this reason.
+
+### 3. The no-skill arm did more of what the skill asks for
+
+This is the part that most resists a "the skill helped" reading, and it was found
+by looking rather than by scoring.
+
+| | `luna-skill` | `luna-baseline` |
+| --- | --- | --- |
+| code passes real `tsc` | yes | **no** |
+| README `## Limitation` section | **absent** | present |
+| discloses what its type-check actually does | no | **yes, accurately** |
+| adversarial-cost reasoning in README | one clause, "bounded" | explicit: "no recursive backtracking, so adversarial wildcard input cannot cause exponential behavior" |
+| tests written | 12 | 18 |
+
+`luna-baseline` **disclosed the exact gap that later turned out to be its
+defect**: that its type-check runs a real `tsc` when available and otherwise only
+validates the `tsconfig` contract and parses the sources. That is obligation 3 of
+the skill — state what you gave up — performed by the arm that did not have the
+skill, and not performed by the arm that did.
+
+So on the taxonomy's three modes the result is mixed, not favourable:
+
+- **mode 1, adversarial cost** — both fine; the no-skill arm documents it better;
+- **mode 2, vacuous verification** — the skill arm's code compiles, the no-skill
+  arm's does not, but the no-skill arm disclosed the mechanism;
+- **mode 3, undisclosed tradeoff** — the **no-skill** arm discloses; the skill arm
+  has no limitations section at all.
+
+### The honest sentence
+
+> On this run, the arm with the skill shipped code that type-checks and the arm
+> without it did not. That is consistent with the skill helping, equally
+> consistent with two runs differing by chance, and equally consistent with the
+> two authoring environments differing in compiler availability. Nothing here
+> separates those three.
+
+What would separate them: **repetitions** — k ≥ 5 runs per arm at fixed settings,
+so an effect can be told from variance — and **a recorded `tools_available`**,
+without which the comparison may be between environments rather than scaffolds.
+
 ## What this comparison does and does not license
 
 **Does not, under any reading:**
